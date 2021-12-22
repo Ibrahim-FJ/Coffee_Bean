@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddProductFragment">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/product_title_text_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="287dp"
+        android:layout_height="68dp"
+        android:hint="product title"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/product_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:errorEnabled="true"
+            tools:layout_editor_absoluteX="-77dp"
+            tools:layout_editor_absoluteY="6dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/product_details_text_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="287dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="16dp"
+        android:hint="product details"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/product_title_text_field"
+        app:layout_constraintStart_toStartOf="@+id/product_title_text_field"
+        app:layout_constraintTop_toBottomOf="@+id/product_title_text_field"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/product_details_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:errorEnabled="true"
+            tools:layout_editor_absoluteX="-77dp"
+            tools:layout_editor_absoluteY="6dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/farm_location"
+        android:layout_width="42dp"
+        android:layout_height="39dp"
+        android:src="@drawable/ic_baseline_add_location_alt_24"
+        app:layout_constraintBottom_toBottomOf="@+id/product_image"
+        app:layout_constraintEnd_toEndOf="@+id/product_details_text_field"
+        app:layout_constraintTop_toTopOf="@+id/product_image"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:src="@drawable/ic_baseline_image_24"
+        app:layout_constraintEnd_toStartOf="@+id/farm_location"
+        app:layout_constraintTop_toBottomOf="@+id/product_details_text_field" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
