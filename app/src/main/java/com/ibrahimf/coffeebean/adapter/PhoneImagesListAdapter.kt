@@ -1,6 +1,7 @@
 package com.ibrahimf.coffeebean.adapter
 
 import android.media.Image
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

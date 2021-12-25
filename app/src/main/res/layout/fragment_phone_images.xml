@@ -19,7 +19,7 @@ tools:context=".PhoneImagesFragment">
     app:spanCount="3" />
 
 <Button
-    android:id="@+id/button"
+    android:id="@+id/save_selected_images"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="16dp"

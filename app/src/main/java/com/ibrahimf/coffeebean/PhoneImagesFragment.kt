@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentUris
 import android.content.pm.PackageManager
 import android.media.Image
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,16 +17,21 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
 import com.ibrahimf.coffeebean.adapter.PhoneImagesListAdapter
 import com.ibrahimf.coffeebean.data.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentPhoneImagesBinding
+import com.ibrahimf.coffeebean.viewmodel.ImagesViewModel
 
 class PhoneImagesFragment : Fragment() {
     private var binding: FragmentPhoneImagesBinding? = null
+    private val imagesViewModel: ImagesViewModel by activityViewModels()
     var allImages: MutableList<PhoneImage> = mutableListOf()
     var allSelectedImages: MutableList<PhoneImage> = mutableListOf()
-
 
 
     override fun onCreateView(
@@ -53,24 +59,21 @@ class PhoneImagesFragment : Fragment() {
         }
 
         val adapter = PhoneImagesListAdapter{image ->
-            binding?.button?.visibility = View.VISIBLE
-
-            binding?.button?.setOnClickListener {
+            binding?.saveSelectedImages?.visibility = View.VISIBLE
+            binding?.saveSelectedImages?.setOnClickListener {
                 getAllSelected()
-                println(allSelectedImages)
+                findNavController().navigate(R.id.action_phoneImagesFragment_to_addProductFragment)
 
             }
 
         }
         binding?.imagesRecyclerView?.adapter = adapter
-        adapter.submitList(allImages)
 
-
-//            allImages.observe(viewLifecycleOwner){
-//                it.let {
-//                    adapter.submitList(it)
-//                }
-//            }
+            imagesViewModel.allImages.observe(viewLifecycleOwner){
+                it.let {
+                    adapter.submitList(it)
+                }
+            }
 
 
     }
@@ -108,19 +111,22 @@ class PhoneImagesFragment : Fragment() {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         id
                     )
-
-
-
                     allImages.add(PhoneImage(contentUri))
+
+
+                   // imagesViewModel.allImages.value?.add(PhoneImage(contentUri))
+                  //  imagesViewModel.setAllImages(PhoneImage(contentUri))
+                 //   println(imagesViewModel.getAllImages()?.size)
                     // add the URI to the list
                     // generate the thumbnail
-
 
                 }
             } ?: kotlin.run {
                 Log.e("TAG", "Cursor is null!")
             }
         }
+
+        imagesViewModel.allImages.value = allImages
 
     }
 
@@ -136,7 +142,7 @@ class PhoneImagesFragment : Fragment() {
         requestCode: Int, permissions: Array<String>, grantResults:
         IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PhoneImagesFragment.REQUEST_CODE_PERMISSIONS) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     queryImageStorage()
@@ -164,5 +170,7 @@ class PhoneImagesFragment : Fragment() {
                 allSelectedImages.add(i)
             }
         }
+
+        imagesViewModel.allSelectedImages.value = allSelectedImages
     }
 }
