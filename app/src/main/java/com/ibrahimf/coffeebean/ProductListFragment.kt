@@ -48,6 +48,9 @@ class ProductListFragment : Fragment() {
                 signOut()
                 isSignedIn = false
             }
+            R.id.add_product ->{
+                findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
+            }
 
         }
 

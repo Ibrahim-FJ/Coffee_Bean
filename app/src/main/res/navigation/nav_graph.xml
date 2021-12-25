@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_addProductFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
+        <action
+            android:id="@+id/action_addProductFragment_to_cameraFragment2"
+            app:destination="@id/cameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -22,5 +25,22 @@
         <action
             android:id="@+id/action_productListFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/phoneImagesFragment"
+        android:name="com.ibrahimf.coffeebean.PhoneImagesFragment"
+        android:label="fragment_phone_images"
+        tools:layout="@layout/fragment_phone_images" >
+        <action
+            android:id="@+id/action_phoneImagesFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.ibrahimf.coffeebean.CameraFragment"
+        android:label="CameraFragment" >
+        <action
+            android:id="@+id/action_cameraFragment2_to_phoneImagesFragment"
+            app:destination="@id/phoneImagesFragment" />
     </fragment>
 </navigation>
