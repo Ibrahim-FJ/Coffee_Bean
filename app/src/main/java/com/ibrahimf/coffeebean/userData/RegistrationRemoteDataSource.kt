@@ -1,4 +1,4 @@
-package com.ibrahimf.coffeebean.data
+package com.ibrahimf.coffeebean.userData
 
 class RegistrationRemoteDataSource {
 

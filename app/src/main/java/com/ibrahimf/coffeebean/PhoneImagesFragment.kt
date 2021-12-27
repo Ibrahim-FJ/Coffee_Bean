@@ -3,35 +3,30 @@ package com.ibrahimf.coffeebean
 import android.Manifest
 import android.content.ContentUris
 import android.content.pm.PackageManager
-import android.media.Image
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
-import com.ibrahimf.coffeebean.adapter.PhoneImagesListAdapter
-import com.ibrahimf.coffeebean.data.PhoneImage
+import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
+import com.ibrahimf.coffeebean.userData.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentPhoneImagesBinding
-import com.ibrahimf.coffeebean.viewmodel.ImagesViewModel
+import com.ibrahimf.coffeebean.addProduct.ui.AddProductViewModel
 
 class PhoneImagesFragment : Fragment() {
     private var binding: FragmentPhoneImagesBinding? = null
-    private val imagesViewModel: ImagesViewModel by activityViewModels()
+    private val addProductViewModel: AddProductViewModel by activityViewModels()
     var allImages: MutableList<PhoneImage> = mutableListOf()
     var allSelectedImages: MutableList<PhoneImage> = mutableListOf()
+
+    var isSelected = false
 
 
     override fun onCreateView(
@@ -58,26 +53,51 @@ class PhoneImagesFragment : Fragment() {
             )
         }
 
-        val adapter = PhoneImagesListAdapter{image ->
-            binding?.saveSelectedImages?.visibility = View.VISIBLE
-            binding?.saveSelectedImages?.setOnClickListener {
-                getAllSelected()
-                findNavController().navigate(R.id.action_phoneImagesFragment_to_addProductFragment)
-
-            }
+        val adapter = PhoneImagesListAdapter(this.requireContext()) { image ->
+            isSelected = true
+//            binding?.saveSelectedImages?.visibility = View.VISIBLE
+//            binding?.saveSelectedImages?.setOnClickListener {
+//                getAllSelected()
+//
+//            }
 
         }
+
+
         binding?.imagesRecyclerView?.adapter = adapter
 
-            imagesViewModel.allImages.observe(viewLifecycleOwner){
+            addProductViewModel.allImages.observe(viewLifecycleOwner){
                 it.let {
                     adapter.submitList(it)
                 }
             }
 
-
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.selected_images_menu, menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.selected_images -> {
+                getAllSelected()
+                findNavController().navigate(R.id.action_phoneImagesFragment_to_addProductFragment)
+            }
+
+        }
+
+        return true
+    }
+
+
+//    override fun onPrepareOptionsMenu(menu: Menu) {
+//
+//        menu.findItem(R.id.selected_images)?.isVisible = true
+//
+//    }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun queryImageStorage() {
@@ -111,6 +131,7 @@ class PhoneImagesFragment : Fragment() {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         id
                     )
+                    println(size)
                     allImages.add(PhoneImage(contentUri))
 
 
@@ -126,7 +147,7 @@ class PhoneImagesFragment : Fragment() {
             }
         }
 
-        imagesViewModel.allImages.value = allImages
+        addProductViewModel.allImages.value = allImages
 
     }
 
@@ -171,6 +192,6 @@ class PhoneImagesFragment : Fragment() {
             }
         }
 
-        imagesViewModel.allSelectedImages.value = allSelectedImages
+        addProductViewModel.allSelectedImages.value = allSelectedImages
     }
 }

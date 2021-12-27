@@ -1,22 +1,24 @@
-package com.ibrahimf.coffeebean
+package com.ibrahimf.coffeebean.addProduct.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.ibrahimf.coffeebean.adapter.PhoneImagesListAdapter
+import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
-import com.ibrahimf.coffeebean.viewmodel.ImagesViewModel
+import com.ibrahimf.coffeebean.network.models.Product
 
 
 class AddProductFragment : Fragment() {
     private var binding: FragmentAddProductBinding? = null
-    private val imagesViewModel: ImagesViewModel by activityViewModels()
+  //  private val addProductViewModel: AddProductViewModel by activityViewModels()
+
+    private val addProductViewModel: AddProductViewModel by activityViewModels{
+        ViewModelFactory()
+    }
 
 
     override fun onCreateView(
@@ -25,6 +27,15 @@ class AddProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddProductBinding.inflate(inflater, container, false)
+        val adapter = PhoneImagesListAdapter(this.requireContext()){}
+
+        binding?.imagesRecyclerViewAddFragment?.adapter = adapter
+
+        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner){
+            it.let {
+                adapter.submitList(it)
+            }
+        }
         return binding?.root
     }
 
@@ -36,16 +47,19 @@ class AddProductFragment : Fragment() {
 
         }
 
-        val adapter = PhoneImagesListAdapter{}
+        val adapter = PhoneImagesListAdapter(this.requireContext()){}
 
         binding?.imagesRecyclerViewAddFragment?.adapter = adapter
 
-        imagesViewModel.allSelectedImages.observe(viewLifecycleOwner){
+        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner){
             it.let {
                 adapter.submitList(it)
             }
         }
 
+        binding?.addProductButton?.setOnClickListener {
+            addProductViewModel.addProduct(Product("Hello", "Welcome", "test_uri", 20.2, "ibrahim", 1234))
+        }
 
 
     }

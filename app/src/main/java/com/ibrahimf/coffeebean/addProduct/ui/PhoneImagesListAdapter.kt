@@ -1,16 +1,18 @@
-package com.ibrahimf.coffeebean.adapter
+package com.ibrahimf.coffeebean.addProduct.ui
 
-import android.media.Image
-import android.net.Uri
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ibrahimf.coffeebean.data.PhoneImage
+import com.bumptech.glide.Glide
+import com.ibrahimf.coffeebean.userData.PhoneImage
 import com.ibrahimf.coffeebean.databinding.PhoneImagesItemBinding
 
-class PhoneImagesListAdapter (private val onItemClicked: (phoneImage: PhoneImage) -> Unit): ListAdapter<PhoneImage, PhoneImagesListAdapter.ImagesViewHolder>(DiffCallback) {
+class PhoneImagesListAdapter (private val context: Context, private val onItemClicked: (phoneImage: PhoneImage) -> Unit): ListAdapter<PhoneImage, PhoneImagesListAdapter.ImagesViewHolder>(
+    DiffCallback
+) {
 
 
     class ImagesViewHolder(var binding: PhoneImagesItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -20,7 +22,8 @@ class PhoneImagesListAdapter (private val onItemClicked: (phoneImage: PhoneImage
 
             binding.apply {
 
-                imageView.setImageURI(phoneImage.imageUri)
+            //    imageView.setImageURI(phoneImage.imageUri)
+
 
             }
 
@@ -47,8 +50,8 @@ class PhoneImagesListAdapter (private val onItemClicked: (phoneImage: PhoneImage
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PhoneImagesListAdapter.ImagesViewHolder {
-        return PhoneImagesListAdapter.ImagesViewHolder(
+    ): ImagesViewHolder {
+        return ImagesViewHolder(
             PhoneImagesItemBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
@@ -71,7 +74,15 @@ class PhoneImagesListAdapter (private val onItemClicked: (phoneImage: PhoneImage
                 true
             }
 
+            Glide.with(context)
+                .load(currentImage.imageUri)
+                .centerCrop()
+                .into(imageView)
+
+
+
         }
+
 
 
     }
