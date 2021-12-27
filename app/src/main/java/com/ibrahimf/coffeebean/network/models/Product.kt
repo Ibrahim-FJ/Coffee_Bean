@@ -1,6 +1,5 @@
 package com.ibrahimf.coffeebean.network.models
 
-import android.net.Uri
 
 data class Product(
      val title: String,

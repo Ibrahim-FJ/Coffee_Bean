@@ -15,7 +15,7 @@ class ProductFireStoreDataSource(
     override suspend fun addProduct(product: Product) {
         val db = fireBaseDb
 
-        db.collection("products").document("product_2")
+        db.collection("products").document("ffgg")
             .set(product)
             .addOnSuccessListener {
                 println("DocumentSnapshot successfully written!")
