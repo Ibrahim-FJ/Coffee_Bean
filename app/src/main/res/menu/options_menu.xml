@@ -8,4 +8,9 @@
         android:id="@+id/logout"
         android:title="Logout"
         />
+
+    <item
+        android:id="@+id/add_product"
+        android:title="Add product"
+        />
 </menu>

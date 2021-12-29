@@ -13,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 
+
 class ProductListFragment : Fragment() {
     var isSignedIn = false
 
@@ -47,6 +48,9 @@ class ProductListFragment : Fragment() {
             R.id.logout -> {
                 signOut()
                 isSignedIn = false
+            }
+            R.id.add_product ->{
+                findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
             }
 
         }
