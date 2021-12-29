@@ -16,5 +16,4 @@ class AddProductUseCase(
 
         addProductRepository.addProduct(product)
 
-
 }

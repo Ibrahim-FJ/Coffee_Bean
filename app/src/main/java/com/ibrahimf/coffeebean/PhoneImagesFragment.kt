@@ -3,6 +3,7 @@ package com.ibrahimf.coffeebean
 import android.Manifest
 import android.content.ContentUris
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -27,6 +28,11 @@ class PhoneImagesFragment : Fragment() {
     var allSelectedImages: MutableList<PhoneImage> = mutableListOf()
 
     var isSelected = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
 
     override fun onCreateView(
@@ -93,11 +99,11 @@ class PhoneImagesFragment : Fragment() {
     }
 
 
-//    override fun onPrepareOptionsMenu(menu: Menu) {
-//
-//        menu.findItem(R.id.selected_images)?.isVisible = true
-//
-//    }
+    override fun onPrepareOptionsMenu(menu: Menu) {
+
+        menu.findItem(R.id.selected_images)?.isVisible = true
+
+    }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun queryImageStorage() {

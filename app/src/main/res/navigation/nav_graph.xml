@@ -29,8 +29,8 @@
     <fragment
         android:id="@+id/phoneImagesFragment"
         android:name="com.ibrahimf.coffeebean.PhoneImagesFragment"
-        android:label="fragment_phone_images"
-        tools:layout="@layout/fragment_phone_images" >
+        android:label="Photos"
+        tools:layout="@layout/fragment_phone_images">
         <action
             android:id="@+id/action_phoneImagesFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />

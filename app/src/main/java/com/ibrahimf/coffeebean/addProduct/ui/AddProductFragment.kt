@@ -1,5 +1,6 @@
 package com.ibrahimf.coffeebean.addProduct.ui
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
+import kotlinx.android.synthetic.main.fragment_add_product.*
 
 
 class AddProductFragment : Fragment() {
@@ -21,7 +23,7 @@ class AddProductFragment : Fragment() {
 
     //  private val addProductViewModel: AddProductViewModel by activityViewModels()
 
-    private val addProductViewModel: AddProductViewModel by activityViewModels{
+    private val addProductViewModel: AddProductViewModel by activityViewModels {
         ViewModelFactory()
     }
 
@@ -32,11 +34,11 @@ class AddProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddProductBinding.inflate(inflater, container, false)
-        val adapter = PhoneImagesListAdapter(this.requireContext()){}
+        val adapter = PhoneImagesListAdapter(this.requireContext()) {}
 
         binding?.imagesRecyclerViewAddFragment?.adapter = adapter
 
-        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner){
+        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
             it.let {
                 adapter.submitList(it)
             }
@@ -47,41 +49,66 @@ class AddProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding?.addImagesLayout?.setOnClickListener {
-           // startActivity(Intent(this.requireContext(), CameraActivity::class.java))
+            // startActivity(Intent(this.requireContext(), CameraActivity::class.java))
             findNavController().navigate(R.id.action_addProductFragment_to_cameraFragment2)
 
         }
 
-        val adapter = PhoneImagesListAdapter(this.requireContext()){}
+        val adapter = PhoneImagesListAdapter(this.requireContext()) {}
 
         binding?.imagesRecyclerViewAddFragment?.adapter = adapter
-        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner){
+        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
             it.let {
                 adapter.submitList(it)
             }
         }
 
         binding?.addProductButton?.setOnClickListener {
-            if (isSignedIn){
-                addProductViewModel.addProduct(Product("Hello", "Welcome", "test_uri", 20.2, "ibrahim", 1234))
-            }else{
-                Toast.makeText(this.requireContext(), "Log in to add product", Toast.LENGTH_SHORT).show()
-            }
+           getDataFromUI()
         }
 
+
+    }
+
+    private fun getDataFromUI() {
+        binding.apply {
+            if (isSignedIn) {
+                addProductViewModel.addProduct(
+                    Product(
+                        title = product_title_edit_text.text.toString(),
+                        details = product_details_edit_text.text.toString(),
+                        imageUrl = getImageUri(),
+                        20.2
+                    )
+                )
+            } else {
+                Toast.makeText(requireContext(), "Log in to add product", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null).
         if (Firebase.auth.currentUser != null) {
-            println(Firebase.auth.currentUser)
             isSignedIn = true
-        }else{
+        } else {
             println("Not")
 
         }
 
+
     }
+
+    fun getImageUri(): List<Uri>{
+        val imageUriList = mutableListOf<Uri>()
+        for (i in addProductViewModel.allSelectedImages.value!!){
+            imageUriList.add(i.imageUri)
+        }
+        println(imageUriList)
+        return imageUriList
+    }
+
+
 
 }

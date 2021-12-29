@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.ibrahimf.coffeebean.addProduct.domain.AddProductUseCase
+import com.ibrahimf.coffeebean.addProduct.domain.AddImageToFirebaseStorageUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideAddProductUseCase
 import com.ibrahimf.coffeebean.userData.PhoneImage
 import com.ibrahimf.coffeebean.network.models.Product
@@ -17,6 +18,9 @@ class AddProductViewModel(private val addProductUseCase: AddProductUseCase): Vie
     var allImages = MutableLiveData<MutableList<PhoneImage>>()
     var allSelectedImages = MutableLiveData<MutableList<PhoneImage>>()
 
+
+
+
     var productTitle = MutableLiveData<String>()
     var productDetails = MutableLiveData<String>()
     var productImagesUri = MutableLiveData<String>()
@@ -28,7 +32,15 @@ class AddProductViewModel(private val addProductUseCase: AddProductUseCase): Vie
             addProductUseCase.invoke(product)
         }
     }
+
+    fun addImage(){
+        viewModelScope.launch {
+           // addImageToFirebaseStorageUseCase.invoke()
+        }
+    }
 }
+
+
 
 class ViewModelFactory: ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
