@@ -77,7 +77,6 @@ class AddProductFragment : Fragment() {
                     Product(
                         title = product_title_edit_text.text.toString(),
                         details = product_details_edit_text.text.toString(),
-                        imageUrl = getImageUri(),
                         20.2
                     )
                 )

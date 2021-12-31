@@ -3,6 +3,7 @@ package com.ibrahimf.coffeebean.network
 
 import android.net.Uri
 import com.ibrahimf.coffeebean.network.models.Product
+import kotlinx.coroutines.flow.Flow
 
 
 interface ProductDataSource {
@@ -12,7 +13,7 @@ interface ProductDataSource {
     fun addTimeStamp(): Long
 
     suspend fun addImageToFirebaseStorage(product: Product): Uri?
-    suspend fun getAllProducts(product: Product)
+    suspend fun getAllProducts(): Flow <Product>
 
 
 

@@ -1,9 +1,11 @@
 package com.ibrahimf.coffeebean
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -11,11 +13,23 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
+import com.ibrahimf.coffeebean.addProduct.ui.AddProductViewModel
+import com.ibrahimf.coffeebean.addProduct.ui.ProductsListAdapter
+import com.ibrahimf.coffeebean.addProduct.ui.ProductsListViewModel
+import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
+import com.ibrahimf.coffeebean.databinding.FragmentPhoneImagesBinding
+import com.ibrahimf.coffeebean.databinding.FragmentProductListBinding
 
 
 class ProductListFragment : Fragment() {
     var isSignedIn = false
+
+    private val productListViewModel: ProductsListViewModel by activityViewModels {
+        ViewModelFactory()
+    }
+
+    private var _binding:FragmentProductListBinding ?= null
+    val binding get() = _binding
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -34,6 +48,30 @@ class ProductListFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentProductListBinding.inflate(inflater, container, false)
+        return _binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        productListViewModel.getAllProducts()
+        val adapter = ProductsListAdapter(this.requireContext())
+        binding?.productsRecyclerView?.adapter = adapter
+        productListViewModel.products.value.observe(viewLifecycleOwner, {
+            it.let {
+                adapter.submitList(it)
+
+            }
+        })
+
+
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.options_menu, menu)
@@ -43,6 +81,7 @@ class ProductListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.login -> {
+
                 signInLauncher.launch(signInIntent)
             }
             R.id.logout -> {
@@ -50,6 +89,9 @@ class ProductListFragment : Fragment() {
                 isSignedIn = false
             }
             R.id.add_product ->{
+                println("Ibrahim")
+
+
                 findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
             }
 

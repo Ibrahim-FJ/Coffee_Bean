@@ -14,4 +14,6 @@ class ProductRepository (private val productRemoteDataSource: ProductDataSource)
 
     }
 
+    suspend fun getAllProducts() = productRemoteDataSource.getAllProducts()
+
 }

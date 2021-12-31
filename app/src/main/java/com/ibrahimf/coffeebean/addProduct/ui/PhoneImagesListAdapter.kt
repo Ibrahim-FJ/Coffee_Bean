@@ -24,7 +24,6 @@ class PhoneImagesListAdapter (private val context: Context, private val onItemCl
 
             //    imageView.setImageURI(phoneImage.imageUri)
 
-
             }
 
         }
