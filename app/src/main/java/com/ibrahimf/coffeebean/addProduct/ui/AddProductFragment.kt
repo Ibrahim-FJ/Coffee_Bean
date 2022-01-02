@@ -38,11 +38,11 @@ class AddProductFragment : Fragment() {
 
         binding?.imagesRecyclerViewAddFragment?.adapter = adapter
 
-        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
-            it.let {
-                adapter.submitList(it)
-            }
-        }
+//        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
+//            it.let {
+//                adapter.submitList(it)
+//            }
+//        }
         return binding?.root
     }
 
@@ -67,20 +67,33 @@ class AddProductFragment : Fragment() {
            getDataFromUI()
         }
 
-
     }
 
     private fun getDataFromUI() {
         binding.apply {
             if (isSignedIn) {
-                addProductViewModel.addProduct(
-                    Product(
-                        title = product_title_edit_text.text.toString(),
-                        details = product_details_edit_text.text.toString(),
-                        imageUrl = getImageUri(),
-                        20.2
+                val productTitle = product_title_edit_text.text.toString()
+                val productDetails = product_details_edit_text.text.toString()
+                if (productTitle.isNotEmpty() && productDetails.isNotEmpty() && addProductViewModel.allSelectedImages.value?.isNotEmpty() == true){
+                    addProductViewModel.addProduct(
+                        Product(
+                            title = product_title_edit_text.text.toString(),
+                            details = product_details_edit_text.text.toString(),
+                            imageUri = getImageUri(),
+                            20.2
+                        )
                     )
-                )
+                    product_title_edit_text.error = null
+                    product_details_edit_text.error = null
+                    findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
+                    addProductViewModel.allSelectedImages.value?.clear()
+
+                }else{
+                  product_title_edit_text.error = "Enter the product title"
+                  product_details_edit_text.error = "Enter the product details"
+                  Toast.makeText(requireContext(), "Add image", Toast.LENGTH_SHORT).show()
+                }
+
             } else {
                 Toast.makeText(requireContext(), "Log in to add product", Toast.LENGTH_SHORT).show()
             }
@@ -92,23 +105,16 @@ class AddProductFragment : Fragment() {
         // Check if user is signed in (non-null).
         if (Firebase.auth.currentUser != null) {
             isSignedIn = true
-        } else {
-            println("Not")
-
         }
-
 
     }
 
-    fun getImageUri(): List<Uri>{
-        val imageUriList = mutableListOf<Uri>()
+    fun getImageUri(): List<String>{
+        val imageUriList = mutableListOf<String>()
         for (i in addProductViewModel.allSelectedImages.value!!){
             imageUriList.add(i.imageUri)
         }
-        println(imageUriList)
         return imageUriList
     }
-
-
 
 }

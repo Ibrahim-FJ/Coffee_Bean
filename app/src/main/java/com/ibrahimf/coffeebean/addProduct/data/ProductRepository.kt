@@ -9,9 +9,6 @@ class ProductRepository (private val productRemoteDataSource: ProductDataSource)
     suspend fun addProduct(product: Product) =
         productRemoteDataSource.addProduct(product)
 
-
-    suspend fun addImageToFirebaseStorage(){
-
-    }
+    suspend fun getAllProducts() = productRemoteDataSource.getAllProducts()
 
 }
