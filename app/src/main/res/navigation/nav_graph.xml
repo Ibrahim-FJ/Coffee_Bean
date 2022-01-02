@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
-        android:name="com.ibrahimf.coffeebean.ProductListFragment"
+        android:name="com.ibrahimf.coffeebean.showProducts.uiLayer.ProductListFragment"
         android:label="Products"
         tools:layout="@layout/fragment_product_list">
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/phoneImagesFragment"
-        android:name="com.ibrahimf.coffeebean.PhoneImagesFragment"
+        android:name="com.ibrahimf.coffeebean.camera.PhoneImagesFragment"
         android:label="Photos"
         tools:layout="@layout/fragment_phone_images">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="com.ibrahimf.coffeebean.CameraFragment"
+        android:name="com.ibrahimf.coffeebean.camera.CameraFragment"
         android:label="CameraFragment" >
         <action
             android:id="@+id/action_cameraFragment2_to_phoneImagesFragment"

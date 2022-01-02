@@ -2,4 +2,4 @@ package com.ibrahimf.coffeebean.userData
 
 import android.net.Uri
 
-data class PhoneImage(val imageUri: Uri, var isSelected: Boolean = false)
+data class PhoneImage(val imageUri: String, var isSelected: Boolean = false)

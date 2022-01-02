@@ -79,7 +79,6 @@ class PhoneImagesListAdapter (private val context: Context, private val onItemCl
                 .into(imageView)
 
 
-
         }
 
 

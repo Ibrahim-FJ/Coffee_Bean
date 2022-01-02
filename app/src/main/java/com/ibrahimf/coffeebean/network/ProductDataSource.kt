@@ -2,6 +2,7 @@ package com.ibrahimf.coffeebean.network
 
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import com.ibrahimf.coffeebean.network.models.Product
 import kotlinx.coroutines.flow.Flow
 
@@ -12,8 +13,9 @@ interface ProductDataSource {
     fun addUserId(): String?
     fun addTimeStamp(): Long
 
-    suspend fun addImageToFirebaseStorage(product: Product): Uri?
-    suspend fun getAllProducts(): Flow <Product>
+     fun addImageToFirebaseStorage(product: Product, documentId: String): Uri?
+    suspend fun getAllProducts(): Flow<List<Product>>
+
 
 
 
