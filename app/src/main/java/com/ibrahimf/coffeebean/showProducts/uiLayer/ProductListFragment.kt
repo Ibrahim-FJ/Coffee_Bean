@@ -82,7 +82,6 @@ class ProductListFragment : Fragment() {
     }
 
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.options_menu, menu)
     }
