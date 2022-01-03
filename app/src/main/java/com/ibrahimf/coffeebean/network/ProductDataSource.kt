@@ -13,7 +13,7 @@ interface ProductDataSource {
     fun addUserId(): String?
     fun addTimeStamp(): Long
 
-     fun addImageToFirebaseStorage(product: Product, documentId: String): Uri?
+   //  fun addImageToFirebaseStorage(product: Product, documentId: String): Uri?
     suspend fun getAllProducts(): Flow<List<Product>>
 
 

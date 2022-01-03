@@ -97,8 +97,6 @@ class ProductListFragment : Fragment() {
                 showConfirmationDialog()
             }
             R.id.add_product ->{
-                println("Ibrahim")
-
                 findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
             }
 
