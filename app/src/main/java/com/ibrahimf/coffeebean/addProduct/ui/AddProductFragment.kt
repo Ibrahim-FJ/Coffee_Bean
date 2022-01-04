@@ -21,8 +21,6 @@ class AddProductFragment : Fragment() {
     private var binding: FragmentAddProductBinding? = null
     var isSignedIn = false
 
-    //  private val addProductViewModel: AddProductViewModel by activityViewModels()
-
     private val addProductViewModel: AddProductViewModel by activityViewModels {
         ViewModelFactory()
     }
@@ -34,28 +32,19 @@ class AddProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddProductBinding.inflate(inflater, container, false)
-        val adapter = PhoneImagesListAdapter(this.requireContext()) {}
-
-        binding?.imagesRecyclerViewAddFragment?.adapter = adapter
-
-//        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
-//            it.let {
-//                adapter.submitList(it)
-//            }
-//        }
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding?.addImagesLayout?.setOnClickListener {
+        binding?.imagesLayout?.setOnClickListener {
             // startActivity(Intent(this.requireContext(), CameraActivity::class.java))
             findNavController().navigate(R.id.action_addProductFragment_to_cameraFragment2)
 
         }
 
-        val adapter = PhoneImagesListAdapter(this.requireContext()) {}
 
+        val adapter = PhoneImagesListAdapter(this.requireContext()) {}
         binding?.imagesRecyclerViewAddFragment?.adapter = adapter
         addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
             it.let {
@@ -69,6 +58,7 @@ class AddProductFragment : Fragment() {
 
     }
 
+    // retrieve the data from the UI elements
     private fun getDataFromUI() {
         binding.apply {
             if (isSignedIn) {
@@ -98,7 +88,7 @@ class AddProductFragment : Fragment() {
                 Toast.makeText(requireContext(), "Log in to add product", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }// end.......
 
     override fun onStart() {
         super.onStart()
@@ -109,6 +99,8 @@ class AddProductFragment : Fragment() {
 
     }
 
+
+    // function to get image Uri from the list in the addProductViewModel
     fun getImageUri(): List<String>{
         val imageUriList = mutableListOf<String>()
         for (i in addProductViewModel.allSelectedImages.value!!){

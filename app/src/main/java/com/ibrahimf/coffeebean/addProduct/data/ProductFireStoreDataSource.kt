@@ -30,6 +30,7 @@ class ProductFireStoreDataSource(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductDataSource {
 
+    // function to add products
     override suspend fun addProduct(product: Product) {
 
         uploadImageToFireStore(product.imageUri).collect {
@@ -38,8 +39,8 @@ class ProductFireStoreDataSource(
                 "details" to product.details,
                 "imageUri" to it,
                 "location" to product.location,
-                "publisher" to addUserId(),
-                "publishDate" to addTimeStamp()
+                "publisher" to getUserId(),
+                "publishDate" to getTimeStamp()
             )
 
             fireBaseDb.collection("products")
@@ -55,17 +56,19 @@ class ProductFireStoreDataSource(
         }
 
 
-    }
+    }// end.......
 
-    override fun addUserId(): String? {
+    // function to get the userId from firebase authentication.
+    override fun getUserId(): String? {
         return Firebase.auth.currentUser?.uid
-    }
+    }// end.......
 
-    override fun addTimeStamp(): Long {
+    // function to get the current time
+    override fun getTimeStamp(): Long {
         return Calendar.getInstance().timeInMillis
-    }
+    }// end.......
 
-
+// function to retrieve all products from firestore database
     override suspend fun getAllProducts(): Flow<List<Product>> = callbackFlow {
 
         try {
@@ -100,9 +103,9 @@ class ProductFireStoreDataSource(
 
         }
 
-    }
+    }// end......
 
-
+// function to upload images into firestore
     fun uploadImageToFireStore(imagesList: List<String>): Flow<List<String>> = callbackFlow {
 
         val storageRef = Firebase.storage.reference
@@ -125,6 +128,6 @@ class ProductFireStoreDataSource(
         trySend(scope.await())
 
         awaitClose { }
-    }
+    }// end......
 
 }

@@ -19,26 +19,33 @@ class AddProductViewModel(private val addProductUseCase: AddProductUseCase): Vie
     var allImages = MutableLiveData<MutableList<PhoneImage>>()
     var allSelectedImages = MutableLiveData<MutableList<PhoneImage>>()
 
-
-    var productTitle = MutableLiveData<String>()
-    var productDetails = MutableLiveData<String>()
-    var productImagesUri = MutableLiveData<String>()
-    var productLocation = MutableLiveData<String>()
-
-
     fun addProduct(product: Product){
         viewModelScope.launch {
             addProductUseCase.invoke(product)
         }
     }
 
-    fun addImage(){
-        viewModelScope.launch {
-           // addImageToFirebaseStorageUseCase.invoke()
-        }
-    }
+//    fun addImage(){
+//        viewModelScope.launch {
+//           // addImageToFirebaseStorageUseCase.invoke()
+//        }
+//    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class ViewModelFactory: ViewModelProvider.Factory{

@@ -12,7 +12,7 @@ import com.ibrahimf.coffeebean.addProduct.util.convertMilliSecondsToDate
 import com.ibrahimf.coffeebean.databinding.ProductListItemBinding
 import com.ibrahimf.coffeebean.network.models.Product
 
-class ProductsListAdapter (private val context: Context)
+class ProductsListAdapter (private val context: Context, private val onClicked:(product: Product)-> Unit)
     : ListAdapter<Product, ProductsListAdapter.ProductsViewHolder>(
     DiffCallback
 ) {
@@ -76,6 +76,12 @@ class ProductsListAdapter (private val context: Context)
 
             productTitle.text = currentProduct.title
             publishDate.text = convertMilliSecondsToDate(currentProduct.publishDate)
+
+        }
+
+        holder.binding.productItemCard.setOnClickListener {
+
+            onClicked(currentProduct)
 
         }
 

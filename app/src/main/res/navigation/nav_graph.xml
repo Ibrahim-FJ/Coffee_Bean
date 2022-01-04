@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_productListFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/action_productListFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/phoneImagesFragment"
@@ -42,5 +45,23 @@
         <action
             android:id="@+id/action_cameraFragment2_to_phoneImagesFragment"
             app:destination="@id/phoneImagesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.ibrahimf.coffeebean.showProductDetails.uiLayer.ProductDetailsFragment"
+        android:label="Product Details"
+        tools:layout="@layout/fragment_product_details">
+        <action
+            android:id="@+id/action_productDetailsFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+        <argument
+            android:name="product_title"
+            app:argType="string" />
+        <argument
+            android:name="product_details"
+            app:argType="string" />
+        <argument
+            android:name="imageList"
+            app:argType="string[]" />
     </fragment>
 </navigation>

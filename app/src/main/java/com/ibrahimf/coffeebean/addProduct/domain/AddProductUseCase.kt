@@ -11,9 +11,5 @@ class AddProductUseCase(
     private val addProductRepository: ProductRepository,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-
-    suspend operator fun invoke(product: Product) =
-
-        addProductRepository.addProduct(product)
-
+    suspend operator fun invoke(product: Product) = addProductRepository.addProduct(product)
 }

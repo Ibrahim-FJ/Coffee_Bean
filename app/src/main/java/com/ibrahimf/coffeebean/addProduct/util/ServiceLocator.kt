@@ -8,6 +8,7 @@ import com.ibrahimf.coffeebean.showProducts.domainLayer.GetProductsUseCase
 import com.ibrahimf.coffeebean.network.ProductDataSource
 
 
+
 object ServiceLocator {
 
     fun provideProductRemoteDataSource(): ProductDataSource = ProductFireStoreDataSource(

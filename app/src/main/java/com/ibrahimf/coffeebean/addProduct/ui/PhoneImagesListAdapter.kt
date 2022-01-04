@@ -14,7 +14,6 @@ class PhoneImagesListAdapter (private val context: Context, private val onItemCl
     DiffCallback
 ) {
 
-
     class ImagesViewHolder(var binding: PhoneImagesItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(phoneImage: PhoneImage) {

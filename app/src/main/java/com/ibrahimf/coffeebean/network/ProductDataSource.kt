@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDataSource {
 
     suspend fun addProduct(product: Product)
-    fun addUserId(): String?
-    fun addTimeStamp(): Long
+    fun getUserId(): String?
+    fun getTimeStamp(): Long
 
-   //  fun addImageToFirebaseStorage(product: Product, documentId: String): Uri?
+   // fun addImageToFirebaseStorage(product: Product, documentId: String): Uri?
     suspend fun getAllProducts(): Flow<List<Product>>
 
 

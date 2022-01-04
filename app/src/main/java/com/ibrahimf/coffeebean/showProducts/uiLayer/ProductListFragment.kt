@@ -1,6 +1,7 @@
 package com.ibrahimf.coffeebean.showProducts.uiLayer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -57,7 +58,14 @@ class ProductListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val adapter = ProductsListAdapter(this.requireContext())
+        val adapter = ProductsListAdapter(this.requireContext()) {
+            val action =
+                ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(it.title, it.details,
+                    it.imageUri.toTypedArray()
+                )
+            findNavController().navigate(action)
+
+        }
         binding?.productsRecyclerView?.adapter = adapter
 
 
@@ -115,11 +123,6 @@ class ProductListFragment : Fragment() {
             menu.findItem(R.id.login)?.isVisible = true
             menu.findItem(R.id.logout)?.isVisible = false
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
 
     }
 
