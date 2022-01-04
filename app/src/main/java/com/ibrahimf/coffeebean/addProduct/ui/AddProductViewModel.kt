@@ -7,8 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.ibrahimf.coffeebean.addProduct.domain.AddProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideAddProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideGetProductsUseCase
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideReserveOrderUseCase
 import com.ibrahimf.coffeebean.userData.PhoneImage
 import com.ibrahimf.coffeebean.network.models.Product
+import com.ibrahimf.coffeebean.reserveOrder.domainLayer.ReserveOrderUseCase
+import com.ibrahimf.coffeebean.reserveOrder.uiLayer.ReserveOrderViewModel
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListViewModel
 import kotlinx.coroutines.launch
 
@@ -54,9 +57,15 @@ class ViewModelFactory: ViewModelProvider.Factory{
             @Suppress("UNCHECKED_CAST")
             return AddProductViewModel(provideAddProductUseCase()) as T
         }
+
         @Suppress("UNCHECKED_CAST")
         if (modelClass.isAssignableFrom(ProductsListViewModel::class.java))
             return ProductsListViewModel(provideGetProductsUseCase()) as T
+
+        @Suppress("UNCHECKED_CAST")
+        if (modelClass.isAssignableFrom(ReserveOrderViewModel::class.java))
+            return ReserveOrderViewModel(provideReserveOrderUseCase()) as T
+
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 

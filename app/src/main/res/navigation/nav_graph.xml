@@ -63,5 +63,26 @@
         <argument
             android:name="imageList"
             app:argType="string[]" />
+        <argument
+            android:name="sellerId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_reserveOrderFragment"
+            app:destination="@id/reserveOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reserveOrderFragment"
+        android:name="com.ibrahimf.coffeebean.reserveOrder.uiLayer.ReserveOrderFragment"
+        android:label="fragment_reserve_order"
+        tools:layout="@layout/fragment_reserve_order" >
+        <action
+            android:id="@+id/action_reserveOrderFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <argument
+            android:name="sellerId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_reserveOrderFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
     </fragment>
 </navigation>

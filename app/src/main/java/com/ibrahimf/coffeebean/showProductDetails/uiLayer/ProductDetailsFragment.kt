@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
@@ -46,6 +47,11 @@ class ProductDetailsFragment : Fragment() {
             }
         }
 
+
+        _binding?.reserveBtn?.setOnClickListener {
+            val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToReserveOrderFragment(navigationArgs.sellerId)
+            findNavController().navigate(action)
+        }
     }
 
 

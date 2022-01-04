@@ -1,25 +1,19 @@
 package com.ibrahimf.coffeebean.addProduct.data
 
-import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import com.ibrahimf.coffeebean.addProduct.util.FirebaseUtils
-import com.ibrahimf.coffeebean.network.ProductDataSource
 import com.ibrahimf.coffeebean.network.models.Product
+import com.ibrahimf.coffeebean.reserveOrder.dataLayer.Order
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import java.util.*
@@ -105,7 +99,9 @@ class ProductFireStoreDataSource(
 
     }// end......
 
-// function to upload images into firestore
+
+
+    // function to upload images into firestore
     fun uploadImageToFireStore(imagesList: List<String>): Flow<List<String>> = callbackFlow {
 
         val storageRef = Firebase.storage.reference
@@ -129,5 +125,31 @@ class ProductFireStoreDataSource(
 
         awaitClose { }
     }// end......
+
+
+
+    override suspend fun addReservation(order: Order) {
+
+        val orderDetails = hashMapOf(
+            "quantity" to order.orderQuantity,
+            "message" to order.orderMessage,
+            "seller" to order.sellerId,
+            "buyer" to getUserId(),
+            "timeStamp" to getTimeStamp()
+        )
+
+        fireBaseDb.collection("orders")
+            .add(orderDetails)
+            .addOnSuccessListener {
+                println("DocumentSnapshot successfully written!")
+
+            }
+            .addOnFailureListener {
+                println("Error writing document")
+            }
+
+    }
+
+
 
 }

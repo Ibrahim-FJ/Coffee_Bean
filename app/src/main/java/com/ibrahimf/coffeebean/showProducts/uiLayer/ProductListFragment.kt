@@ -61,7 +61,7 @@ class ProductListFragment : Fragment() {
         val adapter = ProductsListAdapter(this.requireContext()) {
             val action =
                 ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(it.title, it.details,
-                    it.imageUri.toTypedArray()
+                    it.imageUri.toTypedArray(), it.publisher
                 )
             findNavController().navigate(action)
 
@@ -151,7 +151,7 @@ class ProductListFragment : Fragment() {
     }
 
     /**
-     * Displays an alert dialog to get the user's confirmation before deleting the item.
+     * Displays an alert dialog to get the user's confirmation.
      */
     private fun showConfirmationDialog() {
         MaterialAlertDialogBuilder(requireContext())
