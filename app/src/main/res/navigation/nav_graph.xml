@@ -16,6 +16,14 @@
         <action
             android:id="@+id/action_addProductFragment_to_cameraFragment2"
             app:destination="@id/cameraFragment" />
+        <argument
+            android:name="productTitile"
+            app:argType="string"
+            android:defaultValue='"update"' />
+        <argument
+            android:name="productDetails"
+            app:argType="string"
+            android:defaultValue='""' />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -28,6 +36,9 @@
         <action
             android:id="@+id/action_productListFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_productListFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/phoneImagesFragment"
@@ -69,12 +80,15 @@
         <action
             android:id="@+id/action_productDetailsFragment_to_reserveOrderFragment"
             app:destination="@id/reserveOrderFragment" />
+        <argument
+            android:name="prodructID"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/reserveOrderFragment"
         android:name="com.ibrahimf.coffeebean.reserveOrder.uiLayer.ReserveOrderFragment"
-        android:label="fragment_reserve_order"
-        tools:layout="@layout/fragment_reserve_order" >
+        android:label="Profile"
+        tools:layout="@layout/fragment_reserve_order">
         <action
             android:id="@+id/action_reserveOrderFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
@@ -84,5 +98,20 @@
         <action
             android:id="@+id/action_reserveOrderFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
+        <argument
+            android:name="productID"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.ibrahimf.coffeebean.userProfile.uiLayer.UserProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_user_profile">
+        <action
+            android:id="@+id/action_userProfileFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
     </fragment>
 </navigation>

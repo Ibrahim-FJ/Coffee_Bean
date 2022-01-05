@@ -19,6 +19,16 @@ interface ProductDataSource {
 
     suspend fun addReservation(order: Order)
 
+    suspend fun getUserOrders(): Flow<List<String>>
+
+    suspend fun getUserReservationRequest(): Flow<List<String>>
+
+    suspend fun getProductsByProductIDForUserOrders(): Flow<List<Product>>
+
+    suspend fun getProductsByProductIDForUserReservationRequest(): Flow<List<Product>>
+
+    suspend fun getUserPosts(): Flow<List<Product>>
+
 
 
 

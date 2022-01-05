@@ -3,6 +3,7 @@ package com.ibrahimf.coffeebean.network.models
 
 
 data class Product(
+     val productID: String = "",
      val title: String = "",
      val details: String = "",
      val imageUri: List<String> = listOf(),

@@ -8,11 +8,14 @@ import com.ibrahimf.coffeebean.addProduct.domain.AddProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideAddProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideGetProductsUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideReserveOrderUseCase
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideUserPosts
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideUserProfileOrdersUseCase
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideUserProfileRequestUseCase
 import com.ibrahimf.coffeebean.userData.PhoneImage
 import com.ibrahimf.coffeebean.network.models.Product
-import com.ibrahimf.coffeebean.reserveOrder.domainLayer.ReserveOrderUseCase
 import com.ibrahimf.coffeebean.reserveOrder.uiLayer.ReserveOrderViewModel
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListViewModel
+import com.ibrahimf.coffeebean.userProfile.uiLayer.UserProfileViewModel
 import kotlinx.coroutines.launch
 
 
@@ -66,9 +69,12 @@ class ViewModelFactory: ViewModelProvider.Factory{
         if (modelClass.isAssignableFrom(ReserveOrderViewModel::class.java))
             return ReserveOrderViewModel(provideReserveOrderUseCase()) as T
 
+        @Suppress("UNCHECKED_CAST")
+        if (modelClass.isAssignableFrom(UserProfileViewModel::class.java))
+            return UserProfileViewModel(provideUserProfileOrdersUseCase(), provideUserProfileRequestUseCase(), provideUserPosts()) as T
+
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-
 
 
 }
