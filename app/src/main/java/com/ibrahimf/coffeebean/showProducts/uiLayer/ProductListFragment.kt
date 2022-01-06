@@ -61,7 +61,7 @@ class ProductListFragment : Fragment() {
         val adapter = ProductsListAdapter(this.requireContext()) {
             val action =
                 ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(it.title, it.details,
-                    it.imageUri.toTypedArray(), it.publisher
+                    it.imageUri.toTypedArray(), it.publisher, it.productID
                 )
             findNavController().navigate(action)
 
@@ -106,6 +106,9 @@ class ProductListFragment : Fragment() {
             }
             R.id.add_product ->{
                 findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
+            }
+            R.id.user_profile ->{
+                findNavController().navigate(R.id.action_productListFragment_to_userProfileFragment)
             }
 
         }

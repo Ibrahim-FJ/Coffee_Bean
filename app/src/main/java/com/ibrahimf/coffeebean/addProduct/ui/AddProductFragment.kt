@@ -8,19 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
+import com.ibrahimf.coffeebean.userData.PhoneImage
 import kotlinx.android.synthetic.main.fragment_add_product.*
 
 
 class AddProductFragment : Fragment() {
     private var binding: FragmentAddProductBinding? = null
     var isSignedIn = false
-
     private val addProductViewModel: AddProductViewModel by activityViewModels {
         ViewModelFactory()
     }
@@ -43,7 +45,6 @@ class AddProductFragment : Fragment() {
 
         }
 
-
         val adapter = PhoneImagesListAdapter(this.requireContext()) {}
         binding?.imagesRecyclerViewAddFragment?.adapter = adapter
         addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
@@ -53,8 +54,9 @@ class AddProductFragment : Fragment() {
         }
 
         binding?.addProductButton?.setOnClickListener {
-           getDataFromUI()
+            getDataFromUI()
         }
+
 
     }
 
@@ -67,14 +69,12 @@ class AddProductFragment : Fragment() {
                 if (productTitle.isNotEmpty() && productDetails.isNotEmpty() && addProductViewModel.allSelectedImages.value?.isNotEmpty() == true){
                     addProductViewModel.addProduct(
                         Product(
-                            title = product_title_edit_text.text.toString(),
-                            details = product_details_edit_text.text.toString(),
+                            title = productTitle,
+                            details = productDetails,
                             imageUri = getImageUri(),
-                            20.2
+                            location = 20.2
                         )
                     )
-                    product_title_edit_text.error = null
-                    product_details_edit_text.error = null
                     findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
                     addProductViewModel.allSelectedImages.value?.clear()
 
@@ -108,5 +108,6 @@ class AddProductFragment : Fragment() {
         }
         return imageUriList
     }
+
 
 }

@@ -156,17 +156,11 @@ class CameraFragment : Fragment() {
             mediaDir else this.requireActivity().filesDir
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-     //   cameraExecutor.shutdown()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cameraExecutor.shutdown()
     }
 
-    companion object {
-        private const val TAG = "CameraXBasic"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-    }
 
 
     override fun onRequestPermissionsResult(
@@ -206,6 +200,14 @@ class CameraFragment : Fragment() {
 
             image.close()
         }
+    }
+
+
+    companion object {
+        private const val TAG = "CameraXBasic"
+        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
 }

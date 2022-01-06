@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Login"
-        android:id="@+id/login"/>
+    <item
+        android:id="@+id/login"
+        android:title="@string/login" />
 
     <item
         android:id="@+id/logout"
-        android:title="Logout"
-        />
+        android:title="@string/logout" />
 
     <item
         android:id="@+id/add_product"
-        android:title="Add product"
-        />
+        android:title="@string/add_product" />
+    <item
+        android:id="@+id/user_profile"
+        android:title="@string/profile" />
 </menu>

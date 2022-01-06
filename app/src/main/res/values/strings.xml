@@ -9,5 +9,9 @@
     <string name="yes">Yes</string>
     <string name="message_to_the_seller">message to the seller</string>
     <string name="quantity">Quantity</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="add_product">Add product</string>
+    <string name="profile">Profile</string>
 
 </resources>
