@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.databinding.FragmentUserProfileBinding
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListAdapter
+import kotlinx.android.synthetic.main.product_list_item.*
 
 
 class UserProfileFragment : Fragment() {
@@ -33,7 +34,9 @@ class UserProfileFragment : Fragment() {
         val ordersAdapter = ProductsListAdapter(this.requireContext()) {}
         val reservationRequestAdapter = ProductsListAdapter(this.requireContext()) {}
         val userPostsAdapter = ProductsListAdapter(this.requireContext()){
-            val action = UserProfileFragmentDirections.actionUserProfileFragmentToAddProductFragment(productTitile = it.title, productDetails = it.details)
+            val action = UserProfileFragmentDirections.actionUserProfileFragmentToEditProductFragment(
+                productTitle = it.title, productDetails = it.details, imagesList = it.imageUri.toTypedArray(), productID = it.productID
+            )
             findNavController().navigate(action)
         }
 

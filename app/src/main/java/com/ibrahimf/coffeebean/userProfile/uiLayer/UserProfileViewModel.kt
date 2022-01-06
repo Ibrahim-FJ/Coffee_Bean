@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.ibrahimf.coffeebean.network.models.Product
+import com.ibrahimf.coffeebean.userProfile.domainLayer.EditProductUseCase
 import com.ibrahimf.coffeebean.userProfile.domainLayer.UserPostsUseCase
 import com.ibrahimf.coffeebean.userProfile.domainLayer.UserProfileOrdersUseCase
 import com.ibrahimf.coffeebean.userProfile.domainLayer.UserProfileRequestsUseCase
@@ -14,11 +15,9 @@ import kotlinx.coroutines.launch
 class UserProfileViewModel(
     private val userProfileOrdersUseCase: UserProfileOrdersUseCase,
     private val userProfileReservationUseCase: UserProfileRequestsUseCase,
-    private val userPostsUseCase: UserPostsUseCase
+    private val userPostsUseCase: UserPostsUseCase,
+    private val editProductUseCase: EditProductUseCase
 ) : ViewModel() {
-
-
-
 
     private val _ordersStateFlow = MutableStateFlow<List<Product>>(emptyList())
     val ordersStateFlow: StateFlow<List<Product>> = _ordersStateFlow.asStateFlow()
@@ -62,6 +61,12 @@ class UserProfileViewModel(
                 _userPosts.value = it
 
             }
+        }
+    }
+
+    fun updateProduct(product: Product){
+        viewModelScope.launch {
+            editProductUseCase.invoke(product)
         }
     }
 }

@@ -16,14 +16,6 @@
         <action
             android:id="@+id/action_addProductFragment_to_cameraFragment2"
             app:destination="@id/cameraFragment" />
-        <argument
-            android:name="productTitile"
-            app:argType="string"
-            android:defaultValue='"update"' />
-        <argument
-            android:name="productDetails"
-            app:argType="string"
-            android:defaultValue='""' />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -111,7 +103,30 @@
             android:id="@+id/action_userProfileFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
         <action
-            android:id="@+id/action_userProfileFragment_to_addProductFragment"
-            app:destination="@id/addProductFragment" />
+            android:id="@+id/action_userProfileFragment_to_editProductFragment"
+            app:destination="@id/editProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProductFragment"
+        android:name="com.ibrahimf.coffeebean.userProfile.uiLayer.EditProductFragment"
+        android:label="EditProductFragment" >
+        <action
+            android:id="@+id/action_editProductFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+        <argument
+            android:name="productTitle"
+            app:argType="string" />
+        <argument
+            android:name="productDetails"
+            app:argType="string" />
+        <argument
+            android:name="imagesList"
+            app:argType="string[]" />
+        <argument
+            android:name="productID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_editProductFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
 </navigation>

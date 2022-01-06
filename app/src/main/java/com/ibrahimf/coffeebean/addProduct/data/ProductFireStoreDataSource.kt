@@ -374,6 +374,29 @@ class ProductFireStoreDataSource(
         }
     }
 
+    override suspend fun editProduct(product: Product) {
+        uploadImageToFireStore(product.imageUri).collect {
+            val productDetails = mapOf(
+                "title" to product.title,
+                "details" to product.details,
+                "imageUri" to it,
+                "location" to product.location,
+                "publisher" to getUserId(),
+                "publishDate" to getTimeStamp()
+            )
+
+            fireBaseDb.collection("products").document("p8fEJMCvJ8NWOSqoR12C")
+                .update(productDetails)
+                .addOnSuccessListener { documentReference ->
+                    println("DocumentSnapshot successfully written!")
+
+                }
+                .addOnFailureListener {
+                    println("Error writing document")
+                }
+
+        }
+    }
 
 }
 

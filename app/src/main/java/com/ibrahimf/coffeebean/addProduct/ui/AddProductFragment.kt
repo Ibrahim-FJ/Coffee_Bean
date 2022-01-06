@@ -23,9 +23,6 @@ import kotlinx.android.synthetic.main.fragment_add_product.*
 class AddProductFragment : Fragment() {
     private var binding: FragmentAddProductBinding? = null
     var isSignedIn = false
-    private val navigationArgs: AddProductFragmentArgs by  navArgs()
-    var allImages = MutableLiveData<MutableList<PhoneImage>>(mutableListOf())
-
     private val addProductViewModel: AddProductViewModel by activityViewModels {
         ViewModelFactory()
     }
@@ -42,16 +39,6 @@ class AddProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if (navigationArgs.productTitile.isNotEmpty()){
-           bindToUI()
-
-        }else{
-            binding?.addProductButton?.setOnClickListener {
-                getDataFromUI()
-            }
-
-        }
-
         binding?.imagesLayout?.setOnClickListener {
             // startActivity(Intent(this.requireContext(), CameraActivity::class.java))
             findNavController().navigate(R.id.action_addProductFragment_to_cameraFragment2)
@@ -66,6 +53,10 @@ class AddProductFragment : Fragment() {
             }
         }
 
+        binding?.addProductButton?.setOnClickListener {
+            getDataFromUI()
+        }
+
 
     }
 
@@ -78,14 +69,12 @@ class AddProductFragment : Fragment() {
                 if (productTitle.isNotEmpty() && productDetails.isNotEmpty() && addProductViewModel.allSelectedImages.value?.isNotEmpty() == true){
                     addProductViewModel.addProduct(
                         Product(
-                            title = product_title_edit_text.text.toString(),
-                            details = product_details_edit_text.text.toString(),
+                            title = productTitle,
+                            details = productDetails,
                             imageUri = getImageUri(),
                             location = 20.2
                         )
                     )
-                    product_title_edit_text.error = null
-                    product_details_edit_text.error = null
                     findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
                     addProductViewModel.allSelectedImages.value?.clear()
 
@@ -120,28 +109,5 @@ class AddProductFragment : Fragment() {
         return imageUriList
     }
 
-
-    fun bindToUI(){
-        binding?.productTitleEditText?.setText(navigationArgs.productTitile)
-        binding?.productDetailsEditText?.setText(navigationArgs.productDetails)
-        addProductViewModel.allSelectedImages.value = allImages.value
-
-
-        binding?.addProductButton?.setOnClickListener {
-            updateProduct()
-        }
-    }
-
-
-    fun updateProduct(){
-        Toast.makeText(this.requireContext(), "update", Toast.LENGTH_SHORT).show()
-    }
-
-
-    fun addAllImages(imagesList: List<String>){
-        imagesList.forEach {
-            allImages.value?.add(PhoneImage(it))
-        }
-    }
 
 }

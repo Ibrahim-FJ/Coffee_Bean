@@ -29,6 +29,8 @@ interface ProductDataSource {
 
     suspend fun getUserPosts(): Flow<List<Product>>
 
+    suspend fun editProduct(product: Product)
+
 
 
 
