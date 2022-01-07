@@ -297,49 +297,49 @@ class ProductFireStoreDataSource(
 
     }
 
-    override suspend fun getProductsByProductIDForUserReservationRequest(): Flow<List<Product>> = callbackFlow{
-        getUserReservationRequest().collect { productID ->
-            try {
+    override suspend fun getProductsByProductIDForUserReservationRequest(): Flow<List<Product>> =
+        callbackFlow {
+            getUserReservationRequest().collect { productID ->
+                try {
 
-                for (i in productID) {
-                    fireBaseDb.collection("products").whereEqualTo("productID", i)
-                        .addSnapshotListener { snapshot, exception ->
-                            if (exception != null) {
-                                return@addSnapshotListener
-                            }
-
-                            val list = mutableListOf<Product>()
-                            snapshot?.documents?.forEach {
-                                if (it.exists()) {
-                                    val productList = it.toObject(Product::class.java)
-                                    list.add(productList!!)
-                                    //    Log.d("TAG", "Current data: ${it.data}")
-                                } else {
-                                    //      Log.d("TAG", "Current data: null")
+                    for (i in productID) {
+                        fireBaseDb.collection("products").whereEqualTo("productID", i)
+                            .addSnapshotListener { snapshot, exception ->
+                                if (exception != null) {
+                                    return@addSnapshotListener
                                 }
 
+                                val list = mutableListOf<Product>()
+                                snapshot?.documents?.forEach {
+                                    if (it.exists()) {
+                                        val productList = it.toObject(Product::class.java)
+                                        list.add(productList!!)
+                                        //    Log.d("TAG", "Current data: ${it.data}")
+                                    } else {
+                                        //      Log.d("TAG", "Current data: null")
+                                    }
+
+                                }
+                                trySend(list)
+
                             }
-                            trySend(list)
+
+                        awaitClose {
 
                         }
 
-                    awaitClose {
-
                     }
 
-                }
+                } catch (exception: Exception) {
+                    Log.e("Exception", "getAllProducts: ${exception.message.toString()}")
 
-            } catch (exception: Exception) {
-                Log.e("Exception", "getAllProducts: ${exception.message.toString()}")
+                }
 
             }
 
         }
 
-
-    }
-
-    override suspend fun getUserPosts(): Flow<List<Product>> = callbackFlow{
+    override suspend fun getUserPosts(): Flow<List<Product>> = callbackFlow {
         try {
             fireBaseDb.collection("products").whereEqualTo("publisher", getUserId())
                 .addSnapshotListener { snapshot, exception ->

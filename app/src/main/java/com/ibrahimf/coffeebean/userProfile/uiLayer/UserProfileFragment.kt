@@ -40,7 +40,6 @@ class UserProfileFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-
         binding?.ordersRecyclerView?.adapter = ordersAdapter
         binding?.reservationRecyclerView?.adapter = reservationRequestAdapter
         binding?.postsRecyclerView?.adapter = userPostsAdapter

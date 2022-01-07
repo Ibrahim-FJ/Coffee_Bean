@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/product_title_details_fragment"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/product_details_fragment_details"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/images_layout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
         android:id="@+id/reserve_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reserve"
+        android:text="@string/reserve_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

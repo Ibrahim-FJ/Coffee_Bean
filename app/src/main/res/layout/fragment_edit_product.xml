@@ -102,7 +102,7 @@
             app:layout_constraintTop_toBottomOf="@+id/product_details_text_field">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/images_recyclerView_add_fragment"
+                android:id="@+id/images_recyclerView_edit_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="6dp"

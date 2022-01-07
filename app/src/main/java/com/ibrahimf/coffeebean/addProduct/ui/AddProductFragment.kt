@@ -99,7 +99,6 @@ class AddProductFragment : Fragment() {
 
     }
 
-
     // function to get image Uri from the list in the addProductViewModel
     fun getImageUri(): List<String>{
         val imageUriList = mutableListOf<String>()
