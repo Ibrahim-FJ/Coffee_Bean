@@ -15,5 +15,9 @@
     <string name="profile">Profile</string>
     <string name="reserve_btn">Reserve</string>
     <string name="ok">OK</string>
+    <string name="name">Name</string>
+    <string name="location">Location</string>
+    <string name="register">Register</string>
+    <string name="open_camera">open camera</string>
 
 </resources>

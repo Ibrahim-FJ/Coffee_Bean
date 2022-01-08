@@ -2,6 +2,7 @@ package com.ibrahimf.coffeebean.camera
 
 import android.Manifest
 import android.content.ContentUris
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -15,9 +16,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.ibrahimf.coffeebean.CameraActivity
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
-import com.ibrahimf.coffeebean.userData.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentPhoneImagesBinding
 import com.ibrahimf.coffeebean.addProduct.ui.AddProductViewModel
 
@@ -90,7 +91,11 @@ class PhoneImagesFragment : Fragment() {
         when (item.itemId) {
             R.id.selected_images -> {
                 getAllSelected()
-                findNavController().navigate(R.id.action_phoneImagesFragment_to_addProductFragment)
+                findNavController().navigateUp()
+            }
+            R.id.open_camera -> {
+                startActivity(Intent(this.requireActivity(), CameraActivity::class.java))
+                // findNavController().navigate(R.id.action_phoneImagesFragment_to_cameraFragment)
             }
 
         }
@@ -137,7 +142,6 @@ class PhoneImagesFragment : Fragment() {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         id
                     )
-                    println(size)
                     allImages.add(PhoneImage(contentUri.toString()))
 
 

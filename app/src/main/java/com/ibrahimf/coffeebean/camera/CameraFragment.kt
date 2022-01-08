@@ -49,6 +49,7 @@ class CameraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         if (allPermissionsGranted()) {
             startCamera()
         } else {

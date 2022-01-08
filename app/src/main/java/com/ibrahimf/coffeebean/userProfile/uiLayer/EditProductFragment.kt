@@ -17,7 +17,7 @@ import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
 import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.databinding.FragmentEditProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
-import com.ibrahimf.coffeebean.userData.PhoneImage
+import com.ibrahimf.coffeebean.camera.PhoneImage
 import kotlinx.android.synthetic.main.fragment_add_product.*
 
 

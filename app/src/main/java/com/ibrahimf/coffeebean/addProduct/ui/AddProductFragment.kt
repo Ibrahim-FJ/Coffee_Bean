@@ -1,6 +1,5 @@
 package com.ibrahimf.coffeebean.addProduct.ui
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,13 +9,12 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ibrahimf.coffeebean.R
+import com.ibrahimf.coffeebean.camera.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
-import com.ibrahimf.coffeebean.userData.PhoneImage
 import kotlinx.android.synthetic.main.fragment_add_product.*
 
 
@@ -25,6 +23,14 @@ class AddProductFragment : Fragment() {
     var isSignedIn = false
     private val addProductViewModel: AddProductViewModel by activityViewModels {
         ViewModelFactory()
+    }
+
+    var allSelectedImages = MutableLiveData(mutableListOf(PhoneImage("")))
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
     }
 
 
@@ -39,15 +45,17 @@ class AddProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        allSelectedImages = addProductViewModel.allSelectedImages
+
         binding?.imagesLayout?.setOnClickListener {
             // startActivity(Intent(this.requireContext(), CameraActivity::class.java))
-            findNavController().navigate(R.id.action_addProductFragment_to_cameraFragment2)
+            findNavController().navigate(R.id.action_addProductFragment_to_phoneImagesFragment)
 
         }
 
         val adapter = PhoneImagesListAdapter(this.requireContext()) {}
         binding?.imagesRecyclerViewAddFragment?.adapter = adapter
-        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner) {
+        allSelectedImages.observe(viewLifecycleOwner) {
             it.let {
                 adapter.submitList(it)
             }
@@ -108,6 +116,11 @@ class AddProductFragment : Fragment() {
         return imageUriList
     }
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        addProductViewModel.allSelectedImages.value = mutableListOf()
+    }
 
 
 }

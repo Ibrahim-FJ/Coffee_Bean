@@ -9,6 +9,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.ibrahimf.coffeebean.network.models.Product
 import com.ibrahimf.coffeebean.reserveOrder.dataLayer.Order
+import com.ibrahimf.coffeebean.userProfile.model.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -60,6 +61,11 @@ class ProductFireStoreDataSource(
     override fun getUserId(): String? {
         return Firebase.auth.currentUser?.uid
     }// end.......
+
+    override fun getUserPhone(): String? {
+        return Firebase.auth.currentUser?.phoneNumber
+    }// end.......
+
 
     // function to get the current time
     override fun getTimeStamp(): Long {
@@ -394,6 +400,79 @@ class ProductFireStoreDataSource(
                 .addOnFailureListener {
                     println("Error writing document")
                 }
+
+        }
+    }
+
+
+    override suspend fun addUser(user: User) {
+        Log.e("TAG", "addUser: image ${user.userImage}")
+        uploadUserImageToStorage(user.userImage).collect {
+            val productDetails = hashMapOf(
+                "userName" to user.userName,
+                "userImage" to it,
+                "userLocation" to user.userLocation,
+                "userPhone" to getUserPhone(),
+                "userID" to getUserId(),
+            )
+
+            fireBaseDb.collection("users").document(getUserId()!!)
+                .set(productDetails)
+                .addOnSuccessListener {
+                    println("DocumentSnapshot successfully written!")
+
+                }
+                .addOnFailureListener {
+                    println("Error writing document")
+                }
+
+        }
+
+    }
+
+
+    fun uploadUserImageToStorage(userImage: String): Flow<String> = callbackFlow {
+
+        val storageRef = Firebase.storage.reference
+        val scope = async {
+            val reference =
+                storageRef.child("usersProfileImages/${Calendar.getInstance().timeInMillis}")
+            val imageUri = reference.putFile(userImage.toUri()).continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                reference.downloadUrl
+            }.await()
+
+
+            return@async imageUri.toString()
+        }
+        trySend(scope.await())
+
+        awaitClose { }
+    }// end......
+
+
+    override suspend fun getUser(): Flow<User> = callbackFlow {
+        try {
+            fireBaseDb.collection("users").document(getUserId()!!)
+                .addSnapshotListener { snapshot, exception ->
+                    if (exception != null) {
+                        return@addSnapshotListener
+                    }
+
+                    val user = snapshot?.toObject(User::class.java)
+                    trySend(user!!)
+                }
+
+            awaitClose {
+
+            }
+
+        } catch (exception: Exception) {
+            Log.e("Exception", "getAllProducts: ${exception.message.toString()}")
 
         }
     }

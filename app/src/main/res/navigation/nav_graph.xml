@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_addProductFragment_to_cameraFragment2"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_addProductFragment_to_phoneImagesFragment"
+            app:destination="@id/phoneImagesFragment" />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -31,6 +34,9 @@
         <action
             android:id="@+id/action_productListFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_productListFragment_to_userRegistrationFragment"
+            app:destination="@id/userRegistrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/phoneImagesFragment"
@@ -40,6 +46,12 @@
         <action
             android:id="@+id/action_phoneImagesFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/action_phoneImagesFragment_to_userRegistrationFragment"
+            app:destination="@id/userRegistrationFragment" />
+        <action
+            android:id="@+id/action_phoneImagesFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -128,5 +140,17 @@
         <action
             android:id="@+id/action_editProductFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRegistrationFragment"
+        android:name="com.ibrahimf.coffeebean.userProfile.uiLayer.UserRegistrationFragment"
+        android:label="fragment_user_registration"
+        tools:layout="@layout/fragment_user_registration" >
+        <action
+            android:id="@+id/action_userRegistrationFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+        <action
+            android:id="@+id/action_userRegistrationFragment_to_phoneImagesFragment"
+            app:destination="@id/phoneImagesFragment" />
     </fragment>
 </navigation>
