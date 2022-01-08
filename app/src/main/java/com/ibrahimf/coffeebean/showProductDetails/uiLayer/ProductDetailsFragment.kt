@@ -47,13 +47,11 @@ class ProductDetailsFragment : Fragment() {
             }
         }
 
-
         _binding?.reserveBtn?.setOnClickListener {
             val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToReserveOrderFragment(navigationArgs.sellerId, navigationArgs.prodructID)
             findNavController().navigate(action)
         }
     }
-
 
     fun addAllImages(imagesList: List<String>){
         imagesList.forEach {

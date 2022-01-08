@@ -9,10 +9,4 @@
         android:id="@+id/logout"
         android:title="@string/logout" />
 
-    <item
-        android:id="@+id/add_product"
-        android:title="@string/add_product" />
-    <item
-        android:id="@+id/user_profile"
-        android:title="@string/profile" />
 </menu>

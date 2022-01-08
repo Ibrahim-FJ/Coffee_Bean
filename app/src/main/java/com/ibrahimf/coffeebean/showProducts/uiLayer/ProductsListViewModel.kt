@@ -33,10 +33,6 @@ class ProductsListViewModel(private val getProductsUseCase: GetProductsUseCase) 
     }
 
 
-
-
-
-
     fun getAllProductsWithFlow() {
 
         viewModelScope.launch {
