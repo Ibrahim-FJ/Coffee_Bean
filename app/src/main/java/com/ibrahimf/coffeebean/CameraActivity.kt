@@ -31,16 +31,17 @@ class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
 
+    private var cameraSelectorType = false
+
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
         if (allPermissionsGranted()) {
-            startCamera()
+            startCamera(CameraSelector.DEFAULT_BACK_CAMERA)
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -49,11 +50,22 @@ class CameraActivity : AppCompatActivity() {
             )
         }
 
-        // Set up the listener for take photo button
-        binding?.cameraCaptureButton?.setOnClickListener { takePhoto() }
-        binding?.showPhoneImages?.setOnClickListener {
+        binding?.flipCamera?.setOnClickListener {
+
+            cameraSelectorType = if (cameraSelectorType){
+                startCamera(CameraSelector.DEFAULT_BACK_CAMERA)
+                false
+            }else{
+                startCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
+                true
+
+            }
 
         }
+
+
+        // Set up the listener for take photo button
+        binding?.cameraCaptureButton?.setOnClickListener { takePhoto() }
 
         outputDirectory = getOutputDirectory()
 
@@ -91,7 +103,7 @@ class CameraActivity : AppCompatActivity() {
             })
     }
 
-    private fun startCamera() {
+    private fun startCamera(cameraSelector: CameraSelector) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener(Runnable {
@@ -116,8 +128,6 @@ class CameraActivity : AppCompatActivity() {
                     })
                 }
 
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
                 // Unbind use cases before rebinding
@@ -126,6 +136,7 @@ class CameraActivity : AppCompatActivity() {
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture, imageAnalyzer)
+
 
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
@@ -165,7 +176,7 @@ class CameraActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                startCamera()
+                startCamera(CameraSelector.DEFAULT_BACK_CAMERA)
             } else {
                 Toast.makeText(this,
                     "Permissions not granted by the user.",

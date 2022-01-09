@@ -407,10 +407,34 @@ class ProductFireStoreDataSource(
 
     override suspend fun addUser(user: User) {
         Log.e("TAG", "addUser: image ${user.userImage}")
-        uploadUserImageToStorage(user.userImage).collect {
+
+        if (user.userImage != null){
+
+            uploadUserImageToStorage(user.userImage).collect {
+                val productDetails = hashMapOf(
+                    "userName" to user.userName,
+                    "userImage" to it,
+                    "userLocation" to user.userLocation,
+                    "userPhone" to getUserPhone(),
+                    "userID" to getUserId(),
+                )
+
+                fireBaseDb.collection("users").document(getUserId()!!)
+                    .set(productDetails)
+                    .addOnSuccessListener {
+                        println("DocumentSnapshot successfully written!")
+
+                    }
+                    .addOnFailureListener {
+                        println("Error writing document")
+                    }
+
+            }
+
+        }else{
             val productDetails = hashMapOf(
                 "userName" to user.userName,
-                "userImage" to it,
+                "userImage" to "",
                 "userLocation" to user.userLocation,
                 "userPhone" to getUserPhone(),
                 "userID" to getUserId(),
@@ -425,8 +449,8 @@ class ProductFireStoreDataSource(
                 .addOnFailureListener {
                     println("Error writing document")
                 }
-
         }
+
 
     }
 
