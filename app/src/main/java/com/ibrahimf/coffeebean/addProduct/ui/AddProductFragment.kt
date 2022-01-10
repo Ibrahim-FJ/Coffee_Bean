@@ -48,7 +48,7 @@ class AddProductFragment : Fragment() {
         allSelectedImages = addProductViewModel.allSelectedImages
 
         binding?.imagesLayout?.setOnClickListener {
-            // startActivity(Intent(this.requireContext(), CameraActivity::class.java))
+        //     startActivity(Intent(this.requireActivity(), PhoneImagesActivity::class.java))
             findNavController().navigate(R.id.action_addProductFragment_to_phoneImagesFragment)
 
         }

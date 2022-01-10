@@ -102,8 +102,7 @@ class ProductListFragment : Fragment() {
                 signInLauncher.launch(signInIntent)
             }
             R.id.logout -> {
-                findNavController().navigate(R.id.action_productListFragment_to_userRegistrationFragment)
-               // showConfirmationDialog()
+                showConfirmationDialog()
             }
 
         }

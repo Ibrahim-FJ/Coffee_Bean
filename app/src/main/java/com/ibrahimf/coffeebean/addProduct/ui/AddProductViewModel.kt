@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ibrahimf.coffeebean.addProduct.domain.AddProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideAddProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideAddUserUseCase
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideDeletePostUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideEditProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideGetProductsUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideGetUserUseCase
@@ -68,7 +69,8 @@ class ViewModelFactory : ViewModelProvider.Factory {
                 provideUserPostsUseCase(),
                 provideEditProductUseCase(),
                 provideAddUserUseCase(),
-                provideGetUserUseCase()
+                provideGetUserUseCase(),
+                provideDeletePostUseCase()
             ) as T
 
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -48,4 +48,6 @@ object ServiceLocator {
 
     fun provideGetUserUseCase(): GetUserUseCase = GetUserUseCase(provideUserRepository())
 
+    fun provideDeletePostUseCase(): DeletePostUseCase = DeletePostUseCase(provideUserRepository())
+
 }

@@ -18,6 +18,7 @@ import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.databinding.FragmentEditProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
 import com.ibrahimf.coffeebean.camera.PhoneImage
+import com.ibrahimf.coffeebean.showProductDetails.uiLayer.ProductDetailsFragmentDirections
 import kotlinx.android.synthetic.main.fragment_add_product.*
 
 
@@ -29,11 +30,6 @@ class EditProductFragment : Fragment() {
     private val userProfileViewModel: UserProfileViewModel? by activityViewModels {
         ViewModelFactory()
     }
-
-    private val addProductViewModel: AddProductViewModel? by activityViewModels {
-        ViewModelFactory()
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,75 +48,33 @@ class EditProductFragment : Fragment() {
     }
 
     fun bindToUI(){
+        binding?.productTitle?.text = navigationArgs.productTitle
+        binding?.productDetails?.text = navigationArgs.productDetails
+
+        addAllImages(navigationArgs.imagesList.toList())
+
         val adapter = PhoneImagesListAdapter(this.requireContext()) {}
 
-        binding?.imagesRecyclerViewEditFragment?.adapter = adapter
+        binding?.imagesRecyclerView?.adapter = adapter
 
-        binding?.productTitleEditText?.setText(navigationArgs.productTitle)
-        binding?.productDetailsEditText?.setText(navigationArgs.productDetails)
-
-       // Log.e("TAG", "bindToUIddd: ${navigationArgs.imagesList.toList()}", )
-
-
-        addProductViewModel?.allSelectedImages?.observe(viewLifecycleOwner) {
+        allImages.observe(viewLifecycleOwner) {
             it.let {
-                Log.e("TAG", "bindToUI: $it", )
                 adapter.submitList(it)
             }
         }
 
-        binding?.editProductButton?.setOnClickListener {
-
-            binding.apply {
-
-                val productTitle = product_title_edit_text.text.toString()
-                val productDetails = product_details_edit_text.text.toString()
-                if (productTitle.isNotEmpty() && productDetails.isNotEmpty() && addProductViewModel?.allSelectedImages?.value?.isNotEmpty() == true){
-                    userProfileViewModel?.updateProduct(
-                        Product(
-                            title = productTitle,
-                            details = productDetails,
-                            imageUri = getImageUri(),
-                            location = 20.25
-                        )
-                    )
-                    findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
-                    addProductViewModel?.allSelectedImages?.value?.clear()
-
-                }else{
-                    product_title_edit_text.error = "Enter the product title"
-                    product_details_edit_text.error = "Enter the product details"
-                    Toast.makeText(requireContext(), "Add image", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            userProfileViewModel?.updateProduct(Product())
-            Toast.makeText(this.requireContext(), "edit", Toast.LENGTH_SHORT).show()
+        binding?.deletePostBtn?.setOnClickListener {
+            userProfileViewModel?.deletePost(navigationArgs.productID)
+            findNavController().navigateUp()
         }
 
-
-        binding?.imagesLayout?.setOnClickListener {
-            findNavController().navigate(R.id.action_editProductFragment_to_cameraFragment)
-
-        }
     }
 
     fun addAllImages(imagesList: List<String>){
-        Log.e("TAG", "all Imagesgggggggggg: ${imagesList[0]}")
-
         imagesList.forEach {
-            addProductViewModel?.allSelectedImages?.value?.add(PhoneImage(it))
-            Log.e("TAG", "all Images: ${addProductViewModel?.allSelectedImages?.value}")
-
+            allImages.value?.add(PhoneImage(it))
         }
     }
 
-    fun getImageUri(): List<String>{
-        val imageUriList = mutableListOf<String>()
-        for (i in addProductViewModel?.allSelectedImages?.value!!){
-            imageUriList.add(i.imageUri)
-        }
-        return imageUriList
-    }
 
 }

@@ -18,7 +18,6 @@ class ProductDetailsFragment : Fragment() {
     private val navigationArgs: ProductDetailsFragmentArgs by navArgs()
     var allImages = MutableLiveData<MutableList<PhoneImage>>(mutableListOf())
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

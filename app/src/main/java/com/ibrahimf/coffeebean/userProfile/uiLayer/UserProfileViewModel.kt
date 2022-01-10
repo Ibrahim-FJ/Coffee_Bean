@@ -17,17 +17,18 @@ class UserProfileViewModel(
     private val userPostsUseCase: UserPostsUseCase,
     private val editProductUseCase: EditProductUseCase,
     private val addUserUserCase: AddUserUserCase,
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: GetUserUseCase,
+    private val deletePostUseCase: DeletePostUseCase
 ) : ViewModel() {
 
     private val _ordersStateFlow = MutableStateFlow<List<Product>>(emptyList())
     val ordersStateFlow: StateFlow<List<Product>> = _ordersStateFlow.asStateFlow()
 
     val productStatFlowToLiveData = ordersStateFlow.asLiveData()
-    var _userOrders = MutableLiveData<List<Product>?>()
-    var _userReservationRequest = MutableLiveData<List<Product>?>()
-    var _userPosts = MutableLiveData<List<Product>?>()
-    var _user = MutableLiveData<User>()
+    val _userOrders = MutableLiveData<List<Product>?>()
+    val _userReservationRequest = MutableLiveData<List<Product>?>()
+    val _userPosts = MutableLiveData<List<Product>?>()
+    val _user = MutableLiveData<User>()
 
 
     init {
@@ -64,12 +65,6 @@ class UserProfileViewModel(
         }
     }
 
-    fun updateProduct(product: Product){
-        viewModelScope.launch {
-            editProductUseCase.invoke(product)
-        }
-    }
-
     fun addUser(user: User){
         viewModelScope.launch {
             addUserUserCase.invoke(user)
@@ -82,6 +77,13 @@ class UserProfileViewModel(
                 _user.value = it
 
             }
+        }
+    }
+
+
+    fun deletePost(productID: String){
+        viewModelScope.launch {
+            deletePostUseCase.invoke(productID)
         }
     }
 }

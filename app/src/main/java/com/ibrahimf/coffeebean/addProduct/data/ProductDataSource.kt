@@ -39,6 +39,8 @@ interface ProductDataSource {
 
     suspend fun getUser(): Flow<User>
 
+    suspend fun deletePost(productID: String)
+
 
 
 
