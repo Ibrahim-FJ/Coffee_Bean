@@ -2,12 +2,13 @@ package com.ibrahimf.coffeebean.userProfile.uiLayer
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.databinding.FragmentUserProfileBinding
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListAdapter
@@ -19,6 +20,20 @@ class UserProfileFragment : Fragment() {
 
     private val userProfileViewModel: UserProfileViewModel? by activityViewModels {
         ViewModelFactory()
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (FirebaseAuth.getInstance().currentUser == null){
+            Toast.makeText(this.requireContext(), "Sign in", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateView(
@@ -53,14 +68,12 @@ class UserProfileFragment : Fragment() {
 //            }
 //        }
 
-
         userProfileViewModel?._userOrders?.observe(viewLifecycleOwner, {
             it.let {
+                Log.e("TAG", "onViewCreatedOrdersgggggg: $it")
                 ordersAdapter.submitList(it)
             }
         })
-
-
 
         userProfileViewModel?._userReservationRequest?.observe(viewLifecycleOwner, {
             it.let {
@@ -70,11 +83,27 @@ class UserProfileFragment : Fragment() {
 
         userProfileViewModel?._userPosts?.observe(viewLifecycleOwner, {
             it.let {
-                Log.e("TAG", "onViewCreatedPosts: $it", )
+                Log.e("TAG", "onViewCreatedPosts: $it")
                 userPostsAdapter.submitList(it)
             }
         })
 
 
+
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.user_profile_menu, menu)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.user_profile ->{
+                findNavController().navigate(R.id.action_userProfileFragment_to_userRegistrationFragment)
+            }
+        }
+        return true
     }
 }

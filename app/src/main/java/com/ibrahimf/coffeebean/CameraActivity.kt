@@ -21,7 +21,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import android.content.Intent
-
+import android.view.View
 
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -31,6 +31,8 @@ class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
 
+    private var cameraSelectorType = false
+
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,7 @@ class CameraActivity : AppCompatActivity() {
         setContentView(binding?.root)
 
         if (allPermissionsGranted()) {
-            startCamera()
+            startCamera(CameraSelector.DEFAULT_BACK_CAMERA)
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -48,17 +50,29 @@ class CameraActivity : AppCompatActivity() {
             )
         }
 
-        // Set up the listener for take photo button
-        binding?.cameraCaptureButton?.setOnClickListener { takePhoto() }
-        binding?.showPhoneImages?.setOnClickListener {
+        binding?.flipCamera?.setOnClickListener {
+
+            cameraSelectorType = if (cameraSelectorType){
+                startCamera(CameraSelector.DEFAULT_BACK_CAMERA)
+                false
+            }else{
+                startCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
+                true
+
+            }
 
         }
+
+        binding?.phoneImages?.setOnClickListener {
+        }
+
+        // Set up the listener for take photo button
+        binding?.cameraCaptureButton?.setOnClickListener { takePhoto() }
 
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
-
 
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
@@ -90,7 +104,7 @@ class CameraActivity : AppCompatActivity() {
             })
     }
 
-    private fun startCamera() {
+    private fun startCamera(cameraSelector: CameraSelector) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener(Runnable {
@@ -107,16 +121,13 @@ class CameraActivity : AppCompatActivity() {
             imageCapture = ImageCapture.Builder()
                 .build()
 
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .build()
-                .also {
-                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
-                        Log.d(TAG, "Average luminosity: $luma")
-                    })
-                }
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+//            val imageAnalyzer = ImageAnalysis.Builder()
+//                .build()
+//                .also {
+//                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
+//                        Log.d(TAG, "Average luminosity: $luma")
+//                    })
+//                }
 
             try {
                 // Unbind use cases before rebinding
@@ -124,7 +135,7 @@ class CameraActivity : AppCompatActivity() {
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalyzer)
+                    this, cameraSelector, preview, imageCapture)
 
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
@@ -137,7 +148,6 @@ class CameraActivity : AppCompatActivity() {
         ContextCompat.checkSelfPermission(
             this, it) == PackageManager.PERMISSION_GRANTED
     }
-
 
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
@@ -164,7 +174,7 @@ class CameraActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                startCamera()
+                startCamera(CameraSelector.DEFAULT_BACK_CAMERA)
             } else {
                 Toast.makeText(this,
                     "Permissions not granted by the user.",
@@ -174,27 +184,25 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-
-
-    private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
-
-        private fun ByteBuffer.toByteArray(): ByteArray {
-            rewind()    // Rewind the buffer to zero
-            val data = ByteArray(remaining())
-            get(data)   // Copy the buffer into a byte array
-            return data // Return the byte array
-        }
-
-        override fun analyze(image: ImageProxy) {
-
-            val buffer = image.planes[0].buffer
-            val data = buffer.toByteArray()
-            val pixels = data.map { it.toInt() and 0xFF }
-            val luma = pixels.average()
-
-            listener(luma)
-
-            image.close()
-        }
-    }
+//    private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
+//
+//        private fun ByteBuffer.toByteArray(): ByteArray {
+//            rewind()    // Rewind the buffer to zero
+//            val data = ByteArray(remaining())
+//            get(data)   // Copy the buffer into a byte array
+//            return data // Return the byte array
+//        }
+//
+//        override fun analyze(image: ImageProxy) {
+//
+//            val buffer = image.planes[0].buffer
+//            val data = buffer.toByteArray()
+//            val pixels = data.map { it.toInt() and 0xFF }
+//            val luma = pixels.average()
+//
+//            listener(luma)
+//
+//            image.close()
+//        }
+//    }
 }

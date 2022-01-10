@@ -104,18 +104,11 @@ class ProductListFragment : Fragment() {
             R.id.logout -> {
                 showConfirmationDialog()
             }
-            R.id.add_product ->{
-                findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
-            }
-            R.id.user_profile ->{
-                findNavController().navigate(R.id.action_productListFragment_to_userProfileFragment)
-            }
 
         }
 
         return true
     }
-
 
     override fun onPrepareOptionsMenu(menu: Menu) {
 
@@ -140,6 +133,9 @@ class ProductListFragment : Fragment() {
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
+
+            findNavController().navigate(R.id.action_productListFragment_to_userRegistrationFragment)
+
             val user = FirebaseAuth.getInstance().currentUser
             println(user?.uid)
         } else {

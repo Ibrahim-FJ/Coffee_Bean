@@ -1,7 +1,6 @@
 package com.ibrahimf.coffeebean.showProductDetails.uiLayer
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
 import com.ibrahimf.coffeebean.databinding.FragmentProductDetailsBinding
-import com.ibrahimf.coffeebean.userData.PhoneImage
+import com.ibrahimf.coffeebean.camera.PhoneImage
 
 
 class ProductDetailsFragment : Fragment() {
     var _binding: FragmentProductDetailsBinding? = null
     private val navigationArgs: ProductDetailsFragmentArgs by navArgs()
     var allImages = MutableLiveData<MutableList<PhoneImage>>(mutableListOf())
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -7,4 +7,11 @@
         android:title="@string/ok"
 
         app:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/open_camera"
+        android:title="@string/open_camera"
+        android:icon="@drawable/ic_baseline_camera_alt_24"
+
+        app:showAsAction="always" />
 </menu>

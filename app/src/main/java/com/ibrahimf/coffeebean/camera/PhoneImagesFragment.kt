@@ -2,6 +2,7 @@ package com.ibrahimf.coffeebean.camera
 
 import android.Manifest
 import android.content.ContentUris
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -15,9 +16,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.ibrahimf.coffeebean.CameraActivity
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
-import com.ibrahimf.coffeebean.userData.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentPhoneImagesBinding
 import com.ibrahimf.coffeebean.addProduct.ui.AddProductViewModel
 
@@ -48,7 +49,6 @@ class PhoneImagesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         if (allPermissionsGranted()) {
             queryImageStorage()
         } else {
@@ -68,8 +68,6 @@ class PhoneImagesFragment : Fragment() {
 //            }
 
         }
-
-
         binding?.imagesRecyclerView?.adapter = adapter
 
             addProductViewModel.allImages.observe(viewLifecycleOwner){
@@ -77,9 +75,7 @@ class PhoneImagesFragment : Fragment() {
                     adapter.submitList(it)
                 }
             }
-
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.selected_images_menu, menu)
@@ -90,7 +86,11 @@ class PhoneImagesFragment : Fragment() {
         when (item.itemId) {
             R.id.selected_images -> {
                 getAllSelected()
-                findNavController().navigate(R.id.action_phoneImagesFragment_to_addProductFragment)
+                findNavController().navigateUp()
+            }
+            R.id.open_camera -> {
+                startActivity(Intent(this.requireActivity(), CameraActivity::class.java))
+                // findNavController().navigate(R.id.action_phoneImagesFragment_to_cameraFragment)
             }
 
         }
@@ -125,19 +125,18 @@ class PhoneImagesFragment : Fragment() {
         cursor.use {
             it?.let {
                 val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                val nameColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-                val sizeColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
-                val dateColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)
+//                val nameColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+//                val sizeColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
+//                val dateColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)
                 while (it.moveToNext()) {
                     val id = it.getLong(idColumn)
-                    val name = it.getString(nameColumn)
-                    val size = it.getString(sizeColumn)
-                    val date = it.getString(dateColumn)
+//                    val name = it.getString(nameColumn)
+//                    val size = it.getString(sizeColumn)
+//                    val date = it.getString(dateColumn)
                     val contentUri = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         id
                     )
-                    println(size)
                     allImages.add(PhoneImage(contentUri.toString()))
 
 
@@ -157,13 +156,10 @@ class PhoneImagesFragment : Fragment() {
 
     }
 
-
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
             this.requireActivity(), it) == PackageManager.PERMISSION_GRANTED
     }
-
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
@@ -185,8 +181,6 @@ class PhoneImagesFragment : Fragment() {
 
 
     companion object {
-        private const val TAG = "CameraXBasic"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
     }

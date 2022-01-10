@@ -9,10 +9,7 @@ import com.ibrahimf.coffeebean.addProduct.data.ProductDataSource
 import com.ibrahimf.coffeebean.reserveOrder.dataLayer.OrderRepository
 import com.ibrahimf.coffeebean.reserveOrder.domainLayer.ReserveOrderUseCase
 import com.ibrahimf.coffeebean.userProfile.dataLayer.UserRepository
-import com.ibrahimf.coffeebean.userProfile.domainLayer.EditProductUseCase
-import com.ibrahimf.coffeebean.userProfile.domainLayer.UserPostsUseCase
-import com.ibrahimf.coffeebean.userProfile.domainLayer.UserProfileOrdersUseCase
-import com.ibrahimf.coffeebean.userProfile.domainLayer.UserProfileRequestsUseCase
+import com.ibrahimf.coffeebean.userProfile.domainLayer.*
 
 
 object ServiceLocator {
@@ -47,5 +44,10 @@ object ServiceLocator {
     fun provideUserPostsUseCase(): UserPostsUseCase = UserPostsUseCase(provideUserRepository())
 
     fun provideEditProductUseCase(): EditProductUseCase = EditProductUseCase(provideUserRepository())
+    fun provideAddUserUseCase(): AddUserUserCase = AddUserUserCase(provideUserRepository())
+
+    fun provideGetUserUseCase(): GetUserUseCase = GetUserUseCase(provideUserRepository())
+
+    fun provideDeletePostUseCase(): DeletePostUseCase = DeletePostUseCase(provideUserRepository())
 
 }

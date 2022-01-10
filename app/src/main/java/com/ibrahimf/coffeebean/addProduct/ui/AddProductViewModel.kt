@@ -6,13 +6,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.ibrahimf.coffeebean.addProduct.domain.AddProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideAddProductUseCase
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideAddUserUseCase
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideDeletePostUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideEditProductUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideGetProductsUseCase
+import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideGetUserUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideReserveOrderUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideUserPostsUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideUserProfileOrdersUseCase
 import com.ibrahimf.coffeebean.addProduct.util.ServiceLocator.provideUserProfileRequestUseCase
-import com.ibrahimf.coffeebean.userData.PhoneImage
+import com.ibrahimf.coffeebean.camera.PhoneImage
 import com.ibrahimf.coffeebean.network.models.Product
 import com.ibrahimf.coffeebean.reserveOrder.uiLayer.ReserveOrderViewModel
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListViewModel
@@ -24,7 +27,9 @@ class AddProductViewModel(private val addProductUseCase: AddProductUseCase) : Vi
 
 
     var allImages = MutableLiveData<MutableList<PhoneImage>>()
-    var allSelectedImages = MutableLiveData<MutableList<PhoneImage>>()
+    var allSelectedImages = MutableLiveData(mutableListOf(PhoneImage("")))
+
+
 
     fun addProduct(product: Product) {
         viewModelScope.launch {
@@ -62,7 +67,10 @@ class ViewModelFactory : ViewModelProvider.Factory {
                 provideUserProfileOrdersUseCase(),
                 provideUserProfileRequestUseCase(),
                 provideUserPostsUseCase(),
-                provideEditProductUseCase()
+                provideEditProductUseCase(),
+                provideAddUserUseCase(),
+                provideGetUserUseCase(),
+                provideDeletePostUseCase()
             ) as T
 
         throw IllegalArgumentException("Unknown ViewModel class")

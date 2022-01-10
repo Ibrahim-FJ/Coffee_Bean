@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ibrahimf.coffeebean.userData.PhoneImage
+import com.ibrahimf.coffeebean.camera.PhoneImage
 import com.ibrahimf.coffeebean.databinding.PhoneImagesItemBinding
 
 class PhoneImagesListAdapter (private val context: Context, private val onItemClicked: (phoneImage: PhoneImage) -> Unit): ListAdapter<PhoneImage, PhoneImagesListAdapter.ImagesViewHolder>(
