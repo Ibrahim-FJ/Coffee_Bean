@@ -61,7 +61,7 @@ class ProductListFragment : Fragment() {
         val adapter = ProductsListAdapter(this.requireContext()) {
             val action =
                 ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(it.title, it.details,
-                    it.imageUri.toTypedArray(), it.publisher, it.productID
+                    it.imageUri.toTypedArray(), it.publisher, it.productID, it.location.latitude.toString(), it.location.longitude.toString()
                 )
             findNavController().navigate(action)
 

@@ -19,6 +19,15 @@
         <action
             android:id="@+id/action_addProductFragment_to_phoneImagesFragment"
             app:destination="@id/phoneImagesFragment" />
+        <action
+            android:id="@+id/action_addProductFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -86,6 +95,12 @@
             app:destination="@id/reserveOrderFragment" />
         <argument
             android:name="prodructID"
+            app:argType="string" />
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+        <argument
+            android:name="longitude"
             app:argType="string" />
     </fragment>
     <fragment
@@ -155,5 +170,14 @@
         <action
             android:id="@+id/action_userRegistrationFragment_to_phoneImagesFragment"
             app:destination="@id/phoneImagesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.ibrahimf.coffeebean.addProduct.ui.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
     </fragment>
 </navigation>

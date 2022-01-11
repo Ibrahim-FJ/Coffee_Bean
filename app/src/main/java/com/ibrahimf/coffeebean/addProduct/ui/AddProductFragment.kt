@@ -1,37 +1,47 @@
 package com.ibrahimf.coffeebean.addProduct.ui
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.camera.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
 import kotlinx.android.synthetic.main.fragment_add_product.*
+import java.util.*
 
 
-class AddProductFragment : Fragment() {
+class AddProductFragment : Fragment(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback {
     private var binding: FragmentAddProductBinding? = null
     var isSignedIn = false
     private val addProductViewModel: AddProductViewModel by activityViewModels {
         ViewModelFactory()
     }
+    private var latitude = 0.0
+    private var longitude = 0.0
 
     var allSelectedImages = MutableLiveData(mutableListOf(PhoneImage("")))
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
+    private var map: GoogleMap? = null
 
 
     override fun onCreateView(
@@ -44,6 +54,10 @@ class AddProductFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val mapFragment = childFragmentManager
+            .findFragmentById(R.id.myMap) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         allSelectedImages = addProductViewModel.allSelectedImages
 
@@ -66,6 +80,27 @@ class AddProductFragment : Fragment() {
         }
 
 
+        binding?.locationLayout?.setOnClickListener {
+            findNavController().navigate(R.id.action_addProductFragment_to_mapsFragment)
+
+          //  startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=24.722681,46.631597")))
+        }
+
+//        binding?.currentLocation?.setOnClickListener {
+//            if (allPermissionsGranted()) {
+//                map?.isMyLocationEnabled = true
+//            } else {
+//                ActivityCompat.requestPermissions(
+//                    this.requireActivity(),
+//                    REQUIRED_PERMISSIONS,
+//                    REQUEST_CODE_PERMISSIONS
+//                )
+//            }
+//
+//        }
+
+
+
     }
 
     // retrieve the data from the UI elements
@@ -80,7 +115,7 @@ class AddProductFragment : Fragment() {
                             title = productTitle,
                             details = productDetails,
                             imageUri = getImageUri(),
-                            location = 20.2
+                            location = GeoPoint(latitude, longitude)
                         )
                     )
                     findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
@@ -120,6 +155,61 @@ class AddProductFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         addProductViewModel.allSelectedImages.value = mutableListOf()
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        googleMap.setOnMyLocationButtonClickListener(this)
+        map = googleMap
+        map?.isMyLocationEnabled = true
+        map?.setOnMapLongClickListener {
+            map?.clear()
+            map?.addMarker(
+                MarkerOptions()
+                    .position(it)
+            )
+
+            latitude = it.latitude
+            longitude = it.longitude
+
+        }
+    }
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            this.requireContext(), it
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults:
+        IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                map?.isMyLocationEnabled = true
+
+            } else {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Permissions not granted by the user.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                this.requireActivity().finish()
+            }
+        }
+    }
+
+
+    companion object {
+
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+
+        return false
     }
 
 

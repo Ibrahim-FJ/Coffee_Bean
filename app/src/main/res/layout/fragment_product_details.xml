@@ -13,6 +13,16 @@
     tools:context=".showProductDetails.uiLayer.ProductDetailsFragment">
 
 
+    <ImageView
+        android:id="@+id/location"
+        android:layout_width="54dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="44dp"
+        android:text="Location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+
     <TextView
         android:id="@+id/product_title_details_fragment"
         android:layout_width="wrap_content"

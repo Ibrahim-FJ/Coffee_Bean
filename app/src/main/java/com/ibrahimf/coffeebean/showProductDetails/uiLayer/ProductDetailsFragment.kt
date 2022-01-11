@@ -1,6 +1,9 @@
 package com.ibrahimf.coffeebean.showProductDetails.uiLayer
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
 import com.ibrahimf.coffeebean.databinding.FragmentProductDetailsBinding
 import com.ibrahimf.coffeebean.camera.PhoneImage
+import kotlinx.android.synthetic.main.fragment_product_details.*
 
 
 class ProductDetailsFragment : Fragment() {
@@ -47,6 +51,14 @@ class ProductDetailsFragment : Fragment() {
         _binding?.reserveBtn?.setOnClickListener {
             val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToReserveOrderFragment(navigationArgs.sellerId, navigationArgs.prodructID)
             findNavController().navigate(action)
+        }
+
+        location.setOnClickListener {
+
+            val gmmIntentUri = Uri.parse("geo:0,0?q=${navigationArgs.latitude.toDouble()},${navigationArgs.longitude.toDouble()}")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            startActivity(mapIntent)
+
         }
     }
 

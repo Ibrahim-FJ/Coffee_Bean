@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable-v24/loading_img.xml" value="0.1824074074074074" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable/circle_button.xml" value="0.17592592592592593" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.1" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable/ic_baseline_add_location_alt_24.xml" value="0.1787037037037037" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.1787037037037037" />
+        <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable/ic_baseline_my_location_24.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17592592592592593" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/activity_camera.xml" value="0.21203703703703702" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -17,6 +19,7 @@
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/fragment_camera.xml" value="0.19907407407407407" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/fragment_create_profile.xml" value="0.2171875" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/fragment_edit_product.xml" value="0.203125" />
+        <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/fragment_maps.xml" value="0.19907407407407407" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/fragment_phone_images.xml" value="0.203125" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/fragment_product_details.xml" value="0.2171875" />
         <entry key="..\:/Users/ibrah/Desktop/Tuwaiq/Android/CoffeeBean/app/src/main/res/layout/fragment_product_list.xml" value="0.2171875" />
