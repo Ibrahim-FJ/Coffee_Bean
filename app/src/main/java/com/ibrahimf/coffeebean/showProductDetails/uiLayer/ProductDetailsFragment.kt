@@ -63,6 +63,7 @@ class ProductDetailsFragment : Fragment() {
     }
 
     fun addAllImages(imagesList: List<String>){
+        allImages.value = mutableListOf()
         imagesList.forEach {
             allImages.value?.add(PhoneImage(it))
         }

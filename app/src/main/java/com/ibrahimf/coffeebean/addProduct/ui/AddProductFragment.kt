@@ -25,13 +25,14 @@ import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.camera.PhoneImage
+import com.ibrahimf.coffeebean.camera.PhoneImagesFragment
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import java.util.*
 
 
-class AddProductFragment : Fragment(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback {
+class AddProductFragment : Fragment(), OnMapReadyCallback {
     private var binding: FragmentAddProductBinding? = null
     var isSignedIn = false
     private val addProductViewModel: AddProductViewModel by activityViewModels {
@@ -59,6 +60,11 @@ class AddProductFragment : Fragment(), GoogleMap.OnMyLocationButtonClickListener
             .findFragmentById(R.id.myMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+
+
+
+
+
         allSelectedImages = addProductViewModel.allSelectedImages
 
         binding?.imagesLayout?.setOnClickListener {
@@ -80,10 +86,31 @@ class AddProductFragment : Fragment(), GoogleMap.OnMyLocationButtonClickListener
         }
 
 
-        binding?.locationLayout?.setOnClickListener {
-            findNavController().navigate(R.id.action_addProductFragment_to_mapsFragment)
+        if (allPermissionsGranted()) {
+            map?.isMyLocationEnabled = true
 
-          //  startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=24.722681,46.631597")))
+        } else {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                REQUIRED_PERMISSIONS,
+                REQUEST_CODE_PERMISSIONS
+            )
+        }
+
+        binding?.myMap?.setOnClickListener {
+
+            if (allPermissionsGranted()) {
+                map?.isMyLocationEnabled = true
+
+            } else {
+                ActivityCompat.requestPermissions(
+                    this.requireActivity(),
+                    REQUIRED_PERMISSIONS,
+                    REQUEST_CODE_PERMISSIONS
+                )
+            }
+
+
         }
 
 //        binding?.currentLocation?.setOnClickListener {
@@ -158,9 +185,20 @@ class AddProductFragment : Fragment(), GoogleMap.OnMyLocationButtonClickListener
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        googleMap.setOnMyLocationButtonClickListener(this)
+       // googleMap.setOnMyLocationButtonClickListener(this)
         map = googleMap
-        map?.isMyLocationEnabled = true
+
+        if (allPermissionsGranted()) {
+            map?.isMyLocationEnabled = true
+
+        } else {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                REQUIRED_PERMISSIONS,
+                REQUEST_CODE_PERMISSIONS
+            )
+        }
+
         map?.setOnMapLongClickListener {
             map?.clear()
             map?.addMarker(
@@ -204,13 +242,9 @@ class AddProductFragment : Fragment(), GoogleMap.OnMyLocationButtonClickListener
     companion object {
 
         private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    override fun onMyLocationButtonClick(): Boolean {
-
-        return false
-    }
 
 
 }
