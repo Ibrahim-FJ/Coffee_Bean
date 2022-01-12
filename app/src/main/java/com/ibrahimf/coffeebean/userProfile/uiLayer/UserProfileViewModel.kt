@@ -1,10 +1,7 @@
 package com.ibrahimf.coffeebean.userProfile.uiLayer
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ibrahimf.coffeebean.userProfile.model.User
 import com.ibrahimf.coffeebean.network.models.Product
 import com.ibrahimf.coffeebean.userProfile.domainLayer.*
@@ -29,6 +26,9 @@ class UserProfileViewModel(
     val _userReservationRequest = MutableLiveData<List<Product>?>()
     val _userPosts = MutableLiveData<List<Product>?>()
     val _user = MutableLiveData<User>()
+
+    private var _uiStatus = MutableStateFlow(UserRegistrationUiState())
+    val uiState: LiveData<UserRegistrationUiState> = _uiStatus.asLiveData()
 
 
     init {
@@ -84,6 +84,17 @@ class UserProfileViewModel(
     fun deletePost(productID: String){
         viewModelScope.launch {
             deletePostUseCase.invoke(productID)
+        }
+    }
+
+
+    fun registerUser(userProfileUiState: UserProfileUiState){
+        viewModelScope.launch {
+
+            _uiStatus.update { it.copy(loadingStatus = LOADING_STATUS.LOADING) }
+
+            Log.e("TAG", "registerUser: $userProfileUiState", )
+
         }
     }
 }

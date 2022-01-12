@@ -1,4 +1,4 @@
-package com.ibrahimf.coffeebean.addProduct.util
+package com.ibrahimf.coffeebean.util
 
 import android.net.Uri
 import androidx.core.net.toUri
@@ -7,7 +7,6 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 

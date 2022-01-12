@@ -17,11 +17,14 @@ import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.camera.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentUserRegistrationBinding
 import com.ibrahimf.coffeebean.userProfile.model.User
+import com.ibrahimf.coffeebean.util.InputTypes
+import com.ibrahimf.coffeebean.util.isValid
 import kotlinx.android.synthetic.main.fragment_user_registration.*
 
 
 class UserRegistrationFragment : Fragment() {
-    private var binding: FragmentUserRegistrationBinding? = null
+    private var _binding: FragmentUserRegistrationBinding? = null
+    private val binding get() = _binding
     var selectedImagesForUserProfile = MutableLiveData(mutableListOf(PhoneImage()))
 
     private val userProfileViewModel: UserProfileViewModel by activityViewModels {
@@ -37,7 +40,7 @@ class UserRegistrationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentUserRegistrationBinding.inflate(inflater, container, false)
+        _binding = FragmentUserRegistrationBinding.inflate(inflater, container, false)
        return binding?.root
     }
 
@@ -55,7 +58,6 @@ class UserRegistrationFragment : Fragment() {
 
         })
 
-
         binding?.apply {
             user_image.setOnClickListener {
               //  startActivity(Intent(this@UserRegistrationFragment.requireActivity(), PhoneImagesActivity::class.java))
@@ -66,28 +68,52 @@ class UserRegistrationFragment : Fragment() {
 
             registerBtn.setOnClickListener {
 
-                if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
-
-                    val userName = user_name_edit_text.text.toString()
-                    val userLocation = user_location_edit_text.text.toString()
-                    val userImage = selectedImagesForUserProfile.value?.get(0)?.imageUri?:""
-
-                    if (userName.isNotEmpty() && userLocation.isNotEmpty() && userImage.isNotEmpty()){
-
-                        userProfileViewModel.addUser(User(userName = userName, userLocation = userLocation, userImage = userImage))
-                        findNavController().navigateUp()
-
-                    }else{
-                        Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
-                    }
-
-
-                }else{
-                    Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
-
+                if (!formValidationCheck()){
+                    userProfileViewModel.registerUser(userUiState())
                 }
 
+//                if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
+//
+//                    val userName = user_name_edit_text.text.toString()
+//                    val userLocation = user_location_edit_text.text.toString()
+//                    val userImage = selectedImagesForUserProfile.value?.get(0)?.imageUri?:""
+//
+//                    if (userName.isNotEmpty() && userLocation.isNotEmpty() && userImage.isNotEmpty()){
+//
+//                        userProfileViewModel.addUser(User(userName = userName, userLocation = userLocation, userImage = userImage))
+//                        findNavController().navigateUp()
+//
+//                    }else{
+//                        Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//
+//                }else{
+//                    Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
+//
+//                }
+
             }
+
+            userProfileViewModel.uiState.observe(viewLifecycleOwner, {
+
+                Log.e("TAG", "onViewCreatedState: ${it.loadingStatus}")
+
+                when(it.loadingStatus){
+                    LOADING_STATUS.LOADING -> {
+                        showLoading()
+                    }
+
+                    LOADING_STATUS.ERROR -> {
+                        showError(it.errorMsg)
+                    }
+
+                    LOADING_STATUS.DONE -> {
+                        showDoneContent()
+                    }
+                }
+
+            })
 
         }
 
@@ -103,10 +129,29 @@ class UserRegistrationFragment : Fragment() {
 
     }
 
+    private fun showDoneContent() {
+        binding?.loadingProgressBar?.visibility = View.GONE
+        binding?.mainLayout?.visibility = View.VISIBLE
+        binding?.errorLayout?.visibility = View.GONE
+    }
+
+    private fun showError(errorMsg: String) {
+        binding?.loadingProgressBar?.visibility = View.GONE
+        binding?.mainLayout?.visibility = View.GONE
+        binding?.errorLayout?.visibility = View.VISIBLE
+        binding?.errorMsg?.text = errorMsg
+
+    }
+
+    private fun showLoading() {
+        binding?.loadingProgressBar?.visibility = View.VISIBLE
+        binding?.mainLayout?.visibility = View.GONE
+        binding?.errorLayout?.visibility = View.GONE
+    }
+
     override fun onResume() {
         super.onResume()
         selectedImagesForUserProfile = addProductViewModel.allSelectedImages
-
 
     }
 
@@ -114,6 +159,27 @@ class UserRegistrationFragment : Fragment() {
         super.onDestroyView()
 
         addProductViewModel.allSelectedImages.value = mutableListOf()
+        _binding = null
 
     }
+
+    private fun formValidationCheck(): Boolean {
+        var isValid = true
+
+        if (binding?.userNameTextField!!.isValid(binding!!.userNameEditText, InputTypes.NAME))
+            isValid = false
+
+        if (binding?.userLocationTextField!!.isValid(binding!!.userLocationEditText, InputTypes.NAME))
+            isValid = false
+
+        return isValid
+    }
+
+    private fun userUiState(): UserProfileUiState{
+        return UserProfileUiState(
+            binding?.userNameEditText?.text.toString(),
+            binding?.userLocationEditText?.text.toString()
+        )
+    }
+
 }

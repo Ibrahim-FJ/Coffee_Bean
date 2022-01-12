@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ibrahimf.coffeebean.R
-import com.ibrahimf.coffeebean.addProduct.util.convertMilliSecondsToDate
+import com.ibrahimf.coffeebean.util.convertMilliSecondsToDate
 import com.ibrahimf.coffeebean.databinding.ProductListItemBinding
 import com.ibrahimf.coffeebean.network.models.Product
 

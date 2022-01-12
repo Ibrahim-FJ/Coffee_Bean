@@ -111,4 +111,7 @@ dependencies {
 // Maps SDK for Android Utility Library KTX Library
     implementation 'com.google.maps.android:maps-utils-ktx:3.0.0'
 
+    implementation "com.airbnb.android:lottie:4.2.2"
+
+
 }

@@ -1,4 +1,4 @@
-package com.ibrahimf.coffeebean.addProduct.util
+package com.ibrahimf.coffeebean.util
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ibrahimf.coffeebean.addProduct.data.ProductFireStoreDataSource
