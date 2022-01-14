@@ -52,7 +52,7 @@ class ProductsListAdapter (private val context: Context, private val onClicked:(
         viewType: Int
     ): ProductsViewHolder {
         return ProductsViewHolder(
-            ProductListItemBinding.inflate(LayoutInflater.from(parent.context))
+            ProductListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -69,7 +69,7 @@ class ProductsListAdapter (private val context: Context, private val onClicked:(
                     .load(currentProduct.imageUri[0])
                     .placeholder(R.drawable.loading_animation)
                     .override(500, 500)
-                    .centerCrop()
+                    .circleCrop()
                     .into(productImage)
 
             }

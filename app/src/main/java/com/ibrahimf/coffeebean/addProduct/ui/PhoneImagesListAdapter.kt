@@ -24,8 +24,7 @@ class PhoneImagesListAdapter (private val context: Context, private val onItemCl
             //    imageView.setImageURI(phoneImage.imageUri)
 
             }
-
-        }
+         }
     }
 
     /**
@@ -50,7 +49,7 @@ class PhoneImagesListAdapter (private val context: Context, private val onItemCl
         viewType: Int
     ): ImagesViewHolder {
         return ImagesViewHolder(
-            PhoneImagesItemBinding.inflate(LayoutInflater.from(parent.context))
+            PhoneImagesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -74,7 +73,6 @@ class PhoneImagesListAdapter (private val context: Context, private val onItemCl
 
             Glide.with(context)
                 .load(currentImage.imageUri)
-                .centerCrop()
                 .into(imageView)
 
 

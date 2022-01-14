@@ -11,7 +11,7 @@
         android:id="@+id/fragmentsContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="646dp"
+        android:layout_height="676dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,8 +31,8 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationBar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:hideOnScroll="true"
             app:menu="@menu/bottom_app_bar_menu" />

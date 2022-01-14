@@ -41,7 +41,7 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
     private var latitude = 0.0
     private var longitude = 0.0
 
-    var allSelectedImages = MutableLiveData(mutableListOf(PhoneImage("")))
+    var allSelectedImages = MutableLiveData<MutableList<PhoneImage>>()
     private var map: GoogleMap? = null
 
 
@@ -56,13 +56,10 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.myMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
-
-
 
 
         allSelectedImages = addProductViewModel.allSelectedImages

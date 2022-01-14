@@ -1,5 +1,6 @@
 package com.ibrahimf.coffeebean.reserveOrder.uiLayer
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ibrahimf.coffeebean.reserveOrder.dataLayer.Order
@@ -8,10 +9,12 @@ import kotlinx.coroutines.launch
 
 class ReserveOrderViewModel(private val reserveOrderUseCase: ReserveOrderUseCase): ViewModel() {
 
-    fun reserveOrder(order: Order){
+    fun reserveOrder(order: Order): Boolean {
+        var result = true
         viewModelScope.launch {
-            reserveOrderUseCase.invoke(order)
+           result =  reserveOrderUseCase(order)
         }
+        return result
     }
 
 }

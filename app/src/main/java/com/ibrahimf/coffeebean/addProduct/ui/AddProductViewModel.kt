@@ -27,7 +27,8 @@ class AddProductViewModel(private val addProductUseCase: AddProductUseCase) : Vi
 
 
     var allImages = MutableLiveData<MutableList<PhoneImage>>()
-    var allSelectedImages = MutableLiveData(mutableListOf(PhoneImage("")))
+    var allSelectedImages = MutableLiveData<MutableList<PhoneImage>>()
+  //  var allSelectedImages = MutableLiveData(mutableListOf(PhoneImage()))
 
 
 

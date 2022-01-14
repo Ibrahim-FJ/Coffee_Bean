@@ -68,30 +68,30 @@ class UserRegistrationFragment : Fragment() {
 
             registerBtn.setOnClickListener {
 
-                if (!formValidationCheck()){
-                    userProfileViewModel.registerUser(userUiState())
-                }
-
-//                if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
-//
-//                    val userName = user_name_edit_text.text.toString()
-//                    val userLocation = user_location_edit_text.text.toString()
-//                    val userImage = selectedImagesForUserProfile.value?.get(0)?.imageUri?:""
-//
-//                    if (userName.isNotEmpty() && userLocation.isNotEmpty() && userImage.isNotEmpty()){
-//
-//                        userProfileViewModel.addUser(User(userName = userName, userLocation = userLocation, userImage = userImage))
-//                        findNavController().navigateUp()
-//
-//                    }else{
-//                        Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
-//                    }
-//
-//
-//                }else{
-//                    Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
-//
+//                if (!formValidationCheck()){
+//                    userProfileViewModel.registerUser(userUiState())
 //                }
+
+                if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
+
+                    val userName = user_name_edit_text.text.toString()
+                    val userLocation = user_location_edit_text.text.toString()
+                    val userImage = selectedImagesForUserProfile.value?.get(0)?.imageUri?:""
+
+                    if (userName.isNotEmpty() && userLocation.isNotEmpty() && userImage.isNotEmpty()){
+
+                        userProfileViewModel.addUser(User(userName = userName, userLocation = userLocation, userImage = userImage))
+                        findNavController().navigateUp()
+
+                    }else{
+                        Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
+                    }
+
+
+                }else{
+                    Toast.makeText(this@UserRegistrationFragment.requireContext(), "Complete the fields", Toast.LENGTH_SHORT).show()
+
+                }
 
             }
 

@@ -1,31 +1,30 @@
 package com.ibrahimf.coffeebean.addProduct.data
 
-import android.net.Uri
+
 import android.util.Log
 import androidx.core.net.toUri
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.ibrahimf.coffeebean.network.models.Product
 import com.ibrahimf.coffeebean.reserveOrder.dataLayer.Order
 import com.ibrahimf.coffeebean.userProfile.model.User
+import com.ibrahimf.coffeebean.util.FirebaseUtils.getTimeStamp
+import com.ibrahimf.coffeebean.util.FirebaseUtils.getUserId
+import com.ibrahimf.coffeebean.util.FirebaseUtils.getUserPhone
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 import java.util.*
 
 
 class ProductFireStoreDataSource(
-    private val fireBaseDb: FirebaseFirestore,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val fireBaseDb: FirebaseFirestore
 ) : ProductDataSource {
 
     // function to add products
@@ -57,21 +56,6 @@ class ProductFireStoreDataSource(
 
     }// end.......
 
-    // function to get the userId from firebase authentication.
-    override fun getUserId(): String? {
-        return Firebase.auth.currentUser?.uid
-    }// end.......
-
-    override fun getUserPhone(): String? {
-        return Firebase.auth.currentUser?.phoneNumber
-    }// end.......
-
-
-    // function to get the current time
-    override fun getTimeStamp(): Long {
-        return Calendar.getInstance().timeInMillis
-    }// end.......
-
     // function to retrieve all products from firestore database
     override suspend fun getAllProducts(): Flow<List<Product>> = callbackFlow {
 
@@ -85,7 +69,7 @@ class ProductFireStoreDataSource(
                     var list = mutableListOf<Product>()
                     snapshot?.documents?.forEach {
                         if (it.exists()) {
-                             val productList = it.toObject(Product::class.java)
+                            val productList = it.toObject(Product::class.java)
                             list.add(productList!!)
                             //    Log.d("TAG", "Current data: ${it.data}")
                         } else {
@@ -134,27 +118,31 @@ class ProductFireStoreDataSource(
     }// end......
 
 
-    override suspend fun addReservation(order: Order) {
+    override suspend fun addReservation(order: Order): Boolean {
 
-        val orderDetails = hashMapOf(
-            "quantity" to order.orderQuantity,
-            "message" to order.orderMessage,
-            "seller" to order.sellerId,
-            "productID" to order.productID,
-            "buyer" to getUserId(),
-            "timeStamp" to getTimeStamp()
-        )
+        if (order.sellerId != getUserId()) {
+            val orderDetails = hashMapOf(
+                "quantity" to order.orderQuantity,
+                "message" to order.orderMessage,
+                "seller" to order.sellerId,
+                "productID" to order.productID,
+                "buyer" to getUserId(),
+                "timeStamp" to getTimeStamp()
+            )
 
-        fireBaseDb.collection("orders")
-            .add(orderDetails)
-            .addOnSuccessListener {
-                println("DocumentSnapshot successfully written!")
+            fireBaseDb.collection("orders")
+                .add(orderDetails)
+                .addOnSuccessListener {
+                    println("DocumentSnapshot successfully written!")
 
-            }
-            .addOnFailureListener {
-                println("Error writing document")
-            }
+                }
+                .addOnFailureListener {
+                    println("Error writing document")
+                }
+            return true
 
+        }
+        return false
     }
 
     private fun setProductDocumentID(documentId: String) {
@@ -174,51 +162,6 @@ class ProductFireStoreDataSource(
 
 
     }
-
-
-//    override suspend fun getUserOrders(): Flow<List<String>> = callbackFlow {
-//
-//        try {
-//            val scope1 = async {
-//                val ordersList = mutableListOf<String>()
-//
-//                fireBaseDb.collection("orders").whereEqualTo("buyer", getUserId())
-//                    .addSnapshotListener { snapshot, exception ->
-//                        if (exception != null) {
-//                            return@addSnapshotListener
-//                        }
-//                        snapshot?.documents?.forEach {
-//                            if (it.exists()) {
-//
-//                            //    Log.e("TAG", "getUserOrders: ${it.data}")
-//
-//                                val order = it.toObject(Order::class.java)
-//                                ordersList.add(order?.productID!!)
-//                                // order?.let { it1 -> ordersList.add(it1.productID) }
-//                                //Log.e("TAG", "getUserOrders fun : ${ordersList}")
-//
-//                            }
-//
-//                        }
-//                        trySend(ordersList)
-//
-//                    }
-//
-//               // return@async ordersList
-//            }
-//         //   trySend(scope1.await())
-//
-//
-//        } catch (exception: Exception) {
-//            Log.e("Exception", "getAllProducts: ${exception.message.toString()}")
-//
-//        }
-//        awaitClose { }
-//
-//
-//    }
-
-
 
     override suspend fun getUserOrders(): Flow<List<String>> = callbackFlow {
 
@@ -248,9 +191,9 @@ class ProductFireStoreDataSource(
 
                     }
 
-                 return@async ordersList
+                return@async ordersList
             }
-               trySend(scope1.await())
+            trySend(scope1.await())
 
 
         } catch (exception: Exception) {
@@ -306,11 +249,11 @@ class ProductFireStoreDataSource(
 
         getUserOrders().collect { productID ->
             try {
-                Log.e("TAG", "getProductsByProductIDForUserOrdersssss: $productID", )
+                Log.e("TAG", "getProductsByProductIDForUserOrdersssss: $productID")
 
                 val list = mutableListOf<Product>()
 
-                for (i in productID){
+                for (i in productID) {
                     fireBaseDb.collection("products").whereEqualTo("productID", i)
                         .addSnapshotListener { snapshot, exception ->
                             if (exception != null) {
@@ -329,7 +272,7 @@ class ProductFireStoreDataSource(
                                 }
 
                             }
-                            Log.e("TAG", "getProductsByProductIDForUserOrdersaaaaaaa: $list", )
+                            Log.e("TAG", "getProductsByProductIDForUserOrdersaaaaaaa: $list")
                             trySend(list)
 
                         }
@@ -343,10 +286,7 @@ class ProductFireStoreDataSource(
             }
 
         }
-        awaitClose {
-
-        }
-
+        awaitClose {}
 
     }
 
@@ -398,7 +338,6 @@ class ProductFireStoreDataSource(
                     if (exception != null) {
                         return@addSnapshotListener
                     }
-
 
                     val list = mutableListOf<Product>()
                     snapshot?.documents?.forEach {
@@ -506,8 +445,11 @@ class ProductFireStoreDataSource(
                         return@addSnapshotListener
                     }
 
-                    val user = snapshot?.toObject(User::class.java)
-                    trySend(user!!)
+                    if(snapshot?.data != null){
+                        val user = snapshot.toObject(User::class.java)
+                        trySend(user!!)
+                    }
+
                 }
 
 
@@ -516,11 +458,9 @@ class ProductFireStoreDataSource(
 
         }
 
-        awaitClose {
 
-        }
+        awaitClose { }
     }
-
 
     override suspend fun deletePost(productID: String) {
         fireBaseDb.collection("products").document(productID)
@@ -528,8 +468,8 @@ class ProductFireStoreDataSource(
             .addOnSuccessListener {
                 Log.d("TAG", "DocumentSnapshot successfully deleted!")
             }
-            .addOnFailureListener {
-                    e -> Log.w("TAG", "Error deleting document", e)
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error deleting document", e)
             }
     }
 

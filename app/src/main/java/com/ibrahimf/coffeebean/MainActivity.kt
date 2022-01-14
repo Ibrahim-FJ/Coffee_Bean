@@ -33,7 +33,17 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentsContainerView) as NavHostFragment
         navController = navHostFragment.navController
 
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+            if (destination.id == R.id.userRegistrationFragment || destination.id == R.id.phoneImagesFragment){
+                binding?.bottomNavigationBar?.visibility = View.GONE
+            }else{
+                binding?.bottomNavigationBar?.visibility = View.VISIBLE
+            }
+
+        }
+
         binding?.bottomNavigationBar?.setupWithNavController(navController)
+
 
 
 

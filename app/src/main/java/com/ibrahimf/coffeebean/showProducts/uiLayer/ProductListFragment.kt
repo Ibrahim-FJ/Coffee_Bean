@@ -66,6 +66,7 @@ class ProductListFragment : Fragment() {
             findNavController().navigate(action)
 
         }
+
         binding?.productsRecyclerView?.adapter = adapter
 
 
@@ -136,8 +137,7 @@ class ProductListFragment : Fragment() {
 
             findNavController().navigate(R.id.action_productListFragment_to_userRegistrationFragment)
 
-            val user = FirebaseAuth.getInstance().currentUser
-            println(user?.uid)
+
         } else {
             println("none")
         }

@@ -58,9 +58,13 @@ class ReserveOrderFragment : Fragment() {
 
     fun reserveOrder(quantity: String, messageToSeller: String){
 
-        reserveOrderViewModel.reserveOrder(Order(navigationArgs.productID, quantity, messageToSeller, navigationArgs.sellerId))
-        Toast.makeText(this@ReserveOrderFragment.requireContext(), "order complete", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.action_reserveOrderFragment_to_productListFragment)
+        if (reserveOrderViewModel.reserveOrder(Order(navigationArgs.productID, quantity, messageToSeller, navigationArgs.sellerId))){
+            Toast.makeText(this@ReserveOrderFragment.requireContext(), "order complete", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_reserveOrderFragment_to_productListFragment)
+        }else{
+            Toast.makeText(this@ReserveOrderFragment.requireContext(), "you can't order from this seller", Toast.LENGTH_SHORT).show()
+        }
+
 
 
     }

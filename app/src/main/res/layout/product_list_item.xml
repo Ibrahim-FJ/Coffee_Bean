@@ -15,18 +15,22 @@
 
         <TextView
             android:id="@+id/product_title"
-            android:layout_width="100dp"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:gravity="start"
             android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.058"
             app:layout_constraintStart_toEndOf="@+id/product_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/product_image"
-            android:layout_width="174dp"
-            android:layout_height="125dp"
+            android:layout_width="125dp"
+            android:layout_height="122dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
@@ -47,13 +51,13 @@
             android:id="@+id/publish_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="16dp"
             android:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/product_title" />
+            app:layout_constraintHorizontal_bias="0.945"
+            app:layout_constraintStart_toEndOf="@+id/product_image" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
