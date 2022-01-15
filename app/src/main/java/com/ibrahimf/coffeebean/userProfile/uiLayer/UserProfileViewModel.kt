@@ -12,10 +12,8 @@ class UserProfileViewModel(
     private val userProfileOrdersUseCase: UserProfileOrdersUseCase,
     private val userProfileReservationUseCase: UserProfileRequestsUseCase,
     private val userPostsUseCase: UserPostsUseCase,
-    private val editProductUseCase: EditProductUseCase,
     private val addUserUserCase: AddUserUserCase,
     private val getUserUseCase: GetUserUseCase,
-    private val deletePostUseCase: DeletePostUseCase
 ) : ViewModel() {
 
     private val _ordersStateFlow = MutableStateFlow<List<Product>>(emptyList())
@@ -80,12 +78,6 @@ class UserProfileViewModel(
         }
     }
 
-
-    fun deletePost(productID: String){
-        viewModelScope.launch {
-            deletePostUseCase.invoke(productID)
-        }
-    }
 
 
     fun registerUser(userProfileUiState: UserProfileUiState){

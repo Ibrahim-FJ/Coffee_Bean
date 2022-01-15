@@ -1,6 +1,6 @@
 package com.ibrahimf.coffeebean.reserveOrder.dataLayer
 
-import com.ibrahimf.coffeebean.addProduct.data.ProductDataSource
+import com.ibrahimf.coffeebean.network.product.ProductDataSource
 
 class OrderRepository(private val productRemoteDataSource: ProductDataSource) {
 

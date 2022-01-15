@@ -1,24 +1,18 @@
-package com.ibrahimf.coffeebean.userProfile.uiLayer
+package com.ibrahimf.coffeebean.addProduct.uiLayer
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.ibrahimf.coffeebean.R
-import com.ibrahimf.coffeebean.addProduct.ui.AddProductViewModel
-import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
-import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.databinding.FragmentEditProductBinding
-import com.ibrahimf.coffeebean.network.models.Product
 import com.ibrahimf.coffeebean.camera.PhoneImage
-import com.ibrahimf.coffeebean.showProductDetails.uiLayer.ProductDetailsFragmentDirections
+import com.ibrahimf.coffeebean.userProfile.uiLayer.UserProfileViewModel
+import com.ibrahimf.coffeebean.util.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_product.*
 
 
@@ -27,7 +21,7 @@ class EditProductFragment : Fragment() {
     private val navigationArgs: EditProductFragmentArgs by  navArgs()
     var allImages = MutableLiveData<MutableList<PhoneImage>>(mutableListOf())
 
-    private val userProfileViewModel: UserProfileViewModel? by activityViewModels {
+    private val productsViewModel: ProductViewModel? by activityViewModels {
         ViewModelFactory()
     }
 
@@ -64,7 +58,7 @@ class EditProductFragment : Fragment() {
         }
 
         binding?.deletePostBtn?.setOnClickListener {
-            userProfileViewModel?.deletePost(navigationArgs.productID)
+            productsViewModel?.deletePost(navigationArgs.productID)
             findNavController().navigateUp()
         }
 

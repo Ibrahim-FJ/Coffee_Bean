@@ -1,4 +1,4 @@
-package com.ibrahimf.coffeebean.addProduct.ui
+package com.ibrahimf.coffeebean.addProduct.uiLayer
 
 import android.content.Context
 import android.view.LayoutInflater

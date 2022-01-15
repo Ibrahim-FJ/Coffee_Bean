@@ -9,10 +9,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.ibrahimf.coffeebean.R
-import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.databinding.FragmentUserProfileBinding
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListAdapter
-import kotlinx.android.synthetic.main.product_list_item.*
+import com.ibrahimf.coffeebean.util.ViewModelFactory
 
 
 class UserProfileFragment : Fragment() {

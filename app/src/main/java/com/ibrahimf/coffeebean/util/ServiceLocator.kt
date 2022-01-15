@@ -1,11 +1,14 @@
 package com.ibrahimf.coffeebean.util
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.ibrahimf.coffeebean.addProduct.data.ProductFireStoreDataSource
-import com.ibrahimf.coffeebean.addProduct.data.ProductRepository
-import com.ibrahimf.coffeebean.addProduct.domain.AddProductUseCase
+import com.ibrahimf.coffeebean.network.product.ProductFireStoreDataSource
+import com.ibrahimf.coffeebean.addProduct.dataLayer.ProductRepository
+import com.ibrahimf.coffeebean.addProduct.domainLayer.AddProductUseCase
+import com.ibrahimf.coffeebean.addProduct.domainLayer.DeletePostUseCase
 import com.ibrahimf.coffeebean.showProducts.domainLayer.GetProductsUseCase
-import com.ibrahimf.coffeebean.addProduct.data.ProductDataSource
+import com.ibrahimf.coffeebean.network.product.ProductDataSource
+import com.ibrahimf.coffeebean.network.user.UserDataSource
+import com.ibrahimf.coffeebean.network.user.UserFireStoreDataSource
 import com.ibrahimf.coffeebean.reserveOrder.dataLayer.OrderRepository
 import com.ibrahimf.coffeebean.reserveOrder.domainLayer.ReserveOrderUseCase
 import com.ibrahimf.coffeebean.userProfile.dataLayer.UserRepository
@@ -34,7 +37,7 @@ object ServiceLocator {
     fun provideReserveOrderUseCase(): ReserveOrderUseCase =
         ReserveOrderUseCase(provideOrderRepository())
 
-    fun provideUserRepository(): UserRepository = UserRepository(provideProductRemoteDataSource())
+    fun provideUserRepository(): UserRepository = UserRepository(provideUserRemoteDataSource())
 
     fun provideUserProfileOrdersUseCase(): UserProfileOrdersUseCase = UserProfileOrdersUseCase(provideUserRepository())
 
@@ -43,11 +46,13 @@ object ServiceLocator {
 
     fun provideUserPostsUseCase(): UserPostsUseCase = UserPostsUseCase(provideUserRepository())
 
-    fun provideEditProductUseCase(): EditProductUseCase = EditProductUseCase(provideUserRepository())
     fun provideAddUserUseCase(): AddUserUserCase = AddUserUserCase(provideUserRepository())
 
     fun provideGetUserUseCase(): GetUserUseCase = GetUserUseCase(provideUserRepository())
 
-    fun provideDeletePostUseCase(): DeletePostUseCase = DeletePostUseCase(provideUserRepository())
+    fun provideDeletePostUseCase(): DeletePostUseCase = DeletePostUseCase(
+        provideAppProductRepository())
+
+    fun provideUserRemoteDataSource(): UserDataSource = UserFireStoreDataSource(FirebaseFirestore.getInstance())
 
 }

@@ -18,13 +18,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ibrahimf.coffeebean.CameraActivity
 import com.ibrahimf.coffeebean.R
-import com.ibrahimf.coffeebean.addProduct.ui.PhoneImagesListAdapter
+import com.ibrahimf.coffeebean.addProduct.uiLayer.PhoneImagesListAdapter
+import com.ibrahimf.coffeebean.addProduct.uiLayer.ProductViewModel
 import com.ibrahimf.coffeebean.databinding.FragmentPhoneImagesBinding
-import com.ibrahimf.coffeebean.addProduct.ui.AddProductViewModel
 
 class PhoneImagesFragment : Fragment() {
     private var binding: FragmentPhoneImagesBinding? = null
-    private val addProductViewModel: AddProductViewModel by activityViewModels()
+    private val addProductViewModel: ProductViewModel by activityViewModels()
     var allImages: MutableList<PhoneImage> = mutableListOf()
     var allSelectedImages: MutableList<PhoneImage> = mutableListOf()
 

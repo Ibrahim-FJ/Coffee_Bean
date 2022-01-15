@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/addProductFragment"
-        android:name="com.ibrahimf.coffeebean.addProduct.ui.AddProductFragment"
+        android:name="com.ibrahimf.coffeebean.addProduct.uiLayer.AddProductFragment"
         android:label="add product"
         tools:layout="@layout/fragment_add_product">
         <action
@@ -138,7 +138,7 @@
     </fragment>
     <fragment
         android:id="@+id/editProductFragment"
-        android:name="com.ibrahimf.coffeebean.userProfile.uiLayer.EditProductFragment"
+        android:name="com.ibrahimf.coffeebean.addProduct.uiLayer.EditProductFragment"
         android:label="EditProductFragment" >
         <action
             android:id="@+id/action_editProductFragment_to_userProfileFragment"
@@ -173,7 +173,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.ibrahimf.coffeebean.addProduct.ui.MapsFragment"
+        android:name="com.ibrahimf.coffeebean.addProduct.uiLayer.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" >
         <action

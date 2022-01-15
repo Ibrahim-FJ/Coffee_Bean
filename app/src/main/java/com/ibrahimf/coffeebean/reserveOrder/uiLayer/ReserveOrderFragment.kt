@@ -11,10 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ibrahimf.coffeebean.R
-import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
 import com.ibrahimf.coffeebean.databinding.FragmentReserveOrderBinding
 import com.ibrahimf.coffeebean.reserveOrder.dataLayer.Order
-import com.ibrahimf.coffeebean.showProductDetails.uiLayer.ProductDetailsFragmentArgs
+import com.ibrahimf.coffeebean.util.ViewModelFactory
 
 
 class ReserveOrderFragment : Fragment() {

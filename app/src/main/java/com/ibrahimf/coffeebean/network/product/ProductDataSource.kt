@@ -1,4 +1,4 @@
-package com.ibrahimf.coffeebean.addProduct.data
+package com.ibrahimf.coffeebean.network.product
 
 
 import android.net.Uri
@@ -17,21 +17,7 @@ interface ProductDataSource {
 
     suspend fun addReservation(order: Order): Boolean
 
-    suspend fun getUserOrders(): Flow<List<String>>
-
-    suspend fun getUserReservationRequest(): Flow<List<String>>
-
-    suspend fun getProductsByProductIDForUserOrders(): Flow<List<Product>>
-
-    suspend fun getProductsByProductIDForUserReservationRequest(): Flow<List<Product>>
-
-    suspend fun getUserPosts(): Flow<List<Product>>
-
     suspend fun editProduct(product: Product)
-
-    suspend fun addUser(user: User)
-
-    suspend fun getUser(): Flow<User>
 
     suspend fun deletePost(productID: String)
 

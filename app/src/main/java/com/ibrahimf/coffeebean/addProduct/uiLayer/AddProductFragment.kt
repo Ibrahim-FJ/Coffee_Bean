@@ -1,9 +1,7 @@
-package com.ibrahimf.coffeebean.addProduct.ui
+package com.ibrahimf.coffeebean.addProduct.uiLayer
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -25,9 +22,9 @@ import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.camera.PhoneImage
-import com.ibrahimf.coffeebean.camera.PhoneImagesFragment
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
+import com.ibrahimf.coffeebean.util.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import java.util.*
 
@@ -35,7 +32,7 @@ import java.util.*
 class AddProductFragment : Fragment(), OnMapReadyCallback {
     private var binding: FragmentAddProductBinding? = null
     var isSignedIn = false
-    private val addProductViewModel: AddProductViewModel by activityViewModels {
+    private val addProductViewModel: ProductViewModel by activityViewModels {
         ViewModelFactory()
     }
     private var latitude = 0.0

@@ -1,10 +1,9 @@
-package com.ibrahimf.coffeebean.addProduct.domain
+package com.ibrahimf.coffeebean.addProduct.domainLayer
 
-import com.ibrahimf.coffeebean.addProduct.data.ProductRepository
+import com.ibrahimf.coffeebean.addProduct.dataLayer.ProductRepository
 import com.ibrahimf.coffeebean.network.models.Product
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 
 class AddProductUseCase(

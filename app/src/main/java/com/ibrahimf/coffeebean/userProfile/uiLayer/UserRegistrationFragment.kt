@@ -12,12 +12,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.ibrahimf.coffeebean.R
-import com.ibrahimf.coffeebean.addProduct.ui.AddProductViewModel
-import com.ibrahimf.coffeebean.addProduct.ui.ViewModelFactory
+import com.ibrahimf.coffeebean.addProduct.uiLayer.ProductViewModel
 import com.ibrahimf.coffeebean.camera.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentUserRegistrationBinding
 import com.ibrahimf.coffeebean.userProfile.model.User
 import com.ibrahimf.coffeebean.util.InputTypes
+import com.ibrahimf.coffeebean.util.ViewModelFactory
 import com.ibrahimf.coffeebean.util.isValid
 import kotlinx.android.synthetic.main.fragment_user_registration.*
 
@@ -31,7 +31,7 @@ class UserRegistrationFragment : Fragment() {
         ViewModelFactory()
     }
 
-    private val addProductViewModel: AddProductViewModel by activityViewModels {
+    private val addProductViewModel: ProductViewModel by activityViewModels {
         ViewModelFactory()
     }
 
@@ -158,6 +158,7 @@ class UserRegistrationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+
         addProductViewModel.allSelectedImages.value = mutableListOf()
         _binding = null
 
@@ -181,5 +182,6 @@ class UserRegistrationFragment : Fragment() {
             binding?.userLocationEditText?.text.toString()
         )
     }
+
 
 }
