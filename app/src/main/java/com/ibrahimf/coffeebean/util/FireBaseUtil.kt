@@ -13,7 +13,6 @@ import kotlin.collections.ArrayList
 
 object FirebaseUtils {
 
-
     // function to get the userId from firebase authentication.
     fun getUserId(): String? {
         return Firebase.auth.currentUser?.uid

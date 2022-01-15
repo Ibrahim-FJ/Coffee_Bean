@@ -112,6 +112,7 @@ dependencies {
     implementation 'com.google.maps.android:maps-utils-ktx:3.0.0'
 
     implementation "com.airbnb.android:lottie:4.2.2"
-
+// User Prefrence
+    implementation "androidx.preference:preference-ktx:1.1.1"
 
 }

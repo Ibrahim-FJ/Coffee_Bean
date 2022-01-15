@@ -64,7 +64,7 @@ class ProductFireStoreDataSource(
                         return@addSnapshotListener
                     }
 
-                    var list = mutableListOf<Product>()
+                    val list = mutableListOf<Product>()
                     snapshot?.documents?.forEach {
                         if (it.exists()) {
                             val productList = it.toObject(Product::class.java)

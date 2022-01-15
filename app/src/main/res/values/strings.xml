@@ -25,9 +25,20 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="dark_theme_preference_value">Dark Theme </string>
+
+    <string name="light_theme_preference_value">Light Theme </string>
+
+    <string name="system_theme_preference_value">System Theme </string>
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="delete">Delete</string>
     <string name="not_empty_field">Complete the fields</string>
+    <string name="theme_preferences_key">keyPref</string>
+    <string name="dark_theme_description">drak</string>
+    <string name="light_theme_description">light</string>
+    <string name="system_theme_description">system</string>
+    <string name="setting">Setting</string>
 
 </resources>

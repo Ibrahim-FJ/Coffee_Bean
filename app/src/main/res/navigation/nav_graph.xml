@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_productListFragment_to_userRegistrationFragment"
             app:destination="@id/userRegistrationFragment" />
+        <action
+            android:id="@+id/action_productListFragment_to_settingsPrefrence"
+            app:destination="@id/settingsPrefrence" />
     </fragment>
     <fragment
         android:id="@+id/phoneImagesFragment"
@@ -180,4 +183,8 @@
             android:id="@+id/action_mapsFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsPrefrence"
+        android:name="com.ibrahimf.coffeebean.userPreferences.SettingsPrefrence"
+        android:label="SettingsPrefrence" />
 </navigation>

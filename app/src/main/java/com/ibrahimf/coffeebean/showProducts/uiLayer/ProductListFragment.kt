@@ -103,6 +103,9 @@ class ProductListFragment : Fragment() {
             R.id.logout -> {
                 showConfirmationDialog()
             }
+            R.id.setting ->{
+                findNavController().navigate(R.id.action_productListFragment_to_settingsPrefrence)
+            }
 
         }
 
