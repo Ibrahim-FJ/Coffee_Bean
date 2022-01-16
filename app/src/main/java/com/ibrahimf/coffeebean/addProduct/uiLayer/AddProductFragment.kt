@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.GeoPoint
@@ -192,18 +193,19 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
                 REQUEST_CODE_PERMISSIONS
             )
         }
+        map?.addMarker(MarkerOptions().position(LatLng(24.852195517424427, 46.71341959387064)))
 
-        map?.setOnMapLongClickListener {
-            map?.clear()
-            map?.addMarker(
-                MarkerOptions()
-                    .position(it)
-            )
-
-            latitude = it.latitude
-            longitude = it.longitude
-
-        }
+//        map?.setOnMapLongClickListener {
+//            map?.clear()
+//            map?.addMarker(
+//                MarkerOptions()
+//                    .position(it)
+//            )
+//
+//            latitude = it.latitude
+//            longitude = it.longitude
+//
+//        }
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
