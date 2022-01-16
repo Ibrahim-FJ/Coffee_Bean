@@ -41,5 +41,6 @@
     <string name="system_theme_description">system</string>
     <string name="setting">Setting</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="post_location">Post Location</string>
 
 </resources>

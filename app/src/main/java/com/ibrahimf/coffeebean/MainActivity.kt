@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentsContainerView) as NavHostFragment
         navController = navHostFragment.navController
 
+        binding?.bottomNavigationBar?.setupWithNavController(navController)
+
+
         navController.addOnDestinationChangedListener{_, destination, _ ->
 
             if(destination.id == R.id.userRegistrationFragment){
@@ -38,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        binding?.bottomNavigationBar?.setupWithNavController(navController)
 
     }
 

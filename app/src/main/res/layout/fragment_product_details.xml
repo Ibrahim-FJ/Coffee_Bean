@@ -12,16 +12,12 @@
         android:layout_height="match_parent"
         tools:context=".showProductDetails.uiLayer.ProductDetailsFragment">
 
-
         <ImageView
             android:id="@+id/location"
-            android:layout_width="200dp"
-            android:layout_height="53dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:text="Location"
-            app:layout_constraintBottom_toTopOf="@id/reserve_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/images_layout"
             app:layout_constraintTop_toBottomOf="@+id/images_layout"
             app:srcCompat="@drawable/ic_baseline_location_on_24" />
 
@@ -88,6 +84,15 @@
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/location" />
+
+        <TextView
+            android:id="@+id/post_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post_location"
+            app:layout_constraintBottom_toBottomOf="@+id/location"
+            app:layout_constraintEnd_toStartOf="@+id/location"
+            app:layout_constraintTop_toTopOf="@+id/location" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
