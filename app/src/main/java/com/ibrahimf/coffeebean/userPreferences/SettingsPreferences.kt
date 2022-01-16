@@ -7,7 +7,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.ibrahimf.coffeebean.R
 
-class SettingsPrefrence : PreferenceFragmentCompat() {
+class SettingsPreferences : PreferenceFragmentCompat() {
 
     private val themeProvider by lazy { ThemeProvider(requireContext()) }
     private val themePreference by lazy {

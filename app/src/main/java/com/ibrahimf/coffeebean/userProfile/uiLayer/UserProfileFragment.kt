@@ -14,7 +14,8 @@ import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListAdapter
 import com.ibrahimf.coffeebean.util.ViewModelFactory
 
 
-class UserProfileFragment : Fragment() {
+class
+UserProfileFragment : Fragment() {
     private var binding: FragmentUserProfileBinding? = null
 
     private val userProfileViewModel: UserProfileViewModel? by activityViewModels {

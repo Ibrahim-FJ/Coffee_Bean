@@ -28,6 +28,7 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
                         return@addSnapshotListener
                     }
 
+
                     if (snapshot?.data != null) {
                         val user = snapshot.toObject(User::class.java)
                         trySend(user!!)
