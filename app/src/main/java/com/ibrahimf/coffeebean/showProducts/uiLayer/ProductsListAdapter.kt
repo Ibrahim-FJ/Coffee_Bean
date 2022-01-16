@@ -67,7 +67,7 @@ class ProductsListAdapter (private val context: Context, private val onClicked:(
                 Glide
                     .with(context)
                     .load(currentProduct.imageUri[0])
-                    .placeholder(R.drawable.loading_animation)
+                    .placeholder(com.ibrahimf.coffeebean.R.drawable.loading_animation)
                     .override(500, 500)
                     .circleCrop()
                     .into(productImage)
