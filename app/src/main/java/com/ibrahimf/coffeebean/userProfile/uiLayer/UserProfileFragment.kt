@@ -88,8 +88,6 @@ UserProfileFragment : Fragment() {
             }
         })
 
-
-
     }
 
 

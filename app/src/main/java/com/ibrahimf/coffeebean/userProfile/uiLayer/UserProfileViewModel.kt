@@ -78,8 +78,6 @@ class UserProfileViewModel(
         }
     }
 
-
-
     fun registerUser(userProfileUiState: UserProfileUiState){
         viewModelScope.launch {
 
