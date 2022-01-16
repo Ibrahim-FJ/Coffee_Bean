@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".addProduct.uiLayer.AddProductFragment">
 
 
@@ -22,7 +22,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="product title"
+            android:hint="@string/post_title"
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="product details"
+            android:hint="@string/post_details"
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="@+id/product_title_text_field"
             app:layout_constraintStart_toStartOf="@+id/product_title_text_field"
@@ -71,7 +71,7 @@
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="222dp"
             android:layout_height="wrap_content"
-            android:text="ADD PRODUCT"
+            android:text="@string/add_post"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -105,7 +105,7 @@
                 android:id="@+id/images_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add images"
+                android:text="@string/add_images"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

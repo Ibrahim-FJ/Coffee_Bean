@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="user profile"
+    <item android:title="@string/user_profile"
         android:id="@+id/user_profile"
         app:showAsAction="always"
         android:icon="@drawable/ic_baseline_account_circle_24"

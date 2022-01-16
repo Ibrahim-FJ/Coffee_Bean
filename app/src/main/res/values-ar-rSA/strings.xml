@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">البُن</string>
+    <string name="no">لا</string>
+    <string name="yes">نعم</string>
+    <string name="message_to_the_seller">رسالة للبائع</string>
+    <string name="quantity">الكمية</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="add_product">اضافة اعلان</string>
+    <string name="reserve_btn">احجز</string>
+    <string name="profile">الحساب الشخصي</string>
+    <string name="ok">موافق</string>
+    <string name="name">الاسم</string>
+    <string name="location">الموقع</string>
+    <string name="register">موافق</string>
+    <string name="open_camera">الكاميرا</string>
+    <string name="next">التالي</string>
+    <string name="previous">السابق</string>
+    <string name="setting">الاعدادات</string>
+    <string name="delete">حذف</string>
+    <string name="not_empty_field">اكمل البيانات</string>
+    <string name="reserve_question">هل تريد تأكيد الحجز</string>
+    <string name="delete_question">هل تريد تسجيل الخروج</string>
+    <string name="add_post">اضافة اعلان</string>
+    <string name="post_details">تفاصيل الاعلان</string>
+    <string name="post_title">عنوان الاعلان</string>
+    <string name="add_images">اضافة صورة</string>
+    <string name="confirm">تأكيد الحجز</string>
+    <string name="posts">اعلاناتي</string>
+    <string name="orders">طلباتي</string>
+    <string name="publish_date">تاريخ النشر</string>
+    <string name="publisher">الناشر</string>
+    <string name="home">الرئيسية</string>
+    <string name="post" translatable="false">اعلان</string>
+    <string name="reservations">الحجوزات</string>
+</resources>

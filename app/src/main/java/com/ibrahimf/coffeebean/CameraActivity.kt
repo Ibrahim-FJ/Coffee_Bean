@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import android.content.Intent
 import android.view.View
+import android.view.WindowManager
 
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -39,6 +40,12 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+
+        this.window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
 
         if (allPermissionsGranted()) {
             startCamera(CameraSelector.DEFAULT_BACK_CAMERA)

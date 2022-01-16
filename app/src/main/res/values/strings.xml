@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Coffee Bean</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_question">Are you sure you want to sign out?</string>
     <string name="reserve_question">Are you sure you want to confirm the order?</string>
-
-    <string name="no">No</string>
-    <string name="yes">Yes</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
     <string name="message_to_the_seller">message to the seller</string>
     <string name="quantity">Quantity</string>
     <string name="login">Login</string>
@@ -18,29 +16,42 @@
     <string name="location">Location</string>
     <string name="register">OK</string>
     <string name="open_camera">open camera</string>
-    <string name="title_activity_phone_images">PhoneImagesActivity</string>
+    <string name="title_activity_phone_images" translatable="false">PhoneImagesActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="dark_theme_preference_value">Dark Theme </string>
+    <string name="dark_theme_preference_value" translatable="false">Dark Theme </string>
 
-    <string name="light_theme_preference_value">Light Theme </string>
+    <string name="light_theme_preference_value" translatable="false">Light Theme </string>
 
-    <string name="system_theme_preference_value">System Theme </string>
+    <string name="system_theme_preference_value" translatable="false">System Theme </string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
     <string name="delete">Delete</string>
     <string name="not_empty_field">Complete the fields</string>
-    <string name="theme_preferences_key">keyPref</string>
-    <string name="dark_theme_description">drak</string>
-    <string name="light_theme_description">light</string>
-    <string name="system_theme_description">system</string>
+    <string name="theme_preferences_key" translatable="false">keyPref</string>
+    <string name="dark_theme_description" translatable="false">drak</string>
+    <string name="light_theme_description" translatable="false">light</string>
+    <string name="system_theme_description" translatable="false">system</string>
     <string name="setting">Setting</string>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="post_location">Post Location</string>
+    <string name="title_activity_splash" translatable="false">SplashActivity</string>
+    <string name="post_location" translatable="false">Post Location</string>
+    <string name="add_post">ADD PRODUCT</string>
+    <string name="post_details">POST DETAILS</string>
+    <string name="post_title">POST TITEL</string>
+    <string name="add_images">Add images</string>
+    <string name="confirm">Confirm</string>
+    <string name="posts">Posts</string>
+    <string name="reservations">Reservations</string>
+    <string name="orders">Orders</string>
+    <string name="publish_date">publish date</string>
+    <string name="publisher">Ibrahim</string>
+    <string name="user_profile" translatable="false">user profile</string>
+    <string name="home">Home</string>
+    <string name="post">Post</string>
 
 </resources>
