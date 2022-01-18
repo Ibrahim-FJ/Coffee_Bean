@@ -30,6 +30,7 @@ class ProductListFragment : Fragment() {
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { res ->
+        findNavController().navigate(R.id.action_productListFragment_to_userRegistrationFragment)
         this.onSignInResult(res)
     }
     val providers = arrayListOf(AuthUI.IdpConfig.PhoneBuilder().build())
@@ -41,7 +42,6 @@ class ProductListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        productListViewModel.getAllProducts()
         setHasOptionsMenu(true)
     }
 
@@ -55,11 +55,12 @@ class ProductListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        productListViewModel.getAllProducts()
 
         val adapter = ProductsListAdapter(this.requireContext()) {
             val action =
                 ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(it.title, it.details,
-                    it.imageUri.toTypedArray(), it.publisher, it.productID, it.location.latitude.toString(), it.location.longitude.toString()
+                    it.imageUri.toTypedArray(), it.publisher, it.productID, it.location?.latitude.toString(), it.location?.longitude.toString()
                 )
             findNavController().navigate(action)
 
@@ -136,7 +137,6 @@ class ProductListFragment : Fragment() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
 
-            findNavController().navigate(R.id.action_productListFragment_to_userRegistrationFragment)
 
 
         } else {

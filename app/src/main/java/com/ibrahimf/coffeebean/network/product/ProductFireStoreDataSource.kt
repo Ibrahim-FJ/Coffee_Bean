@@ -67,8 +67,8 @@ class ProductFireStoreDataSource(
                     val list = mutableListOf<Product>()
                     snapshot?.documents?.forEach {
                         if (it.exists()) {
-                            val productList = it.toObject(Product::class.java)
-                            list.add(productList!!)
+                          val productList = it.toObject(Product::class.java)
+                          list.add(productList!!)
                             //    Log.d("TAG", "Current data: ${it.data}")
                         } else {
                             //      Log.d("TAG", "Current data: null")
@@ -118,11 +118,11 @@ class ProductFireStoreDataSource(
 
     override suspend fun addReservation(order: Order): Boolean {
 
-        if (order.sellerId != getUserId()) {
+        if (order.seller != getUserId()) {
             val orderDetails = hashMapOf(
-                "quantity" to order.orderQuantity,
-                "message" to order.orderMessage,
-                "seller" to order.sellerId,
+                "quantity" to order.quantity,
+                "message" to order.message,
+                "seller" to order.seller,
                 "productID" to order.productID,
                 "buyer" to getUserId(),
                 "timeStamp" to getTimeStamp()
@@ -161,33 +161,6 @@ class ProductFireStoreDataSource(
 
     }
 
-
-
-
-    override suspend fun editProduct(product: Product) {
-        uploadImageToFireStore(product.imageUri).collect {
-            val productDetails = mapOf(
-                "title" to product.title,
-                "details" to product.details,
-                "imageUri" to it,
-                "location" to product.location,
-                "publisher" to getUserId(),
-                "publishDate" to getTimeStamp()
-            )
-
-            fireBaseDb.collection("products").document("p8fEJMCvJ8NWOSqoR12C")
-                .update(productDetails)
-                .addOnSuccessListener { documentReference ->
-                    println("DocumentSnapshot successfully written!")
-
-                }
-                .addOnFailureListener {
-                    println("Error writing document")
-                }
-
-        }
-    }
-
     override suspend fun deletePost(productID: String) {
         fireBaseDb.collection("products").document(productID)
             .delete()
@@ -198,6 +171,8 @@ class ProductFireStoreDataSource(
                 Log.w("TAG", "Error deleting document", e)
             }
     }
+
+
 
 }
 

@@ -4,6 +4,6 @@ import com.ibrahimf.coffeebean.userProfile.dataLayer.UserRepository
 
 class UserProfileRequestsUseCase(private val userRepository: UserRepository) {
 
-    suspend operator fun invoke() = userRepository.getProductsByProductIDForUserReservationRequest()
+    suspend operator fun invoke() = userRepository.getUserReservationRequest()
 
 }

@@ -9,6 +9,7 @@ import com.ibrahimf.coffeebean.userProfile.uiLayer.UserProfileViewModel
 import com.ibrahimf.coffeebean.util.ServiceLocator.provideAddProductUseCase
 import com.ibrahimf.coffeebean.util.ServiceLocator.provideAddUserUseCase
 import com.ibrahimf.coffeebean.util.ServiceLocator.provideDeletePostUseCase
+import com.ibrahimf.coffeebean.util.ServiceLocator.provideGetBuyerInformationUseCase
 import com.ibrahimf.coffeebean.util.ServiceLocator.provideGetProductsUseCase
 import com.ibrahimf.coffeebean.util.ServiceLocator.provideGetUserUseCase
 import com.ibrahimf.coffeebean.util.ServiceLocator.provideReserveOrderUseCase
@@ -42,6 +43,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
                 provideUserPostsUseCase(),
                 provideAddUserUseCase(),
                 provideGetUserUseCase(),
+                provideGetBuyerInformationUseCase()
 
                 ) as T
 

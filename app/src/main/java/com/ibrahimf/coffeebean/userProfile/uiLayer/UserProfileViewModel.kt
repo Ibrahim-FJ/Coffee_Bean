@@ -14,6 +14,7 @@ class UserProfileViewModel(
     private val userPostsUseCase: UserPostsUseCase,
     private val addUserUserCase: AddUserUserCase,
     private val getUserUseCase: GetUserUseCase,
+    private val getBuyerInformationUserCase: GetBuyerInformationUserCase
 ) : ViewModel() {
 
     private val _ordersStateFlow = MutableStateFlow<List<Product>>(emptyList())
@@ -21,20 +22,14 @@ class UserProfileViewModel(
 
     val productStatFlowToLiveData = ordersStateFlow.asLiveData()
     val _userOrders = MutableLiveData<List<Product>?>()
-    val _userReservationRequest = MutableLiveData<List<Product>?>()
+    val userOrders = _userOrders
+    val _userReservationRequest = MutableLiveData<List<OrderDetailsUiState>?>()
     val _userPosts = MutableLiveData<List<Product>?>()
     val _user = MutableLiveData<User>()
 
     private var _uiStatus = MutableStateFlow(UserRegistrationUiState())
     val uiState: LiveData<UserRegistrationUiState> = _uiStatus.asLiveData()
 
-
-    init {
-        getUserOrders()
-        getUserReservationRequest()
-        getUserPosts()
-        getUser()
-    }
 
     fun getUserOrders() {
         viewModelScope.launch {
@@ -46,15 +41,37 @@ class UserProfileViewModel(
     }
 
     fun getUserReservationRequest() {
+        val list = mutableListOf<OrderDetailsUiState>()
         viewModelScope.launch {
+
             userProfileReservationUseCase.invoke().collect {
-                _userReservationRequest.value = it
+                it.forEach { order ->
+                    viewModelScope.launch {
+                        getBuyerInformationUserCase(order.buyer).collect {
+                            val orderDetails = OrderDetailsUiState(
+                                userImage = it.userImage,
+                                name = it.userName,
+                                phone = it.userPhone,
+                                message = order.message,
+                                quantity = order.quantity
+                            )
+                            list.add(orderDetails)
+
+                            _userReservationRequest.value = list
+
+                        }
+
+                    }
+
+                }
 
             }
+
         }
+
     }
 
-    fun getUserPosts(){
+    fun getUserPosts() {
         viewModelScope.launch {
             userPostsUseCase.invoke().collect {
                 _userPosts.value = it
@@ -63,27 +80,27 @@ class UserProfileViewModel(
         }
     }
 
-    fun addUser(user: User){
+    fun addUser(user: User) {
         viewModelScope.launch {
             addUserUserCase.invoke(user)
         }
     }
 
-    fun getUser(){
+    fun getUser() {
         viewModelScope.launch {
-            getUserUseCase.invoke().collect{
+            getUserUseCase.invoke().collect {
                 _user.value = it
 
             }
         }
     }
 
-    fun registerUser(userProfileUiState: UserProfileUiState){
+    fun registerUser(userProfileUiState: UserProfileUiState) {
         viewModelScope.launch {
 
             _uiStatus.update { it.copy(loadingStatus = LOADING_STATUS.LOADING) }
 
-            Log.e("TAG", "registerUser: $userProfileUiState", )
+            Log.e("TAG", "registerUser: $userProfileUiState")
 
         }
     }

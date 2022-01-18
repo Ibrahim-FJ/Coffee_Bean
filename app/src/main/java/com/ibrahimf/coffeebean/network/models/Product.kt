@@ -8,7 +8,7 @@ data class Product(
      val title: String = "",
      val details: String = "",
      val imageUri: List<String> = listOf(),
-     val location : GeoPoint = GeoPoint(0.0, 0.0),
+     val location : GeoPoint? = GeoPoint(0.0, 0.0),
      val publisher: String = "",
      val publishDate: Long = 0
 )

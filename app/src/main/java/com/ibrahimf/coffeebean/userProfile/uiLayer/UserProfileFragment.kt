@@ -12,6 +12,7 @@ import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.databinding.FragmentUserProfileBinding
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListAdapter
 import com.ibrahimf.coffeebean.util.ViewModelFactory
+import kotlinx.android.synthetic.main.fragment_user_registration.*
 
 
 class
@@ -46,8 +47,17 @@ UserProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        userProfileViewModel?.getUserOrders()
+        userProfileViewModel?.getUserPosts()
+        userProfileViewModel?.getUserReservationRequest()
+
         val ordersAdapter = ProductsListAdapter(this.requireContext()) {}
-        val reservationRequestAdapter = ProductsListAdapter(this.requireContext()) {}
+        val reservationRequestAdapter = OrderDetailsAdapter(this.requireContext()){
+            val action = UserProfileFragmentDirections.actionUserProfileFragmentToOrderDetailsFragment(
+             imageUrl = it.userImage, name = it.name, phone = it.phone, message = it.message, quentity = it.quantity
+            )
+            findNavController().navigate(action)
+        }
         val userPostsAdapter = ProductsListAdapter(this.requireContext()){
             val action = UserProfileFragmentDirections.actionUserProfileFragmentToEditProductFragment(
                 productTitle = it.title, productDetails = it.details, imagesList = it.imageUri.toTypedArray(), productID = it.productID
@@ -68,9 +78,8 @@ UserProfileFragment : Fragment() {
 //            }
 //        }
 
-        userProfileViewModel?._userOrders?.observe(viewLifecycleOwner, {
+        userProfileViewModel?.userOrders?.observe(viewLifecycleOwner, {
             it.let {
-                Log.e("TAG", "onViewCreatedOrdersgggggg: $it")
                 ordersAdapter.submitList(it)
             }
         })
@@ -79,11 +88,17 @@ UserProfileFragment : Fragment() {
             it.let {
                 reservationRequestAdapter.submitList(it)
             }
+
         })
+
+//        userProfileViewModel?._userReservationRequest?.observe(viewLifecycleOwner, {
+//            it.let {
+//                reservationRequestAdapter.submitList(it)
+//            }
+//        })
 
         userProfileViewModel?._userPosts?.observe(viewLifecycleOwner, {
             it.let {
-                Log.e("TAG", "onViewCreatedPosts: $it")
                 userPostsAdapter.submitList(it)
             }
         })
@@ -104,4 +119,5 @@ UserProfileFragment : Fragment() {
         }
         return true
     }
+
 }

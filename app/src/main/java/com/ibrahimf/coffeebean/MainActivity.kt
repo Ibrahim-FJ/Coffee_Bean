@@ -30,9 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener{_, destination, _ ->
 
-            if(destination.id == R.id.userRegistrationFragment){
-                Log.e("TAG", "onCreate: ${destination.id}", )
-            }
             if (destination.id == R.id.userRegistrationFragment || destination.id == R.id.phoneImagesFragment){
                 binding?.linearLayout?.visibility = View.GONE
             }else{
