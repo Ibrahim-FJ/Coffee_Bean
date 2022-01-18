@@ -55,4 +55,7 @@ object ServiceLocator {
 
     fun provideUserRemoteDataSource(): UserDataSource = UserFireStoreDataSource(FirebaseFirestore.getInstance())
 
+    fun provideGetBuyerInformationUseCase(): GetBuyerInformationUserCase = GetBuyerInformationUserCase(
+        provideUserRepository())
+
 }

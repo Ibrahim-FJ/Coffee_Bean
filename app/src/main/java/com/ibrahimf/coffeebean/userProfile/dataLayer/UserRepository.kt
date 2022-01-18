@@ -8,9 +8,10 @@ import com.ibrahimf.coffeebean.userProfile.model.User
 class
 UserRepository(private val userRemoteDataSource: UserDataSource) {
 
+
     suspend fun getProductsByProductIDForUserOrders() = userRemoteDataSource.getProductsByProductIDForUserOrders()
 
-    suspend fun getProductsByProductIDForUserReservationRequest() = userRemoteDataSource.getProductsByProductIDForUserReservationRequest()
+  //   suspend fun getProductsByProductIDForUserReservationRequest() = userRemoteDataSource.getProductsByProductIDForUserReservationRequest()
 
     suspend fun getUserPosts() = userRemoteDataSource.getUserPosts()
 
@@ -18,5 +19,8 @@ UserRepository(private val userRemoteDataSource: UserDataSource) {
 
     suspend fun getUser() = userRemoteDataSource.getUser()
 
+    suspend fun getUserReservationRequest() = userRemoteDataSource.getUserReservationRequest()
+
+    suspend fun getBuyerInformation(buyer: String) = userRemoteDataSource.getBuyerInformation(buyer)
 
 }

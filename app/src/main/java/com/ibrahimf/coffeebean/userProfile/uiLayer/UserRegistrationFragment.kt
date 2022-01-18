@@ -96,8 +96,6 @@ class UserRegistrationFragment : Fragment() {
 
             userProfileViewModel.uiState.observe(viewLifecycleOwner, {
 
-                Log.e("TAG", "onViewCreatedState: ${it.loadingStatus}")
-
                 when(it.loadingStatus){
                     LOADING_STATUS.LOADING -> {
                         showLoading()
@@ -115,8 +113,6 @@ class UserRegistrationFragment : Fragment() {
             })
 
         }
-
-        Log.e("TAG", "onViewCreated: image = ${addProductViewModel.allSelectedImages.value}")
 
         if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
             Glide.with(this.requireContext())

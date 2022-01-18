@@ -105,23 +105,7 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
                 )
             }
 
-
         }
-
-//        binding?.currentLocation?.setOnClickListener {
-//            if (allPermissionsGranted()) {
-//                map?.isMyLocationEnabled = true
-//            } else {
-//                ActivityCompat.requestPermissions(
-//                    this.requireActivity(),
-//                    REQUIRED_PERMISSIONS,
-//                    REQUEST_CODE_PERMISSIONS
-//                )
-//            }
-//
-//        }
-
-
 
     }
 
@@ -194,18 +178,17 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
             )
         }
         map?.addMarker(MarkerOptions().position(LatLng(24.852195517424427, 46.71341959387064)))
+        map?.setOnMapLongClickListener {
+            map?.clear()
+            map?.addMarker(
+                MarkerOptions()
+                    .position(it)
+            )
 
-//        map?.setOnMapLongClickListener {
-//            map?.clear()
-//            map?.addMarker(
-//                MarkerOptions()
-//                    .position(it)
-//            )
-//
-//            latitude = it.latitude
-//            longitude = it.longitude
-//
-//        }
+            latitude = it.latitude
+            longitude = it.longitude
+
+        }
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

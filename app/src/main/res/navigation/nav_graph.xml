@@ -138,6 +138,9 @@
         <action
             android:id="@+id/action_userProfileFragment_to_userRegistrationFragment"
             app:destination="@id/userRegistrationFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProductFragment"
@@ -187,4 +190,24 @@
         android:id="@+id/settingsPrefrence"
         android:name="com.ibrahimf.coffeebean.userPreferences.SettingsPreferences"
         android:label="SettingsPrefrence" />
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.ibrahimf.coffeebean.userProfile.uiLayer.OrderDetailsFragment"
+        android:label="fragment_order_details"
+        tools:layout="@layout/fragment_order_details" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument android:name="phone"
+            app:argType="string" />
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <argument
+            android:name="quentity"
+            app:argType="string" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>

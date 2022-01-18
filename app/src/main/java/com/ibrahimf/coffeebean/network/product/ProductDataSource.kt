@@ -17,8 +17,6 @@ interface ProductDataSource {
 
     suspend fun addReservation(order: Order): Boolean
 
-    suspend fun editProduct(product: Product)
-
     suspend fun deletePost(productID: String)
 
 
