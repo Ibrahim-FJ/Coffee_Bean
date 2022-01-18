@@ -60,6 +60,7 @@ class OrderDetailsAdapter(private val context: Context, private val onClicked:(o
     /**
      * Replaces the contents of a view (invoked by the layout manager)
      */
+
     override fun onBindViewHolder(
         holder: OrderDetailsViewHolder,
         position: Int
@@ -73,7 +74,6 @@ class OrderDetailsAdapter(private val context: Context, private val onClicked:(o
         }
 
         Glide.with(context).load(currentOrder.userImage).circleCrop().into(holder.binding.imageView)
-
 
     }
 

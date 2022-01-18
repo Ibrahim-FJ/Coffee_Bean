@@ -177,7 +177,6 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
                 REQUEST_CODE_PERMISSIONS
             )
         }
-        map?.addMarker(MarkerOptions().position(LatLng(24.852195517424427, 46.71341959387064)))
         map?.setOnMapLongClickListener {
             map?.clear()
             map?.addMarker(

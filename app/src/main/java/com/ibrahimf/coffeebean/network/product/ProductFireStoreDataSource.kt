@@ -67,8 +67,8 @@ class ProductFireStoreDataSource(
                     val list = mutableListOf<Product>()
                     snapshot?.documents?.forEach {
                         if (it.exists()) {
-                            val productList = it.toObject(Product::class.java)
-                            list.add(productList!!)
+                          val productList = it.toObject(Product::class.java)
+                          list.add(productList!!)
                             //    Log.d("TAG", "Current data: ${it.data}")
                         } else {
                             //      Log.d("TAG", "Current data: null")
