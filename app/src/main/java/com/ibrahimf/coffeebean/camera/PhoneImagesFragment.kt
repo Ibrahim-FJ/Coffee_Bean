@@ -125,26 +125,13 @@ class PhoneImagesFragment : Fragment() {
         cursor.use {
             it?.let {
                 val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-//                val nameColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-//                val sizeColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
-//                val dateColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)
                 while (it.moveToNext()) {
                     val id = it.getLong(idColumn)
-//                    val name = it.getString(nameColumn)
-//                    val size = it.getString(sizeColumn)
-//                    val date = it.getString(dateColumn)
                     val contentUri = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         id
                     )
                     allImages.add(PhoneImage(contentUri.toString()))
-
-
-                   // imagesViewModel.allImages.value?.add(PhoneImage(contentUri))
-                  //  imagesViewModel.setAllImages(PhoneImage(contentUri))
-                 //   println(imagesViewModel.getAllImages()?.size)
-                    // add the URI to the list
-                    // generate the thumbnail
 
                 }
             } ?: kotlin.run {

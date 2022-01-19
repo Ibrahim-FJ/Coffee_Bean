@@ -3,6 +3,7 @@ package com.ibrahimf.coffeebean.addProduct.uiLayer
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,14 +26,15 @@ import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.camera.PhoneImage
 import com.ibrahimf.coffeebean.databinding.FragmentAddProductBinding
 import com.ibrahimf.coffeebean.network.models.Product
+import com.ibrahimf.coffeebean.util.InputTypes
 import com.ibrahimf.coffeebean.util.ViewModelFactory
+import com.ibrahimf.coffeebean.util.isValid
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import java.util.*
 
 
 class AddProductFragment : Fragment(), OnMapReadyCallback {
     private var binding: FragmentAddProductBinding? = null
-    var isSignedIn = false
     private val addProductViewModel: ProductViewModel by activityViewModels {
         ViewModelFactory()
     }
@@ -77,9 +79,19 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding?.addProductButton?.setOnClickListener {
-            getDataFromUI()
+
+            Log.e("TAG", "onViewCreated:nn  ${formValidationCheck()}", )
+            if (formValidationCheck()){
+                Log.e("TAG", "onViewCreated:kkkk ", )
+                addProductViewModel.addProduct(getDataFromUI())
+                findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
+                addProductViewModel.allSelectedImages.value?.clear()
+            }
         }
 
+        if (allSelectedImages.value?.isNotEmpty() == true){
+            binding?.imagesTextview?.visibility = View.GONE
+            }
 
         if (allPermissionsGranted()) {
             map?.isMyLocationEnabled = true
@@ -110,43 +122,59 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
     }
 
     // retrieve the data from the UI elements
-    private fun getDataFromUI() {
-        binding.apply {
-            if (isSignedIn) {
-                val productTitle = product_title_edit_text.text.toString()
-                val productDetails = product_details_edit_text.text.toString()
-                if (productTitle.isNotEmpty() && productDetails.isNotEmpty() && addProductViewModel.allSelectedImages.value?.isNotEmpty() == true){
-                    addProductViewModel.addProduct(
-                        Product(
-                            title = productTitle,
-                            details = productDetails,
-                            imageUri = getImageUri(),
-                            location = GeoPoint(latitude, longitude)
-                        )
-                    )
-                    findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
-                    addProductViewModel.allSelectedImages.value?.clear()
+    private fun getDataFromUI(): Product {
 
-                }else{
-                  product_title_edit_text.error = "Enter the product title"
-                  product_details_edit_text.error = "Enter the product details"
-                  Toast.makeText(requireContext(), "Add image", Toast.LENGTH_SHORT).show()
-                }
+        return Product(
+            title = binding?.productTitleEditText?.text.toString(),
+            details = binding?.productTitleEditText?.text.toString(),
+            imageUri = getImageUri(),
+            location = GeoPoint(latitude, longitude)
+        )
 
-            } else {
-                Toast.makeText(requireContext(), "Log in to add product", Toast.LENGTH_SHORT).show()
-            }
-        }
     }// end.......
 
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null).
-        if (Firebase.auth.currentUser != null) {
-            isSignedIn = true
+
+
+    private fun formValidationCheck(): Boolean {
+        var allImages = mutableListOf<PhoneImage>()
+        Log.e("TAG", "formValidationChe", )
+
+
+        addProductViewModel.allSelectedImages.observe(viewLifecycleOwner, {
+            Log.e("TAG", "formValidationCheck: $it", )
+            allImages = it
+        })
+        var isValid = true
+
+        if (binding?.productTitleEditText?.text?.isEmpty() == true){
+            binding?.productTitleTextField?.error = this.requireContext().getString(R.string.not_empty_field)
+            isValid = false
+
+        }else{
+            binding?.productTitleTextField?.error = null
         }
 
+        if (binding?.productDetailsEditText?.text?.isEmpty() == true){
+            binding?.productDetailsTextField?.error = this.requireContext().getString(R.string.not_empty_field)
+            isValid = false
+
+        }else{
+            binding?.productDetailsTextField?.error = null
+        }
+
+        if (allImages.isNullOrEmpty()){
+            Toast.makeText(this.requireContext(), "choose image", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+        if (latitude == 0.0 || longitude == 0.0){
+            Toast.makeText(this.requireContext(), "add your location", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        return isValid
     }
+
+
 
     // function to get image Uri from the list in the addProductViewModel
     fun getImageUri(): List<String>{

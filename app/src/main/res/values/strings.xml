@@ -6,8 +6,8 @@
     <string name="yes">YES</string>
     <string name="message_to_the_seller">message to the seller</string>
     <string name="quantity">Quantity</string>
-    <string name="login">Login</string>
-    <string name="logout">Logout</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
     <string name="add_product">Add product</string>
     <string name="profile">Profile</string>
     <string name="reserve_btn">Reserve</string>
@@ -22,7 +22,6 @@
     <string name="second_fragment_label" translatable="false">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="dark_theme_preference_value" translatable="false">Dark Theme </string>
 
     <string name="light_theme_preference_value" translatable="false">Light Theme </string>
@@ -42,7 +41,7 @@
     <string name="post_location" translatable="false">Post Location</string>
     <string name="add_post">ADD PRODUCT</string>
     <string name="post_details">POST DETAILS</string>
-    <string name="post_title">POST TITEL</string>
+    <string name="post_title">POST TITLE</string>
     <string name="add_images">Add images</string>
     <string name="confirm">Confirm</string>
     <string name="posts">Posts</string>
@@ -56,5 +55,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="buyer_name">Buyer name /n %1$s</string>
+    <string name="kg">KG</string>
 
 </resources>

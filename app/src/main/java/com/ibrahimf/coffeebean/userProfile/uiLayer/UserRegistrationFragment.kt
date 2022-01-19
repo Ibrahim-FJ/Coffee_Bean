@@ -68,9 +68,9 @@ class UserRegistrationFragment : Fragment() {
 
             registerBtn.setOnClickListener {
 
-//                if (!formValidationCheck()){
-//                    userProfileViewModel.registerUser(userUiState())
-//                }
+                if (!formValidationCheck()){
+                    userProfileViewModel.registerUser(userUiState())
+                }
 
                 if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
 
@@ -112,14 +112,6 @@ class UserRegistrationFragment : Fragment() {
 
             })
 
-        }
-
-        if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
-            Glide.with(this.requireContext())
-                .load(selectedImagesForUserProfile.value?.get(0)?.imageUri)
-                .centerCrop()
-                .placeholder(R.drawable.ic_baseline_account_circle_24)
-                .into(binding?.userImage!!)
         }
 
     }

@@ -210,4 +210,9 @@
             android:name="imageUrl"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/firebaseRegistrationFragment"
+        android:name="com.ibrahimf.coffeebean.regiseration.FirebaseRegistrationFragment"
+        android:label="fragment_firebase_regiseration"
+        tools:layout="@layout/fragment_firebase_regiseration" />
 </navigation>

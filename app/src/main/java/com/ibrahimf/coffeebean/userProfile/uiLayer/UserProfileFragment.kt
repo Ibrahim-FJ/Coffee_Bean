@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.databinding.FragmentUserProfileBinding
+import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductListFragment
 import com.ibrahimf.coffeebean.showProducts.uiLayer.ProductsListAdapter
 import com.ibrahimf.coffeebean.util.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_user_registration.*
@@ -28,13 +31,6 @@ UserProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (FirebaseAuth.getInstance().currentUser == null){
-            Toast.makeText(this.requireContext(), "Sign in", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onCreateView(

@@ -20,6 +20,7 @@ fun convertMilliSecondsToDate(dateMilliseconds: Long): String {
 
 enum class InputTypes { NAME, CITY }
 
+
 fun TextInputLayout.isValid(textInput: TextInputEditText, validationTypes: InputTypes): Boolean {
     val text = textInput.text.toString()
     when (validationTypes) {
@@ -42,6 +43,7 @@ fun TextInputLayout.isValid(textInput: TextInputEditText, validationTypes: Input
     return true
 
 }
+
 
 
 
