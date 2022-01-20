@@ -27,18 +27,6 @@ class ProductListFragment : Fragment() {
     private var _binding:FragmentProductListBinding ?= null
     val binding get() = _binding
 
-     val signInLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()
-    ) { res ->
-        this.onSignInResult(res)
-    }
-    val providers = arrayListOf(AuthUI.IdpConfig.PhoneBuilder().build())
-
-    val signInIntent = AuthUI.getInstance()
-        .createSignInIntentBuilder()
-        .setAvailableProviders(providers)
-        .build()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -99,7 +87,6 @@ class ProductListFragment : Fragment() {
             R.id.login -> {
 
                 findNavController().navigate(R.id.firebaseRegistrationFragment)
-                //signInLauncher.launch(signInIntent)
             }
             R.id.logout -> {
                 showConfirmationDialog()
@@ -134,15 +121,6 @@ class ProductListFragment : Fragment() {
 
     }
 
-    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            findNavController().navigate(R.id.action_productListFragment_to_userRegistrationFragment)
-
-
-        } else {
-            println("none")
-        }
-    }
 
     private fun signOut() {
         AuthUI.getInstance()

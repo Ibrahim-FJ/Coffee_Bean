@@ -34,7 +34,7 @@ class FirebaseMessagingService: FirebaseMessagingService() {
         var builder: NotificationCompat.Builder = NotificationCompat.Builder(
             applicationContext, channelId
         )
-            .setSmallIcon(com.ibrahimf.coffeebean.R.drawable.ic_baseline_home_24)
+            .setSmallIcon(R.drawable.ic_baseline_home_24)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 1000, 1000))
             .setOnlyAlertOnce(true)
@@ -62,7 +62,7 @@ class FirebaseMessagingService: FirebaseMessagingService() {
         val remoteview = RemoteViews(channelName, R.layout.notification_layout)
         remoteview.setTextViewText(R.id.title, title)
         remoteview.setTextViewText(R.id.body, body)
-        remoteview.setImageViewResource(R.id.app_logo, R.drawable.ic_baseline_home_24)
+        remoteview.setImageViewResource(R.id.app_logo, R.drawable.app_icon)
         return remoteview
     }
 
@@ -74,7 +74,6 @@ class FirebaseMessagingService: FirebaseMessagingService() {
                 remoteMessage.notification!!.body!!
             )
         }
-
 
     }
 }

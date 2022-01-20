@@ -30,24 +30,7 @@ class OrderDetailsAdapter(private val context: Context, private val onClicked:(o
         }
     }
 
-    /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of
-     * has been updated.
-     */
-    companion object DiffCallback : DiffUtil.ItemCallback<OrderDetailsUiState>() {
-        override fun areItemsTheSame(oldItem: OrderDetailsUiState, newItem: OrderDetailsUiState): Boolean {
-            return oldItem.phone == newItem.phone
-        }
 
-
-        override fun areContentsTheSame(oldItem: OrderDetailsUiState, newItem: OrderDetailsUiState): Boolean {
-            return oldItem.name == newItem.name
-        }
-    }
-
-    /**
-     * Create new [RecyclerView] item views (invoked by the layout manager)
-     */
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -57,9 +40,6 @@ class OrderDetailsAdapter(private val context: Context, private val onClicked:(o
         )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
 
     override fun onBindViewHolder(
         holder: OrderDetailsViewHolder,
@@ -77,6 +57,17 @@ class OrderDetailsAdapter(private val context: Context, private val onClicked:(o
 
     }
 
+
+    companion object DiffCallback : DiffUtil.ItemCallback<OrderDetailsUiState>() {
+        override fun areItemsTheSame(oldItem: OrderDetailsUiState, newItem: OrderDetailsUiState): Boolean {
+            return oldItem.phone == newItem.phone
+        }
+
+
+        override fun areContentsTheSame(oldItem: OrderDetailsUiState, newItem: OrderDetailsUiState): Boolean {
+            return oldItem.name == newItem.name
+        }
+    }
 
 }
 

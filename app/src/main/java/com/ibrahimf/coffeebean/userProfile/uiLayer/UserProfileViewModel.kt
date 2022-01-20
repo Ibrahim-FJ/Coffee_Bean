@@ -27,9 +27,6 @@ class UserProfileViewModel(
     val _userPosts = MutableLiveData<List<Product>?>()
     val _user = MutableLiveData<User>()
 
-    private var _uiStatus = MutableStateFlow(UserRegistrationUiState())
-    val uiState: LiveData<UserRegistrationUiState> = _uiStatus.asLiveData()
-
 
     fun getUserOrders() {
         viewModelScope.launch {
@@ -95,13 +92,4 @@ class UserProfileViewModel(
         }
     }
 
-    fun registerUser(userProfileUiState: UserProfileUiState) {
-        viewModelScope.launch {
-
-            _uiStatus.update { it.copy(loadingStatus = LOADING_STATUS.LOADING) }
-
-            Log.e("TAG", "registerUser: $userProfileUiState")
-
-        }
-    }
 }

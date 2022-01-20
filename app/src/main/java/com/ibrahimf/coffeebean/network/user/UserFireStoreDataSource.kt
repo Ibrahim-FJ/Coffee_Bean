@@ -9,17 +9,20 @@ import com.ibrahimf.coffeebean.network.models.Product
 import com.ibrahimf.coffeebean.reserveOrder.dataLayer.Order
 import com.ibrahimf.coffeebean.userProfile.model.User
 import com.ibrahimf.coffeebean.util.FirebaseUtils
+import com.ibrahimf.coffeebean.util.FirebaseUtils.getUserId
+import com.ibrahimf.coffeebean.util.FirebaseUtils.getUserPhone
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 import java.util.*
+import kotlin.Exception
 
 class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserDataSource {
 
 
+    // function to get user from firebase
     override suspend fun getUser(): Flow<User> = callbackFlow {
         try {
             fireBaseDb.collection("users").document(FirebaseUtils.getUserId()!!)
@@ -29,8 +32,13 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
                     }
 
                     if (snapshot?.data != null) {
-                        val user = snapshot.toObject(User::class.java)
-                        trySend(user!!)
+                        try {
+                            val user = snapshot.toObject(User::class.java)
+                            trySend(user!!)
+                        } catch (e: Exception) {
+
+                        }
+
                     }
 
                 }
@@ -42,9 +50,10 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
         }
 
         awaitClose { }
-    }
+    }// end.....
 
 
+    // function to upload the user image to the firebase
     fun uploadUserImageToStorage(userImage: String): Flow<String> = callbackFlow {
 
         val storageRef = Firebase.storage.reference
@@ -69,6 +78,7 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
     }// end......
 
 
+    // function to add user to the firebase
     override suspend fun addUser(user: User) {
 
         uploadUserImageToStorage(user.userImage).collect {
@@ -76,11 +86,11 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
                 "userName" to user.userName,
                 "userImage" to it,
                 "userLocation" to user.userLocation,
-                "userPhone" to FirebaseUtils.getUserPhone(),
-                "userID" to FirebaseUtils.getUserId(),
+                "userPhone" to getUserPhone(), // get user phone to add
+                "userID" to getUserId(), // get user id to add
             )
 
-            fireBaseDb.collection("users").document(FirebaseUtils.getUserId()!!)
+            fireBaseDb.collection("users").document(getUserId()!!)
                 .set(userDetails)
                 .addOnSuccessListener {
                     println("DocumentSnapshot successfully written!")
@@ -93,12 +103,13 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
         }
 
 
-    }
+    }// end.....
 
 
+    // function to retrieve all user posts
     override suspend fun getUserPosts(): Flow<List<Product>> = callbackFlow {
         try {
-            fireBaseDb.collection("products").whereEqualTo("publisher", FirebaseUtils.getUserId())
+            fireBaseDb.collection("products").whereEqualTo("publisher", getUserId())
                 .addSnapshotListener { snapshot, exception ->
                     if (exception != null) {
                         return@addSnapshotListener
@@ -107,11 +118,13 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
                     val list = mutableListOf<Product>()
                     snapshot?.documents?.forEach {
                         if (it.exists()) {
-                            val productList = it.toObject(Product::class.java)
-                            list.add(productList!!)
-                            //    Log.d("TAG", "Current data: ${it.data}")
-                        } else {
-                            //      Log.d("TAG", "Current data: null")
+                            try {
+                                val productList = it.toObject(Product::class.java)
+                                list.add(productList!!)
+                            } catch (e: Exception) {
+                                Log.e("Exception", "getUserPosts: ${e.message.toString()}")
+                            }
+
                         }
 
                     }
@@ -127,42 +140,41 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
 
         awaitClose { }
 
-    }
+    }// end.......
 
 
+    // function to get all user reservation request
     override suspend fun getUserReservationRequest(): Flow<List<Order>> = callbackFlow {
 
         try {
-            val scope = async {
-                val reservationRequestList = mutableListOf<Order>()
 
-                fireBaseDb.collection("orders").whereEqualTo("seller", FirebaseUtils.getUserId())
-                    .addSnapshotListener { snapshot, exception ->
-                        if (exception != null) {
-                            return@addSnapshotListener
-                        }
-                        snapshot?.documents?.forEach {
-                            if (it.exists()) {
+            val reservationRequestList = mutableListOf<Order>()
 
-                             //     Log.e("TAG", "getUserOrders: ${it.data}")
+            fireBaseDb.collection("orders").whereEqualTo("seller", FirebaseUtils.getUserId())
+                .addSnapshotListener { snapshot, exception ->
+                    if (exception != null) {
+                        return@addSnapshotListener
+                    }
+                    snapshot?.documents?.forEach {
+                        if (it.exists()) {
 
+                            try {
                                 val order = it.toObject(Order::class.java)
                                 order?.let { it1 -> reservationRequestList.add(it1) }
-                                //Log.e("TAG", "getUserOrders fun : ${ordersList}")
+                            } catch (e: Exception) {
+                                Log.e(
+                                    "Exception",
+                                    "getUserReservationRequest: ${e.message.toString()}"
+                                )
 
                             }
 
                         }
 
-                        trySend(reservationRequestList)
-
-
                     }
 
-                return@async reservationRequestList
-            }
-            trySend(scope.await())
-
+                    trySend(reservationRequestList)
+                }
 
         } catch (exception: Exception) {
             Log.e("Exception", "getAllProducts: ${exception.message.toString()}")
@@ -170,10 +182,11 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
         }
         awaitClose { }
 
-    }
+    }// end........
 
 
-    override suspend fun getBuyerInformation(buyer: String): Flow<User> = callbackFlow{
+    // function to get buyer information
+    override suspend fun getBuyerInformation(buyer: String): Flow<User> = callbackFlow {
         try {
             fireBaseDb.collection("users").document(buyer)
                 .addSnapshotListener { snapshot, exception ->
@@ -181,10 +194,14 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
                         return@addSnapshotListener
                     }
 
-
                     if (snapshot?.data != null) {
-                        val user = snapshot.toObject(User::class.java)
-                        trySend(user!!)
+                        try {
+                            val user = snapshot.toObject(User::class.java)
+                            trySend(user!!)
+                        } catch (e: Exception) {
+                            Log.e("Exception", "getBuyerInformation: ${e.message.toString()}")
+                        }
+
                     }
 
                 }
@@ -196,69 +213,36 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
         }
 
         awaitClose { }
-
-//        for (i in buyer) {
-//            fireBaseDb.collection("users").document(i)
-//                .addSnapshotListener { snapshot, exception ->
-//                    if (exception != null) {
-//                        return@addSnapshotListener
-//                    }
-//
-//
-//                    if (snapshot?.data != null) {
-//                        val user = snapshot.toObject(User::class.java)
-//
-//                        list.add(user!!)
-//                        //    Log.e("TAG", "getUserInformation: $list")
-//
-//
-//                        trySend(list)
-//                    }
-//
-//                }
-//
-//            //   Log.e("TAG", "getUserInformation: $list")
-//
-//        }
-
-     //   trySend(list)
+    }// end......
 
 
-    }
-
-
+    // function to get user orders
     override suspend fun getUserOrders(): Flow<List<String>> = callbackFlow {
 
         try {
-            val scope1 = async {
-                val ordersList = mutableListOf<String>()
+            val ordersList = mutableListOf<String>()
 
-                fireBaseDb.collection("orders").whereEqualTo("buyer", FirebaseUtils.getUserId())
-                    .addSnapshotListener { snapshot, exception ->
-                        if (exception != null) {
-                            return@addSnapshotListener
-                        }
-                        snapshot?.documents?.forEach {
-                            if (it.exists()) {
-
-                                //    Log.e("TAG", "getUserOrders: ${it.data}")
-
+            fireBaseDb.collection("orders").whereEqualTo("buyer", getUserId())
+                .addSnapshotListener { snapshot, exception ->
+                    if (exception != null) {
+                        return@addSnapshotListener
+                    }
+                    snapshot?.documents?.forEach {
+                        if (it.exists()) {
+                            try {
                                 val order = it.toObject(Order::class.java)
                                 ordersList.add(order?.productID!!)
-                                // order?.let { it1 -> ordersList.add(it1.productID) }
-                                //Log.e("TAG", "getUserOrders fun : ${ordersList}")
+                            } catch (e: Exception) {
+                                Log.e("Exception", "getUserOrders: ${e.message.toString()}")
 
                             }
 
                         }
-                        trySend(ordersList)
 
                     }
+                    trySend(ordersList)
 
-                return@async ordersList
-            }
-            trySend(scope1.await())
-
+                }
 
         } catch (exception: Exception) {
             Log.e("Exception", "getAllProducts: ${exception.message.toString()}")
@@ -267,9 +251,10 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
         awaitClose { }
 
 
-    }
+    } // end......
 
 
+    // function to get products by productID for user orders
     override suspend fun getProductsByProductIDForUserOrders(): Flow<List<Product>> = callbackFlow {
 
         getUserOrders().collect { productID ->
@@ -287,19 +272,22 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
                             snapshot?.documents?.forEach {
                                 if (it.exists()) {
 
-                                    val productList = it.toObject(Product::class.java)
-                                    list.add(productList!!)
-                                    //    Log.d("TAG", "Current data: ${it.data}")
-                                } else {
-                                    //      Log.d("TAG", "Current data: null")
+                                    try {
+                                        val productList = it.toObject(Product::class.java)
+                                        list.add(productList!!)
+                                    } catch (e: Exception) {
+                                        Log.e(
+                                            "Exception",
+                                            "getProductsByProductIDForUserOrders: ${e.message.toString()}"
+                                        )
+                                    }
+
                                 }
 
                             }
-                            Log.e("TAG", "getProductsByProductIDForUserOrdersaaaaaaa: $list")
                             trySend(list)
 
                         }
-
                 }
 
 
@@ -311,14 +299,14 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
         }
         awaitClose {}
 
-    }
+    }// end.......
 
+    // function to get products by ProductID for user reservation request
     override suspend fun getProductsByProductIDForUserReservationRequest(): Flow<List<Product>> =
         callbackFlow {
             getUserReservationRequest().collect { productID ->
                 try {
                     val list = mutableListOf<Product>()
-
                     for (i in productID) {
                         fireBaseDb.collection("products").whereEqualTo("productID", i)
                             .addSnapshotListener { snapshot, exception ->
@@ -328,11 +316,18 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
 
                                 snapshot?.documents?.forEach {
                                     if (it.exists()) {
-                                        val productList = it.toObject(Product::class.java)
-                                        list.add(productList!!)
-                                        //    Log.d("TAG", "Current data: ${it.data}")
-                                    } else {
-                                        //      Log.d("TAG", "Current data: null")
+
+                                        try {
+                                            val productList = it.toObject(Product::class.java)
+                                            list.add(productList!!)
+                                        } catch (e: Exception) {
+                                            Log.e(
+                                                "Exception",
+                                                "getProductsByProductIDForUserReservationRequest: ${e.message.toString()}"
+                                            )
+
+                                        }
+
                                     }
 
                                 }
@@ -349,10 +344,7 @@ class UserFireStoreDataSource(private val fireBaseDb: FirebaseFirestore) : UserD
 
             }
 
-            awaitClose {
-
-            }
-        }
-
+            awaitClose {}
+        } // end......
 
 }

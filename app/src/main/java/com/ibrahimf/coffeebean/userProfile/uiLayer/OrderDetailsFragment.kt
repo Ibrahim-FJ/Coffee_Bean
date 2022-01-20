@@ -53,7 +53,7 @@ class OrderDetailsFragment : Fragment() {
 
 
     // This function is called when button is clicked.
-    fun openDial(phoneNumber: String){
+    private fun openDial(phoneNumber: String){
         try {
             startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber")))
         }catch (e: SecurityException){

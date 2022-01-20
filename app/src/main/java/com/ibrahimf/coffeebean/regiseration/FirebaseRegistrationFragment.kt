@@ -40,9 +40,6 @@ class FirebaseRegistrationFragment : Fragment() {
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             findNavController().navigateUp()
 
-
-        } else {
-            println("none")
         }
     }
 

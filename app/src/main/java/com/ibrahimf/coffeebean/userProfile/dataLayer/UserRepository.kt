@@ -11,8 +11,6 @@ UserRepository(private val userRemoteDataSource: UserDataSource) {
 
     suspend fun getProductsByProductIDForUserOrders() = userRemoteDataSource.getProductsByProductIDForUserOrders()
 
-  //   suspend fun getProductsByProductIDForUserReservationRequest() = userRemoteDataSource.getProductsByProductIDForUserReservationRequest()
-
     suspend fun getUserPosts() = userRemoteDataSource.getUserPosts()
 
     suspend fun addUser(user: User) = userRemoteDataSource.addUser(user)

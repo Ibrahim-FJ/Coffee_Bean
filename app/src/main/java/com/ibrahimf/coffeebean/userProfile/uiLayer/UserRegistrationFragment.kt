@@ -67,11 +67,6 @@ class UserRegistrationFragment : Fragment() {
             }
 
             registerBtn.setOnClickListener {
-
-                if (!formValidationCheck()){
-                    userProfileViewModel.registerUser(userUiState())
-                }
-
                 if (!selectedImagesForUserProfile.value.isNullOrEmpty()){
 
                     val userName = user_name_edit_text.text.toString()
@@ -94,46 +89,8 @@ class UserRegistrationFragment : Fragment() {
 
             }
 
-            userProfileViewModel.uiState.observe(viewLifecycleOwner, {
-
-                when(it.loadingStatus){
-                    LOADING_STATUS.LOADING -> {
-                        showLoading()
-                    }
-
-                    LOADING_STATUS.ERROR -> {
-                        showError(it.errorMsg)
-                    }
-
-                    LOADING_STATUS.DONE -> {
-                        showDoneContent()
-                    }
-                }
-
-            })
-
         }
 
-    }
-
-    private fun showDoneContent() {
-        binding?.loadingLayout?.visibility = View.GONE
-        binding?.mainLayout?.visibility = View.VISIBLE
-        binding?.errorLayout?.visibility = View.GONE
-    }
-
-    private fun showError(errorMsg: String) {
-        binding?.loadingLayout?.visibility = View.GONE
-        binding?.mainLayout?.visibility = View.GONE
-        binding?.errorLayout?.visibility = View.VISIBLE
-        binding?.errorMsg?.text = errorMsg
-
-    }
-
-    private fun showLoading() {
-        binding?.loadingLayout?.visibility = View.VISIBLE
-        binding?.mainLayout?.visibility = View.GONE
-        binding?.errorLayout?.visibility = View.GONE
     }
 
     override fun onResume() {
@@ -144,31 +101,9 @@ class UserRegistrationFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
-
         addProductViewModel.allSelectedImages.value = mutableListOf()
         _binding = null
 
     }
-
-    private fun formValidationCheck(): Boolean {
-        var isValid = true
-
-        if (binding?.userNameTextField!!.isValid(binding!!.userNameEditText, InputTypes.NAME))
-            isValid = false
-
-        if (binding?.userLocationTextField!!.isValid(binding!!.userLocationEditText, InputTypes.NAME))
-            isValid = false
-
-        return isValid
-    }
-
-    private fun userUiState(): UserProfileUiState{
-        return UserProfileUiState(
-            binding?.userNameEditText?.text.toString(),
-            binding?.userLocationEditText?.text.toString()
-        )
-    }
-
 
 }

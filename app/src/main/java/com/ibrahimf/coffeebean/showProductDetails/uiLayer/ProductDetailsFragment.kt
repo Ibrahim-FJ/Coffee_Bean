@@ -7,9 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.ibrahimf.coffeebean.R
 import com.ibrahimf.coffeebean.addProduct.uiLayer.PhoneImagesListAdapter
 import com.ibrahimf.coffeebean.databinding.FragmentProductDetailsBinding
 import com.ibrahimf.coffeebean.camera.PhoneImage
@@ -48,8 +52,14 @@ class ProductDetailsFragment : Fragment() {
         }
 
         _binding?.reserveBtn?.setOnClickListener {
-            val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToReserveOrderFragment(navigationArgs.sellerId, navigationArgs.prodructID)
-            findNavController().navigate(action)
+            if (Firebase.auth.currentUser != null){
+                val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToReserveOrderFragment(navigationArgs.sellerId, navigationArgs.prodructID)
+                findNavController().navigate(action)
+            }else{
+                Toast.makeText(this.requireContext(), "please sign in", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.firebaseRegistrationFragment)
+            }
+
         }
 
         location.setOnClickListener {

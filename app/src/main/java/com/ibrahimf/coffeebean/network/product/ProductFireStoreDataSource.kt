@@ -67,11 +67,13 @@ class ProductFireStoreDataSource(
                     val list = mutableListOf<Product>()
                     snapshot?.documents?.forEach {
                         if (it.exists()) {
-                          val productList = it.toObject(Product::class.java)
-                          list.add(productList!!)
-                            //    Log.d("TAG", "Current data: ${it.data}")
-                        } else {
-                            //      Log.d("TAG", "Current data: null")
+                            try {
+                                val productList = it.toObject(Product::class.java)
+                                list.add(productList!!)
+                            }catch (e: Exception){
+
+                            }
+
                         }
 
                     }
@@ -116,6 +118,7 @@ class ProductFireStoreDataSource(
     }// end......
 
 
+    // function to add order
     override suspend fun addReservation(order: Order): Boolean {
 
         if (order.seller != getUserId()) {
@@ -141,7 +144,7 @@ class ProductFireStoreDataSource(
 
         }
         return false
-    }
+    }// end....
 
     private fun setProductDocumentID(documentId: String) {
         val orderDetails = mapOf(
@@ -157,7 +160,6 @@ class ProductFireStoreDataSource(
             .addOnFailureListener {
                 println("Error writing document")
             }
-
 
     }
 

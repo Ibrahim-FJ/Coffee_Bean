@@ -65,7 +65,6 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
         allSelectedImages = addProductViewModel.allSelectedImages
 
         binding?.imagesLayout?.setOnClickListener {
-        //     startActivity(Intent(this.requireActivity(), PhoneImagesActivity::class.java))
             findNavController().navigate(R.id.action_addProductFragment_to_phoneImagesFragment)
 
         }
@@ -80,9 +79,7 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
 
         binding?.addProductButton?.setOnClickListener {
 
-            Log.e("TAG", "onViewCreated:nn  ${formValidationCheck()}", )
             if (formValidationCheck()){
-                Log.e("TAG", "onViewCreated:kkkk ", )
                 addProductViewModel.addProduct(getDataFromUI())
                 findNavController().navigate(R.id.action_addProductFragment_to_productListFragment)
                 addProductViewModel.allSelectedImages.value?.clear()
@@ -137,11 +134,8 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
 
     private fun formValidationCheck(): Boolean {
         var allImages = mutableListOf<PhoneImage>()
-        Log.e("TAG", "formValidationChe", )
-
 
         addProductViewModel.allSelectedImages.observe(viewLifecycleOwner, {
-            Log.e("TAG", "formValidationCheck: $it", )
             allImages = it
         })
         var isValid = true
@@ -163,11 +157,9 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
         }
 
         if (allImages.isNullOrEmpty()){
-            Toast.makeText(this.requireContext(), "choose image", Toast.LENGTH_SHORT).show()
             isValid = false
         }
         if (latitude == 0.0 || longitude == 0.0){
-            Toast.makeText(this.requireContext(), "add your location", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -192,7 +184,6 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-       // googleMap.setOnMyLocationButtonClickListener(this)
         map = googleMap
 
         if (allPermissionsGranted()) {
@@ -218,6 +209,7 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    // function to check permission
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
             this.requireContext(), it
@@ -250,7 +242,5 @@ class AddProductFragment : Fragment(), OnMapReadyCallback {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     }
-
-
 
 }

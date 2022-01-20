@@ -13,25 +13,14 @@ import kotlinx.coroutines.launch
 
 class ProductViewModel(private val addProductUseCase: AddProductUseCase, private val deletePostUseCase: DeletePostUseCase) : ViewModel() {
 
-
     var allImages = MutableLiveData<MutableList<PhoneImage>>()
     var allSelectedImages = MutableLiveData<MutableList<PhoneImage>>()
-  //  var allSelectedImages = MutableLiveData(mutableListOf(PhoneImage()))
-
-
 
     fun addProduct(product: Product) {
         viewModelScope.launch {
             addProductUseCase.invoke(product)
         }
     }
-
-//    fun addImage(){
-//        viewModelScope.launch {
-//           // addImageToFirebaseStorageUseCase.invoke()
-//        }
-//    }
-
 
     fun deletePost(productID: String){
         viewModelScope.launch {
